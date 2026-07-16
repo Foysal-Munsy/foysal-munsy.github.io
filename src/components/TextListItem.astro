@@ -1,0 +1,88 @@
+---
+// A minimal, text-only list row used on the Projects and Research list pages.
+// A title on the left (links to a detail page or external URL), a right-aligned
+// meta, and a one-line summary underneath. No cards, no images.
+interface Props {
+    title: string;
+    summary: string;
+    href: string;
+    meta?: string;
+    external?: boolean;
+}
+const { title, summary, href, meta, external = false } = Astro.props;
+---
+
+<a
+    class="item"
+    href={href}
+    target={external ? "_blank" : undefined}
+    rel={external ? "noopener noreferrer" : undefined}
+>
+    <div class="head">
+        <span class="title">
+            {title}
+            <span class="arrow">{external ? "↗" : "→"}</span>
+        </span>
+        {meta && <span class="meta">{meta}</span>}
+    </div>
+    <p class="summary">{summary}</p>
+</a>
+
+<style>
+    .item {
+        display: block;
+        padding: 1.1rem 0;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .item:last-child {
+        border-bottom: none;
+    }
+
+    .item:hover {
+        text-decoration: none;
+    }
+
+    .head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .title {
+        font-weight: 650;
+        font-size: 1rem;
+    }
+
+    .arrow {
+        display: inline-block;
+        color: var(--text-muted);
+        transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    .item:hover .title {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .item:hover .arrow {
+        color: var(--text);
+        transform: translateX(2px);
+    }
+
+    .meta {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.74rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
+
+    .summary {
+        margin: 0.25rem 0 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+</style>

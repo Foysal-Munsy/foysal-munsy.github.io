@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+
+// Pre-render one page per project that has a case-study body. Projects with an
+// empty body are external-only (linked to their repo from the list page) and
+// don't get a detail page.
+export async function getStaticPaths() {
+    const entries = await getCollection("projects");
+    return entries
+        .filter((entry) => entry.body.trim().length > 0)
+        .map((entry) => ({
+            params: { slug: entry.slug },
+            props: { entry },
+        }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const d = entry.data;
+---
+
+<CaseStudyLayout
+    title={d.title}
+    summary={d.summary}
+    role={d.role}
+    timeframe={d.timeframe}
+    tech={d.tech}
+    repo={d.repo}
+    liveUrl={d.liveUrl}
+>
+    <Content />
+</CaseStudyLayout>

@@ -1,0 +1,139 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import TechBadge from "../components/TechBadge.astro";
+
+// Article layout for a single project case study. Renders a metadata header
+// (title, summary, role/timeframe, tech pills, external links) above the MDX
+// body, which is passed in as the default slot.
+interface Props {
+    title: string;
+    summary: string;
+    role: string;
+    timeframe: string;
+    tech: string[];
+    repo?: string;
+    liveUrl?: string;
+}
+const { title, summary, role, timeframe, tech, repo, liveUrl } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+---
+
+<BaseLayout title={`${title} — Case Study`} description={summary}>
+    <a href={`${home}projects`} class="back">← All projects</a>
+
+    <header class="cs-header fade-up">
+        <h1 class="cs-title">{title}</h1>
+        <p class="cs-summary">{summary}</p>
+
+        <dl class="cs-meta">
+            <div>
+                <dt>Role</dt>
+                <dd>{role}</dd>
+            </div>
+            <div>
+                <dt>Timeframe</dt>
+                <dd>{timeframe}</dd>
+            </div>
+        </dl>
+
+        <div class="cs-tech">
+            {tech.map((t) => <TechBadge label={t} />)}
+        </div>
+
+        {(repo || liveUrl) && (
+            <div class="cs-links">
+                {repo && (
+                    <a href={repo} target="_blank" rel="noopener noreferrer">
+                        Source ↗
+                    </a>
+                )}
+                {liveUrl && (
+                    <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+                        Live ↗
+                    </a>
+                )}
+            </div>
+        )}
+    </header>
+
+    <article class="prose fade-up">
+        <slot />
+    </article>
+</BaseLayout>
+
+<style>
+    .back {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    .back:hover {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .cs-header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .cs-title {
+        margin: 0 0 0.75rem;
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+    }
+
+    .cs-summary {
+        margin: 0 0 1.5rem;
+        font-size: 1.1rem;
+        color: var(--text-muted);
+    }
+
+    .cs-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin: 0 0 1.25rem;
+    }
+
+    .cs-meta dt {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+    }
+
+    .cs-meta dd {
+        margin: 0.2rem 0 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .cs-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .cs-links {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .cs-links a {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+</style>

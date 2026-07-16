@@ -1,0 +1,78 @@
+---
+import "../styles/global.css";
+import Dock from "../components/Dock.astro";
+
+// The shared HTML shell: <head> meta, fonts, main slot, footer, and the
+// floating dock navigation.
+interface Props {
+    title: string;
+    description?: string;
+}
+const { title, description = "Software engineer building dependable backends and full-stack products." } =
+    Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+---
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        <title>{title}</title>
+        <link rel="icon" type="image/svg+xml" href={`${home}favicon.svg`} />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        {/*
+          Apply the saved (or system) theme before the first paint so there is no
+          flash of the wrong theme. Runs synchronously in <head> on purpose.
+        */}
+        <script is:inline>
+            (() => {
+                try {
+                    const stored = localStorage.getItem("theme");
+                    const prefersDark = window.matchMedia(
+                        "(prefers-color-scheme: dark)"
+                    ).matches;
+                    const dark = stored ? stored === "dark" : prefersDark;
+                    if (dark) document.documentElement.classList.add("dark");
+                } catch (_) {
+                    /* default to light if storage/media queries are unavailable */
+                }
+            })();
+        </script>
+    </head>
+    <body>
+        <main class="site-main">
+            <slot />
+        </main>
+
+        <div class="site-spacer"></div>
+
+        <Dock />
+
+        <style>
+            .site-main {
+                max-width: 44rem;
+                margin: 0 auto;
+                padding: 3.5rem 1.5rem 2rem;
+            }
+
+            /* Reserve room at the bottom so the floating dock never overlaps
+               the last section's content. */
+            .site-spacer {
+                height: 6rem;
+            }
+        </style>
+
+    </body>
+</html>

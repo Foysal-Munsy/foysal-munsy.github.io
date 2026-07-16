@@ -1,0 +1,70 @@
+---
+import { profile } from "../data/resume";
+
+// Top-of-page hero: greeting + tagline on the left, avatar on the right.
+---
+
+<section class="hero fade-up">
+    <div class="text">
+        <h1>{profile.greeting} 👋</h1>
+        <p class="sub">{profile.tagline} Based in {profile.location}.</p>
+    </div>
+    <img
+        class="avatar"
+        src={profile.avatar}
+        alt={profile.name}
+        width="112"
+        height="112"
+        loading="eager"
+    />
+</section>
+
+<style>
+    .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2.75rem;
+    }
+
+    .hero h1 {
+        font-size: 2.6rem;
+        line-height: 1.05;
+        margin: 0 0 0.55rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    .sub {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 1.02rem;
+        max-width: 28rem;
+    }
+
+    .avatar {
+        width: 112px;
+        height: 112px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+        .hero {
+            flex-direction: row-reverse;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .avatar {
+            width: 84px;
+            height: 84px;
+        }
+    }
+</style>

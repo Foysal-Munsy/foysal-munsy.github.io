@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Black & white theme tokens as CSS custom properties. Light values live on
+  :root; dark overrides apply when <html> carries the `dark` class, set before
+  paint by an inline script in BaseLayout to avoid a flash of the wrong theme.
+  No accent color by design - the palette is intentionally monochrome.
+*/
+:root {
+    --bg: #ffffff;
+    --bg-subtle: #fafafa;
+    --surface: #ffffff;
+    --border: #e5e5e5;
+    --text: #0a0a0a;
+    --text-muted: #6b7280;
+    --chip: #f4f4f5;
+    --code-bg: #f5f5f5;
+}
+
+html.dark {
+    --bg: #131316;
+    --bg-subtle: #1a1a1e;
+    --surface: #1c1c20;
+    --border: #2e2e34;
+    --text: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --chip: #26262b;
+    --code-bg: #1a1a1e;
+}
+
+html {
+    background-color: var(--bg);
+    color: var(--text);
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: theme("fontFamily.sans");
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Respect users who prefer reduced motion: disable the entrance animations. */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Staggered fade-in-up used across sections. */
+.fade-up {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Long-form article typography for MDX case studies & posts. */
+.prose {
+    color: var(--text);
+    font-size: 1.0625rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+    color: var(--text);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    scroll-margin-top: 5rem;
+}
+
+.prose h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.prose h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+    margin-top: 0.85rem;
+    margin-bottom: 0.85rem;
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1.4rem;
+}
+
+.prose li {
+    margin: 0.35rem 0;
+}
+
+.prose a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 500;
+}
+
+.prose strong {
+    color: var(--text);
+    font-weight: 650;
+}
+
+.prose blockquote {
+    margin: 1.25rem 0;
+    padding: 0.5rem 1rem;
+    border-left: 3px solid var(--text);
+    background: var(--bg-subtle);
+    color: var(--text-muted);
+    border-radius: 0 6px 6px 0;
+}
+
+.prose code {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.875em;
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+}
+
+.prose pre {
+    margin: 1.25rem 0;
+    padding: 1rem 1.15rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    font-size: 0.9rem;
+}
+
+/* Code inside a highlighted block shouldn't get the inline pill styling. */
+.prose pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+}
+
+.prose hr {
+    margin: 2.5rem 0;
+    border: none;
+    border-top: 1px solid var(--border);
+}
+
+.prose table {
+    width: 100%;
+    margin: 1.25rem 0;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.prose th,
+.prose td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+}
+
+.prose th {
+    background: var(--bg-subtle);
+    font-weight: 650;
+}

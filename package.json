@@ -1,0 +1,23 @@
+{
+    "name": "projects-case-studies",
+    "type": "module",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/mdx": "^3.1.9",
+        "@astrojs/tailwind": "^5.1.4",
+        "@iconify-json/logos": "^1.2.11",
+        "@iconify-json/lucide": "^1.2.117",
+        "@iconify-json/simple-icons": "^1.2.90",
+        "astro": "^4.16.18",
+        "astro-icon": "^1.1.5",
+        "tailwindcss": "^3.4.17"
+    }
+}

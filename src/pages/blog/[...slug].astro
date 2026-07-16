@@ -1,0 +1,75 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Pre-render one page per blog post.
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const d = post.data;
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+
+const dateLabel = d.publishDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+---
+
+<BaseLayout title={`${d.title} — Blog`} description={d.summary}>
+    <a href={`${home}blog`} class="back">← All posts</a>
+
+    <header class="header fade-up">
+        <h1>{d.title}</h1>
+        <p class="meta">{dateLabel}</p>
+    </header>
+
+    <article class="prose fade-up">
+        <Content />
+    </article>
+</BaseLayout>
+
+<style>
+    .back {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    .back:hover {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .header h1 {
+        margin: 0 0 0.6rem;
+        font-size: 2.1rem;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+    }
+
+    .meta {
+        margin: 0;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+</style>

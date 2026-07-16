@@ -1,0 +1,187 @@
+---
+import { Icon } from "astro-icon/components";
+
+// A collapsible work-experience row (magicui-style): logo, company + period,
+// role, location, and a chevron that appears on hover. Clicking the header
+// expands the bullet points. Built on native <details>/<summary> so it works
+// without JS and stays accessible.
+interface Props {
+    title: string;
+    meta?: string;
+    subtitle?: string;
+    location?: string;
+    logo?: string | null;
+    points: string[];
+}
+const { title, meta, subtitle, location, logo, points } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+const logoSrc = logo ? `${home}${logo.replace(/^\//, "")}` : null;
+const monogram = title.trim().charAt(0).toUpperCase();
+---
+
+<details class="work">
+    <summary class="head">
+        <span class="logo" aria-hidden="true">
+            {logoSrc ? (
+                <img src={logoSrc} alt="" loading="lazy" />
+            ) : (
+                <span class="monogram">{monogram}</span>
+            )}
+        </span>
+        <span class="text">
+            <span class="line">
+                <span class="who">{title}</span>
+                {meta && <span class="when">{meta}</span>}
+            </span>
+            {subtitle && <span class="role">{subtitle}</span>}
+            {location && (
+                <span class="place">
+                    <Icon name="lucide:map-pin" />
+                    {location}
+                </span>
+            )}
+        </span>
+        <Icon name="lucide:chevron-down" class="chevron" />
+    </summary>
+    {points.length > 0 && (
+        <ul class="points">
+            {points.map((p) => <li>{p}</li>)}
+        </ul>
+    )}
+</details>
+
+<style>
+    .work {
+        border-bottom: 1px solid var(--border);
+    }
+
+    .work:last-child {
+        border-bottom: none;
+    }
+
+    .head {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 0;
+        cursor: pointer;
+        list-style: none;
+    }
+
+    /* Hide the default disclosure triangle across browsers. */
+    .head::-webkit-details-marker {
+        display: none;
+    }
+
+    .logo {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 6px;
+    }
+
+    .monogram {
+        font-weight: 700;
+        font-size: 0.85rem;
+        font-family: theme("fontFamily.mono");
+        color: var(--text);
+    }
+
+    .text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .line {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+    }
+
+    .who {
+        font-weight: 650;
+        font-size: 0.98rem;
+    }
+
+    .when {
+        color: var(--text-muted);
+        font-size: 0.78rem;
+        white-space: nowrap;
+        font-family: theme("fontFamily.mono");
+    }
+
+    .role {
+        display: block;
+        margin-top: 0.15rem;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        font-weight: 500;
+    }
+
+    .place {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-top: 0.2rem;
+        color: var(--text-muted);
+        font-size: 0.78rem;
+    }
+
+    .place :global(svg) {
+        width: 0.85rem;
+        height: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .chevron {
+        width: 1.05rem;
+        height: 1.05rem;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        opacity: 0;
+        transition: transform 0.2s ease, opacity 0.15s ease;
+    }
+
+    /* Reveal the chevron on hover/focus, and whenever the row is open. */
+    .work:hover .chevron,
+    .head:focus-visible .chevron,
+    .work[open] .chevron {
+        opacity: 1;
+    }
+
+    .work[open] .chevron {
+        transform: rotate(180deg);
+    }
+
+    .points {
+        margin: 0 0 1rem;
+        padding-left: calc(46px + 1rem + 1.1rem);
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .points li {
+        margin: 0.3rem 0;
+    }
+
+    @media (max-width: 640px) {
+        .points {
+            padding-left: 1.1rem;
+        }
+    }
+</style>

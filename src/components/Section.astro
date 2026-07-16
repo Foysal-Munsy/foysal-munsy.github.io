@@ -1,0 +1,35 @@
+---
+// A titled content section used on the homepage. Adds the staggered fade-up
+// entrance animation and an optional heading. `delay` controls the animation
+// start so stacked sections cascade in. The heading uses a small monospace
+// "eyebrow" style so each section reads clearly as its own block.
+interface Props {
+    title?: string;
+    delay?: number;
+    class?: string;
+}
+const { title, delay = 0, class: className = "" } = Astro.props;
+---
+
+<section
+    class:list={["section", "fade-up", className]}
+    style={`animation-delay:${delay}s`}
+>
+    {title && <h2 class="section-title">{title}</h2>}
+    <slot />
+</section>
+
+<style>
+    .section {
+        margin-bottom: 2.75rem;
+    }
+
+    .section-title {
+        margin: 0 0 1.25rem;
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--text);
+    }
+</style>
+

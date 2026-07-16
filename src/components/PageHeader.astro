@@ -1,0 +1,50 @@
+---
+// Header for list and detail pages: a back link plus title and intro.
+interface Props {
+    title: string;
+    intro?: string;
+    backHref: string;
+    backLabel: string;
+}
+const { title, intro, backHref, backLabel } = Astro.props;
+---
+
+<header class="page-header fade-up">
+    <a href={backHref} class="back">← {backLabel}</a>
+    <h1>{title}</h1>
+    {intro && <p class="intro">{intro}</p>}
+</header>
+
+<style>
+    .page-header {
+        margin-bottom: 2rem;
+    }
+
+    .back {
+        display: inline-block;
+        margin-bottom: 1.25rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    .back:hover {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    h1 {
+        margin: 0 0 0.6rem;
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+    }
+
+    .intro {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 1.02rem;
+        max-width: 34rem;
+    }
+</style>

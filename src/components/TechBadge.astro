@@ -1,0 +1,44 @@
+---
+import { Icon } from "astro-icon/components";
+import { iconForTech } from "../data/techIcons";
+
+// Small monospace pill for a technology/skill, with a proper brand logo on the
+// left when one is known. The icon can be passed explicitly, otherwise it is
+// resolved from the label via the shared techIcons lookup (so Skills and
+// project "tech" tags stay consistent). Colored "logos:*" icons keep their
+// brand colors; monochrome sets follow the text color.
+interface Props {
+    label: string;
+    icon?: string;
+}
+const { label, icon } = Astro.props;
+const resolved = icon ?? iconForTech(label);
+---
+
+<span class="tech-badge">
+    {resolved && <Icon name={resolved} />}
+    {label}
+</span>
+
+<style>
+    .tech-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.72rem;
+        line-height: 1;
+        padding: 0.4rem 0.6rem;
+        border-radius: 7px;
+        border: 1px solid var(--border);
+        background: var(--chip);
+        color: var(--text);
+        white-space: nowrap;
+    }
+
+    .tech-badge :global(svg) {
+        width: 0.95rem;
+        height: 0.95rem;
+        flex-shrink: 0;
+    }
+</style>

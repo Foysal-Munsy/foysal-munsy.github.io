@@ -1,0 +1,144 @@
+---
+import { Icon } from "astro-icon/components";
+import { socials } from "../data/resume";
+
+// Floating pill navigation fixed to the bottom-center of every page, styled
+// after the magicui dock. Holds page links, external social links, and the
+// theme toggle. Links are built against BASE_URL so they work in dev ("/") and
+// on GitHub Pages ("/<repo>").
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+
+const pages = [
+    { label: "Home", href: home, icon: "lucide:house" },
+    { label: "Projects", href: `${home}projects`, icon: "lucide:folder-git-2" },
+    { label: "Research", href: `${home}research`, icon: "lucide:flask-conical" },
+    { label: "Blog", href: `${home}blog`, icon: "lucide:pen-line" },
+];
+---
+
+<nav class="dock" aria-label="Primary">
+    {pages.map((p) => (
+        <a class="dock-item" href={p.href} title={p.label} aria-label={p.label}>
+            <Icon name={p.icon} />
+        </a>
+    ))}
+
+    <span class="divider" aria-hidden="true"></span>
+
+    {socials.map((s) => (
+        <a
+            class="dock-item"
+            href={s.href}
+            title={s.label}
+            aria-label={s.label}
+            target={s.href.startsWith("http") ? "_blank" : undefined}
+            rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+        >
+            <Icon name={`lucide:${s.icon}`} />
+        </a>
+    ))}
+
+    <span class="divider" aria-hidden="true"></span>
+
+    <button
+        id="theme-toggle"
+        class="dock-item"
+        type="button"
+        aria-label="Toggle color theme"
+        title="Toggle theme"
+    >
+        <Icon name="lucide:sun" class="icon-sun" />
+        <Icon name="lucide:moon" class="icon-moon" />
+    </button>
+</nav>
+
+<style>
+    .dock {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.4rem;
+        background: color-mix(in srgb, var(--surface) 88%, transparent);
+        backdrop-filter: blur(14px);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.08),
+            0 8px 30px rgba(0, 0, 0, 0.14);
+        z-index: 20;
+    }
+
+    :global(html.dark) .dock {
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.4),
+            0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .dock-item {
+        display: grid;
+        place-items: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition:
+            background-color 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+    }
+
+    .dock-item :global(svg) {
+        width: 1.15rem;
+        height: 1.15rem;
+    }
+
+    .dock-item:hover {
+        background: var(--chip);
+        color: var(--text);
+        text-decoration: none;
+        transform: translateY(-3px);
+    }
+
+    .divider {
+        width: 1px;
+        height: 1.5rem;
+        background: var(--border);
+        margin: 0 0.25rem;
+    }
+
+    .icon-moon {
+        display: none;
+    }
+
+    :global(html.dark) .icon-sun {
+        display: none;
+    }
+
+    :global(html.dark) .icon-moon {
+        display: inline;
+    }
+</style>
+
+<script is:inline>
+    (() => {
+        const btn = document.getElementById("theme-toggle");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+            const root = document.documentElement;
+            const isDark = root.classList.toggle("dark");
+            try {
+                localStorage.setItem("theme", isDark ? "dark" : "light");
+            } catch (_) {
+                /* storage may be unavailable; ignore */
+            }
+        });
+    })();
+</script>
