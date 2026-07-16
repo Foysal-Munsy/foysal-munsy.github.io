@@ -1,21 +1,42 @@
 ---
 // A titled content section used on the homepage. Adds the staggered fade-up
-// entrance animation and an optional heading. `delay` controls the animation
-// start so stacked sections cascade in. The heading uses a small monospace
-// "eyebrow" style so each section reads clearly as its own block.
+// entrance animation and a heading. `delay` controls the animation start so
+// stacked sections cascade in.
+//
+// Two header styles:
+//   - default: a simple left-aligned bold title (used by most sections).
+//   - featured: pass `eyebrow` (a small pill label with side rules) and an
+//     optional `subtitle` to render a centered, more prominent header. Used to
+//     make Projects/Research read as distinct showcase blocks.
 interface Props {
     title?: string;
+    eyebrow?: string;
+    subtitle?: string;
     delay?: number;
     class?: string;
 }
-const { title, delay = 0, class: className = "" } = Astro.props;
+const { title, eyebrow, subtitle, delay = 0, class: className = "" } =
+    Astro.props;
+const featured = Boolean(eyebrow);
 ---
 
 <section
     class:list={["section", "fade-up", className]}
     style={`animation-delay:${delay}s`}
 >
-    {title && <h2 class="section-title">{title}</h2>}
+    {featured ? (
+        <header class="featured-head">
+            <span class="eyebrow">
+                <span class="rule" aria-hidden="true"></span>
+                {eyebrow}
+                <span class="rule" aria-hidden="true"></span>
+            </span>
+            {title && <h2 class="featured-title">{title}</h2>}
+            {subtitle && <p class="featured-subtitle">{subtitle}</p>}
+        </header>
+    ) : (
+        title && <h2 class="section-title">{title}</h2>
+    )}
     <slot />
 </section>
 
@@ -31,5 +52,44 @@ const { title, delay = 0, class: className = "" } = Astro.props;
         letter-spacing: -0.01em;
         color: var(--text);
     }
-</style>
 
+    /* Featured (centered) header used by showcase sections. */
+    .featured-head {
+        text-align: center;
+        margin: 0 0 1.75rem;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--text-muted);
+    }
+
+    .rule {
+        display: block;
+        width: 1.75rem;
+        height: 1px;
+        background: var(--border);
+    }
+
+    .featured-title {
+        margin: 0.6rem 0 0;
+        font-size: 1.9rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        color: var(--text);
+    }
+
+    .featured-subtitle {
+        margin: 0.5rem auto 0;
+        max-width: 30rem;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+</style>

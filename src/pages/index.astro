@@ -103,7 +103,12 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
     </Section>
 
     {featuredResearch.length > 0 && (
-        <Section title="Research" delay={0.35}>
+        <Section
+            eyebrow="Research"
+            title="Publications & Work"
+            subtitle="Computer vision research, from thesis to published results."
+            delay={0.35}
+        >
             <div class="list">
                 {featuredResearch.map((r) => {
                     const { href, external } = researchHref(r);
@@ -123,7 +128,12 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
     )}
 
     {featuredProjects.length > 0 && (
-        <Section title="Projects" delay={0.4}>
+        <Section
+            eyebrow="Projects"
+            title="Things I've Built"
+            subtitle="A selection of backends and full-stack products I've shipped."
+            delay={0.4}
+        >
             <div class="list">
                 {featuredProjects.map((p) => {
                     const { href, external } = projectHref(p);
