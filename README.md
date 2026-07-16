@@ -140,15 +140,24 @@ src/
 
 ## Deploying to GitHub Pages
 
-1. Push this project to its own GitHub repository.
-2. In the repo settings, set **Pages → Build and deployment → Source** to
-   **GitHub Actions**.
-3. In `astro.config.mjs`, set `site` (and `base` for a project page). For a repo
-   named `portfolio`:
-   ```js
-   site: "https://<username>.github.io",
-   base: "/portfolio",
+This repo is set up as a GitHub **user site**, served from the root at
+`https://foysal-munsy.github.io/`. `astro.config.mjs` already has
+`site: "https://foysal-munsy.github.io"` and `base: "/"`, and
+`.github/workflows/deploy.yml` builds and publishes on every push to `main`.
+
+First-time setup:
+
+1. Create a GitHub repo named exactly `foysal-munsy.github.io` (empty, no
+   README).
+2. Point this local repo at it and push:
+   ```bash
+   git remote add origin https://github.com/Foysal-Munsy/foysal-munsy.github.io.git
+   git push -u origin main
    ```
-   For a user/org page or a custom domain, set `site` and use `base: "/"`.
-4. Push to `main`. Add a GitHub Actions workflow (Astro's official
-   `withastro/action`) to build and publish automatically.
+3. In the repo settings, set **Pages → Build and deployment → Source** to
+   **GitHub Actions**.
+4. The workflow runs automatically; the site goes live at
+   `https://foysal-munsy.github.io/` within a couple of minutes.
+
+Renaming to a project repo later? Change `base` to `"/<repo>"` in
+`astro.config.mjs` and update `site` accordingly.
