@@ -129,4 +129,15 @@ const monogram = title.trim().charAt(0).toUpperCase();
     .body :global(li) {
         margin: 0.25rem 0;
     }
+
+    /* On narrow screens, stack the title and its right-aligned meta so a long
+       title (e.g. a full university name) gets the full width instead of being
+       squeezed by the year. */
+    @media (max-width: 640px) {
+        .head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.15rem;
+        }
+    }
 </style>

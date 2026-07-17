@@ -14,6 +14,7 @@ import {
     education,
     skills,
     competitiveProgramming,
+    cpSummary,
     contests,
 } from "../data/resume";
 
@@ -73,7 +74,9 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
     <Section title="Education" delay={0.2}>
         {education.map((e) => (
             <ListRow logo={e.logo} title={e.institution} meta={e.period}>
-                <p class="edu-detail">{e.detail}</p>
+                <div class="edu-detail">
+                    {e.detail.map((line) => <span>{line}</span>)}
+                </div>
             </ListRow>
         ))}
     </Section>
@@ -97,9 +100,23 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
                 logo={c.logo}
             />
         ))}
-        <ul class="contests">
-            {contests.map((c) => <li>{c}</li>)}
-        </ul>
+
+        <div class="overall">
+            <span class="overall-label">Overall</span>
+            <div class="overall-body">
+                <p class="overall-summary">{cpSummary}</p>
+                <ul class="contests">
+                    {contests.map((c) => (
+                        <li>
+                            <span class="contest-name">{c.name}</span>
+                            {c.detail && (
+                                <span class="contest-detail"> — {c.detail}</span>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
     </Section>
 
     {featuredResearch.length > 0 && (
@@ -160,8 +177,13 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
         color: var(--text-muted);
     }
 
+    /* Each education detail (degree / major / CGPA) on its own line so long
+       text never wraps awkwardly across devices. */
     .edu-detail {
-        margin: 0.15rem 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        margin: 0.2rem 0 0;
         color: var(--text-muted);
         font-size: 0.9rem;
     }
@@ -172,15 +194,57 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
         gap: 0.45rem;
     }
 
-    .contests {
-        margin: 1rem 0 0;
-        padding-left: 1.1rem;
+    /* CV-style "Overall" block: a label column on the left, summary + contest
+       list on the right. */
+    .overall {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .overall-label {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--text);
+    }
+
+    .overall-summary {
+        margin: 0;
         color: var(--text-muted);
-        font-size: 0.88rem;
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    .contests {
+        margin: 0.7rem 0 0;
+        padding-left: 1.1rem;
+        list-style: disc;
+        color: var(--text-muted);
+        font-size: 0.9rem;
     }
 
     .contests li {
-        margin: 0.3rem 0;
+        margin: 0.35rem 0;
+    }
+
+    .contest-name {
+        font-weight: 650;
+        color: var(--text);
+    }
+
+    .contest-detail {
+        color: var(--text-muted);
+    }
+
+    /* Stack the label above the content on small screens. */
+    @media (max-width: 640px) {
+        .overall {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
     }
 
     .list {

@@ -183,5 +183,13 @@ const monogram = title.trim().charAt(0).toUpperCase();
         .points {
             padding-left: 1.1rem;
         }
+
+        /* Stack company name and period so a long name isn't squeezed by the
+           date on small screens. */
+        .line {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.1rem;
+        }
     }
 </style>

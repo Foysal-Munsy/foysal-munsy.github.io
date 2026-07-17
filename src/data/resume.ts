@@ -24,9 +24,18 @@ export interface WorkItem {
 
 export interface EducationItem {
     institution: string;
-    detail: string;
+    // Each string renders on its own line (degree, major, CGPA, …) so long
+    // details don't wrap awkwardly on any screen size.
+    detail: string[];
     period: string;
     logo: string | null;
+}
+
+export interface ContestItem {
+    // Contest/competition name (bolded in the list).
+    name: string;
+    // Team name or participation type, e.g. "Team: Aiub_BugBear" / "Individual".
+    detail: string;
 }
 
 export interface CpItem {
@@ -101,8 +110,11 @@ export const work: WorkItem[] = [
 export const education: EducationItem[] = [
     {
         institution: "American International University - Bangladesh",
-        detail:
-            "BSc in Computer Science & Engineering · Major in Software Engineering · CGPA 3.61 / 4.00",
+        detail: [
+            "BSc in Computer Science & Engineering",
+            "Major in Software Engineering",
+            "CGPA 3.61 / 4.00",
+        ],
         period: "2022 - 2026",
         logo: "/logos/aiub.png",
     },
@@ -155,10 +167,28 @@ export const competitiveProgramming: CpItem[] = [
 ];
 
 
-// Contest participation, shown as a short supporting line under the CP section.
-export const contests: string[] = [
-    "1200+ DSA problems solved across platforms, 100+ online contests.",
-    "ICPC Dhaka Regional Preliminary 2023 - Team Aiub_BugBear.",
-    "NCPC Regional Preliminary 2023 - Team Aiub_BugBear.",
-    "Intra AIUB Programming Contest 2024, Web Xtream Hackathon 2025.",
+// A one-line "overall" summary shown above the CP platform rows, CV-style.
+export const cpSummary =
+    "1200+ DSA problems solved across platforms and 100+ online contests.";
+
+// Notable contest participation, shown CV-style: the contest name in bold with
+// the team/role as a muted suffix.
+export const contests: ContestItem[] = [
+    {
+        name: "ICPC Dhaka Regional Preliminary 2023",
+        detail: "Team Aiub_BugBear",
+    },
+    {
+        name: "NCPC Regional Preliminary 2023",
+        detail: "Team Aiub_BugBear",
+    },
+    {
+        name: "Intra AIUB Programming Contest 2024",
+        detail: "Individual",
+    },
+    {
+        name: "Web Xtream Hackathon 2025",
+        detail: "Team",
+    },
 ];
+

@@ -54,11 +54,15 @@ const { title, summary, href, meta, external = false } = Astro.props;
     .title {
         font-weight: 650;
         font-size: 1rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
     }
 
     .arrow {
         display: inline-block;
+        margin-left: 0.15rem;
         color: var(--text-muted);
+        white-space: nowrap;
         transition: transform 0.15s ease, color 0.15s ease;
     }
 
@@ -85,4 +89,19 @@ const { title, summary, href, meta, external = false } = Astro.props;
         font-size: 0.9rem;
         line-height: 1.5;
     }
+
+    /* On narrow screens, drop the meta below the title so a long title
+       (e.g. a full research paper name) gets the full row width. */
+    @media (max-width: 640px) {
+        .head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.15rem;
+        }
+
+        .meta {
+            order: -1;
+        }
+    }
 </style>
+

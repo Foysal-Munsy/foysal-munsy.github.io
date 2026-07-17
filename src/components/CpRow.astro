@@ -153,4 +153,13 @@ const logoSrc = `${home}${logo.replace(/^\//, "")}`;
         background: var(--text-muted);
         opacity: 0.6;
     }
+
+    /* Stack platform name and handle on narrow screens. */
+    @media (max-width: 640px) {
+        .head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.15rem;
+        }
+    }
 </style>
