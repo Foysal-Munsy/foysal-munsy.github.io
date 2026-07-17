@@ -6,7 +6,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: [
-                    "Geist",
+                    "Satoshi",
                     "ui-sans-serif",
                     "system-ui",
                     "-apple-system",

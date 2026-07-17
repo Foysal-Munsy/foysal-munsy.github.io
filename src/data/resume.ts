@@ -67,7 +67,7 @@ export const profile = {
     tagline:
         "Software engineer building dependable backends and full-stack products.",
     about:
-        "CSE graduate specializing in Software Engineering, working across .NET and the TypeScript ecosystem. I care about correctness under load, clean architecture, and systems that fail gracefully. Alongside product work I compete in algorithmic programming and do research in computer vision.",
+        "CSE graduate specializing in Software Engineering, working across .NET and the TypeScript ecosystem. I care about correctness under load, clean architecture, and systems that fail gracefully. Alongside product work I compete in programming contests and do research when it matches with my interest.",
     email: "foysal613@outlook.com",
     avatar: "https://avatars.githubusercontent.com/u/77909562?v=4",
     github: "https://github.com/Foysal-Munsy",
