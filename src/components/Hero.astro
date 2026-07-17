@@ -53,16 +53,18 @@ import { profile } from "../data/resume";
     }
 
     @media (max-width: 640px) {
-        /* Stack: avatar on top, then greeting + tagline, all left-aligned so
-           the image lines up with the "Hi, I'm Foysal" heading. */
+        /* Keep the avatar on the left, on the same row as the greeting.
+           flex-start (instead of center) lines the avatar up with the
+           "Hi, I'm Foysal" heading rather than floating in the middle. */
         .hero {
-            flex-direction: column;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
             align-items: flex-start;
             gap: 1rem;
         }
 
         .hero h1 {
-            font-size: 2rem;
+            font-size: 1.9rem;
         }
 
         .avatar {

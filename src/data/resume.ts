@@ -149,7 +149,7 @@ export const competitiveProgramming: CpItem[] = [
         rankColor: ["#1a9c3e", "#4ac26b"],
         ratingDetail: "max 1206",
 
-        note: "550+ problems solved across 50+ rated contests.",
+        note: "550+ problems solved and participated 50+ rated contests.",
         logo: "/logos/codeforces.png",
     },
     {
@@ -161,7 +161,7 @@ export const competitiveProgramming: CpItem[] = [
         rankColor: ["#1a9c3e", "#4ac26b"],
         ratingDetail: "max 1540",
 
-        note: "100+ problems solved across 20+ contests.",
+        note: "100+ problems solved and participated 20+ rated contests.",
         logo: "/logos/codechef.png",
     },
 ];
@@ -169,26 +169,26 @@ export const competitiveProgramming: CpItem[] = [
 
 // A one-line "overall" summary shown above the CP platform rows, CV-style.
 export const cpSummary =
-    "1200+ DSA problems solved across platforms and 100+ online contests.";
+    "1200+ DSA problems solved across various platforms and participated in 100+ online contests.";
 
 // Notable contest participation, shown CV-style: the contest name in bold with
 // the team/role as a muted suffix.
 export const contests: ContestItem[] = [
     {
         name: "ICPC Dhaka Regional Preliminary 2023",
-        detail: "Team Aiub_BugBear",
+        detail: "Team: Aiub_BugBear",
     },
     {
         name: "NCPC Regional Preliminary 2023",
-        detail: "Team Aiub_BugBear",
+        detail: "Team: Aiub_BugBear",
     },
     {
         name: "Intra AIUB Programming Contest 2024",
-        detail: "Individual",
+        detail: "Mode: Individual",
     },
     {
         name: "Web Xtream Hackathon 2025",
-        detail: "Team",
+        detail: "Team: Group_15",
     },
 ];
 
