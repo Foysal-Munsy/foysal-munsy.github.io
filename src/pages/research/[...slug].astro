@@ -37,10 +37,13 @@ const home = base.endsWith("/") ? base : `${base}/`;
             </div>
         )}
 
-        {(d.doi || d.link) && (
+        {(d.doi || d.link || d.fullReport) && (
             <div class="links">
                 {d.link && (
                     <a href={d.link} target="_blank" rel="noopener noreferrer">Report ↗</a>
+                )}
+                {d.fullReport && (
+                    <a href={d.fullReport} target="_blank" rel="noopener noreferrer">Full report ↗</a>
                 )}
                 {d.doi && (
                     <a href={d.doi} target="_blank" rel="noopener noreferrer">DOI ↗</a>

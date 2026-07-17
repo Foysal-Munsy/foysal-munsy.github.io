@@ -36,6 +36,9 @@ const research = defineCollection({
         // External links.
         doi: z.string().url().optional(),
         link: z.string().url().optional(),
+        // Link to a full report (e.g. a Google Drive folder / PDF). Rendered as
+        // a "Full report" link rather than a DOI.
+        fullReport: z.string().url().optional(),
         order: z.number().default(0),
         featured: z.boolean().default(false),
         draft: z.boolean().default(false),

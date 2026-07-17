@@ -9,7 +9,7 @@ tech:
     - "NestJS"
     - "PostgreSQL"
     - "JWT"
-repo: "https://github.com/Foysal-Munsy"
+repo: "https://github.com/Foysal-Munsy/EventBuddy-Frontend"
 order: 3
 featured: false
 draft: false

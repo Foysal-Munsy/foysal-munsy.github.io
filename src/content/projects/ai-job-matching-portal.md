@@ -8,7 +8,7 @@ tech:
     - "Next.js"
     - "Node.js"
     - "MongoDB"
-repo: "https://github.com/Foysal-Munsy"
+repo: "https://github.com/Foysal-Munsy/CareerOstad-AI-Job-Matching"
 order: 5
 featured: false
 draft: false

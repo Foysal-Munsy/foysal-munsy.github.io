@@ -34,10 +34,15 @@ const entries = (await getCollection("research"))
                 // A write-up (body) opens an internal detail page; a
                 // citation-only entry links out to its report/DOI.
                 const hasWriteup = r.body.trim().length > 0;
-                const external = !hasWriteup && !!(r.data.link || r.data.doi);
+                const external =
+                    !hasWriteup &&
+                    !!(r.data.link || r.data.fullReport || r.data.doi);
                 const href = hasWriteup
                     ? `${home}research/${r.slug}`
-                    : r.data.link ?? r.data.doi ?? `${home}research/${r.slug}`;
+                    : r.data.link ??
+                      r.data.fullReport ??
+                      r.data.doi ??
+                      `${home}research/${r.slug}`;
                 return (
                     <TextListItem
                         title={r.data.title}

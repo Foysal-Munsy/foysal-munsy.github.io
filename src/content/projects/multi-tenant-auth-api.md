@@ -9,7 +9,7 @@ tech:
     - "MongoDB"
     - "Swagger UI"
     - "JWT"
-repo: "https://github.com/Foysal-Munsy"
+repo: "https://github.com/Foysal-Munsy/multi-tenant-auth"
 order: 2
 featured: false
 draft: false

@@ -8,7 +8,7 @@ tech:
     - "Entity Framework"
     - "MSSQL Server"
     - "3-Tier Architecture"
-repo: "https://github.com/Foysal-Munsy"
+repo: "https://github.com/Foysal-Munsy/fitness-challenge-api"
 order: 4
 featured: false
 draft: false

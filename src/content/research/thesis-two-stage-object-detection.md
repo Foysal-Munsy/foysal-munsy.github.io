@@ -7,6 +7,7 @@ tags:
     - "YOLOv8"
     - "Computer Vision"
     - "Thesis"
+fullReport: "https://drive.google.com/drive/u/1/folders/1d_Sm-W_eNbDklGajz4-hsxzzMDPKZiQX"
 order: 2
 featured: true
 draft: false

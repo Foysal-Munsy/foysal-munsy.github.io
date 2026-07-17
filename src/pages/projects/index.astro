@@ -45,6 +45,7 @@ const projects = (await getCollection("projects"))
                         meta={p.data.timeframe}
                         href={href}
                         external={external}
+                        tags={p.data.tech}
                     />
                 );
             })}

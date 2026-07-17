@@ -43,10 +43,14 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
 
 const researchHref = (r: (typeof featuredResearch)[number]) => {
     const hasWriteup = r.body.trim().length > 0;
-    const external = !hasWriteup && !!(r.data.link || r.data.doi);
+    const external =
+        !hasWriteup && !!(r.data.link || r.data.fullReport || r.data.doi);
     const href = hasWriteup
         ? `${home}research/${r.slug}`
-        : r.data.link ?? r.data.doi ?? `${home}research/${r.slug}`;
+        : r.data.link ??
+          r.data.fullReport ??
+          r.data.doi ??
+          `${home}research/${r.slug}`;
     return { href, external };
 };
 ---
