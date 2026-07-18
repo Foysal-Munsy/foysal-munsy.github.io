@@ -2,74 +2,89 @@
 import { profile } from "../data/resume";
 
 // Top-of-page hero: greeting + tagline on the left, avatar on the right.
+// Bold the first two words of the tagline for a bit of visual emphasis.
+const taglineWords = profile.tagline.split(" ");
+const taglineBold = taglineWords.slice(0, 2).join(" ");
+const taglineRest = taglineWords.slice(2).join(" ");
 ---
 
 <section class="hero fade-up">
-    <div class="text">
-        <h1>{profile.greeting} 👋</h1>
-        <p class="sub">{profile.tagline} Based in {profile.location}.</p>
-    </div>
-    <img
-        class="avatar"
-        src={profile.avatar}
-        alt={profile.name}
-        width="112"
-        height="112"
-        loading="eager"
-    />
+  <div class="text">
+    <h1>{profile.greeting} 👋</h1>
+    <p class="sub">
+      <strong>{taglineBold}</strong>
+      {taglineRest} Based in {profile.location}.
+    </p>
+  </div>
+  <img
+    class="avatar"
+    src={profile.avatar}
+    alt={profile.name}
+    width="112"
+    height="112"
+    loading="eager"
+  />
 </section>
 
 <style>
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.75rem;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+    line-height: 1.1;
+    margin: 0 0 0.7rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .sub {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    line-height: 1.55;
+    max-width: 28rem;
+  }
+
+  .sub strong {
+    /* color: var(--text); */
+    font-weight: 450;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .avatar {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    /* Keep the avatar on the left, on the same row as the greeting.
+           flex-start (instead of center) lines the avatar up with the
+           "Hi, I'm Foysal" heading rather than floating in the middle. */
     .hero {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1.5rem;
-        margin-bottom: 2.75rem;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: 1rem;
     }
 
     .hero h1 {
-        font-size: 2.6rem;
-        line-height: 1.05;
-        margin: 0 0 0.55rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-    }
-
-    .sub {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 1.02rem;
-        max-width: 28rem;
+      font-size: 1.9rem;
     }
 
     .avatar {
-        width: 112px;
-        height: 112px;
-        border-radius: 50%;
-        object-fit: cover;
-        flex-shrink: 0;
-        border: 1px solid var(--border);
+      width: 72px;
+      height: 72px;
     }
-
-    @media (max-width: 640px) {
-        /* Keep the avatar on the left, on the same row as the greeting.
-           flex-start (instead of center) lines the avatar up with the
-           "Hi, I'm Foysal" heading rather than floating in the middle. */
-        .hero {
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .hero h1 {
-            font-size: 1.9rem;
-        }
-
-        .avatar {
-            width: 72px;
-            height: 72px;
-        }
-    }
+  }
 </style>

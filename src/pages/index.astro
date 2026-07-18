@@ -7,15 +7,16 @@ import ListRow from "../components/ListRow.astro";
 import WorkRow from "../components/WorkRow.astro";
 import CpRow from "../components/CpRow.astro";
 import TextListItem from "../components/TextListItem.astro";
+import ProjectRow from "../components/ProjectRow.astro";
 import TechBadge from "../components/TechBadge.astro";
 import {
-    profile,
-    work,
-    education,
-    skills,
-    competitiveProgramming,
-    cpSummary,
-    contests,
+  profile,
+  work,
+  education,
+  skills,
+  competitiveProgramming,
+  cpSummary,
+  contests,
 } from "../data/resume";
 
 const base = import.meta.env.BASE_URL;
@@ -23,249 +24,292 @@ const home = base.endsWith("/") ? base : `${base}/`;
 
 // Featured projects + research surfaced on the homepage. Full lists live on
 // their own pages; here we show only the highlighted, non-draft entries.
+// Capped so the homepage stays tight — the rest live on /projects.
 const featuredProjects = (await getCollection("projects"))
-    .filter((e) => !e.data.draft && e.data.featured)
-    .sort((a, b) => a.data.order - b.data.order);
+  .filter((e) => !e.data.draft && e.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
 
 const featuredResearch = (await getCollection("research"))
-    .filter((e) => !e.data.draft && e.data.featured)
-    .sort((a, b) => a.data.order - b.data.order);
+  .filter((e) => !e.data.draft && e.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
 
 // Resolve a project/research entry to its link + whether it is external.
 const projectHref = (p: (typeof featuredProjects)[number]) => {
-    const hasCaseStudy = p.body.trim().length > 0;
-    const external = !hasCaseStudy && !!(p.data.repo || p.data.liveUrl);
-    const href = hasCaseStudy
-        ? `${home}projects/${p.slug}`
-        : p.data.repo ?? p.data.liveUrl ?? `${home}projects/${p.slug}`;
-    return { href, external };
+  const hasCaseStudy = p.body.trim().length > 0;
+  const firstLink = p.data.repo ?? p.data.liveUrl ?? p.data.links?.[0]?.url;
+  const external = !hasCaseStudy && !!firstLink;
+  const href = hasCaseStudy
+    ? `${home}projects/${p.slug}`
+    : (firstLink ?? `${home}projects/${p.slug}`);
+  return { href, external };
 };
 
 const researchHref = (r: (typeof featuredResearch)[number]) => {
-    const hasWriteup = r.body.trim().length > 0;
-    const external =
-        !hasWriteup && !!(r.data.link || r.data.fullReport || r.data.doi);
-    const href = hasWriteup
-        ? `${home}research/${r.slug}`
-        : r.data.link ??
-          r.data.fullReport ??
-          r.data.doi ??
-          `${home}research/${r.slug}`;
-    return { href, external };
+  const hasWriteup = r.body.trim().length > 0;
+  const external =
+    !hasWriteup && !!(r.data.link || r.data.fullReport || r.data.doi);
+  const href = hasWriteup
+    ? `${home}research/${r.slug}`
+    : (r.data.link ??
+      r.data.fullReport ??
+      r.data.doi ??
+      `${home}research/${r.slug}`);
+  return { href, external };
 };
 ---
 
 <BaseLayout title={`${profile.name} - ${profile.role}`}>
-    <Hero />
+  <Hero />
 
-    <Section title="About" delay={0.1}>
-        <p class="about">{profile.about}</p>
-    </Section>
+  <Section title="About" delay={0.1}>
+    <p class="about">{profile.about}</p>
+  </Section>
 
-    <Section title="Work Experience" delay={0.15}>
-        {work.map((w) => (
-            <WorkRow
-                logo={w.logo}
-                title={w.company}
-                meta={w.period}
-                subtitle={w.role}
-                location={w.location}
-                points={w.points}
-            />
-        ))}
-    </Section>
+  <Section title="Work Experience" delay={0.15}>
+    {
+      work.map((w) => (
+        <WorkRow
+          logo={w.logo}
+          title={w.company}
+          meta={w.period}
+          subtitle={w.role}
+          location={w.location}
+          points={w.points}
+        />
+      ))
+    }
+  </Section>
 
-    <Section title="Education" delay={0.2}>
-        {education.map((e) => (
-            <ListRow logo={e.logo} title={e.institution} meta={e.period}>
-                <div class="edu-detail">
-                    {e.detail.map((line) => <span>{line}</span>)}
-                </div>
-            </ListRow>
-        ))}
-    </Section>
+  <Section title="Education" delay={0.2}>
+    {
+      education.map((e) => (
+        <ListRow logo={e.logo} title={e.institution} meta={e.period}>
+          <div class="edu-detail">
+            {e.detail.map((line) => (
+              <span>{line}</span>
+            ))}
+          </div>
+        </ListRow>
+      ))
+    }
+  </Section>
 
-    <Section title="Skills" delay={0.25}>
-        <div class="chips">
-            {skills.map((s) => <TechBadge label={s} />)}
+  <Section title="Skills" delay={0.25}>
+    <div class="chips">
+      {skills.map((s) => <TechBadge label={s} size="lg" />)}
+    </div>
+  </Section>
+
+  <Section title="Competitive Programming" delay={0.3}>
+    {
+      competitiveProgramming.map((c) => (
+        <CpRow
+          platform={c.platform}
+          handle={c.handle}
+          profileUrl={c.profileUrl}
+          rank={c.rank}
+          rankColor={c.rankColor}
+          ratingDetail={c.ratingDetail}
+          note={c.note}
+          logo={c.logo}
+        />
+      ))
+    }
+
+    <div class="overall">
+      <span class="overall-label">Overall</span>
+      <div class="overall-body">
+        <p class="overall-summary">{cpSummary}</p>
+        <ul class="contests">
+          {
+            contests.map((c) => (
+              <li>
+                <span class="contest-name">{c.name}</span>
+                {c.detail && <span class="contest-detail"> — {c.detail}</span>}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  {
+    featuredResearch.length > 0 && (
+      <Section title="Research" delay={0.35}>
+        <div class="list">
+          {featuredResearch.map((r) => {
+            const { href, external } = researchHref(r);
+            return (
+              <TextListItem
+                title={r.data.title}
+                summary={r.data.summary}
+                meta={`${r.data.venue} · ${r.data.year}`}
+                href={href}
+                external={external}
+              />
+            );
+          })}
         </div>
-    </Section>
+        <a class="see-all" href={`${home}research`}>
+          All research →
+        </a>
+      </Section>
+    )
+  }
 
-    <Section title="Competitive Programming" delay={0.3}>
-        {competitiveProgramming.map((c) => (
-            <CpRow
-                platform={c.platform}
-                handle={c.handle}
-                profileUrl={c.profileUrl}
-                rank={c.rank}
-                rankColor={c.rankColor}
-                ratingDetail={c.ratingDetail}
-                note={c.note}
-                logo={c.logo}
-            />
-        ))}
-
-        <div class="overall">
-            <span class="overall-label">Overall</span>
-            <div class="overall-body">
-                <p class="overall-summary">{cpSummary}</p>
-                <ul class="contests">
-                    {contests.map((c) => (
-                        <li>
-                            <span class="contest-name">{c.name}</span>
-                            {c.detail && (
-                                <span class="contest-detail"> — {c.detail}</span>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+  {
+    featuredProjects.length > 0 && (
+      <Section
+        eyebrow="Projects"
+        title="Things I've built"
+        subtitle="A few projects I'm proud of – from backends and APIs to full-stack products."
+        delay={0.4}
+      >
+        <div class="list">
+          {featuredProjects.map((p) => {
+            const { href, external } = projectHref(p);
+            return (
+              <ProjectRow
+                title={p.data.title}
+                summary={p.data.summary}
+                timeframe={p.data.timeframe}
+                tech={p.data.tech}
+                links={p.data.links}
+                href={href}
+                external={external}
+              />
+            );
+          })}
         </div>
-    </Section>
+        <a class="see-all" href={`${home}projects`}>
+          All projects →
+        </a>
+      </Section>
+    )
+  }
 
-    {featuredResearch.length > 0 && (
-        <Section title="Research" delay={0.35}>
-            <div class="list">
-                {featuredResearch.map((r) => {
-                    const { href, external } = researchHref(r);
-                    return (
-                        <TextListItem
-                            title={r.data.title}
-                            summary={r.data.summary}
-                            meta={`${r.data.venue} · ${r.data.year}`}
-                            href={href}
-                            external={external}
-                        />
-                    );
-                })}
-            </div>
-            <a class="see-all" href={`${home}research`}>All research →</a>
-        </Section>
-    )}
-
-    {featuredProjects.length > 0 && (
-        <Section title="Projects" delay={0.4}>
-            <div class="list">
-                {featuredProjects.map((p) => {
-                    const { href, external } = projectHref(p);
-                    return (
-                        <TextListItem
-                            title={p.data.title}
-                            summary={p.data.summary}
-                            meta={p.data.timeframe}
-                            href={href}
-                            external={external}
-                        />
-                    );
-                })}
-            </div>
-            <a class="see-all" href={`${home}projects`}>All projects →</a>
-        </Section>
-    )}
-
-    <Section title="Get in touch" delay={0.45}>
-        <p class="about">
-            Want to talk? Reach me at
-            <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>
-            or find me on
-            <a class="link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-            and
-            <a class="link" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>.
-        </p>
-    </Section>
+  <Section title="Get in touch" delay={0.45}>
+    <p class="about">
+      Want to talk? Reach me at
+      <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>
+      or find me on
+      <a
+        class="link"
+        href={profile.github}
+        target="_blank"
+        rel="noopener noreferrer">GitHub</a
+      >
+      and
+      <a
+        class="link"
+        href={profile.linkedin}
+        target="_blank"
+        rel="noopener noreferrer">LinkedIn</a
+      >.
+    </p>
+  </Section>
 </BaseLayout>
 
 <style>
-    .about {
-        margin: 0;
-        color: var(--text-muted);
-    }
+  .about {
+    margin: 0;
+    color: var(--text-muted);
+  }
 
-    /* Each education detail (degree / major / CGPA) on its own line so long
+  /* Each education detail (degree / major / CGPA) on its own line so long
        text never wraps awkwardly across devices. */
-    .edu-detail {
-        display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
-        margin: 0.2rem 0 0;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
+  .edu-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin: 0.2rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
 
-    .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-    }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
 
-    /* CV-style "Overall" block: a label column on the left, summary + contest
+  /* The last CP row sits right before the Overall block, so its own
+     border-bottom would stack with .overall's border-top and read as a double
+     line. Drop the row's border and let .overall provide the single divider. */
+  :global(.cp:has(+ .overall)) {
+    border-bottom: none;
+  }
+
+  /* CV-style "Overall" block: a label column on the left, summary + contest
        list on the right. */
+  .overall {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .overall-label {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .overall-summary {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .contests {
+    margin: 0.7rem 0 0;
+    padding-left: 1.1rem;
+    list-style: disc;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .contests li {
+    margin: 0.35rem 0;
+  }
+
+  .contest-name {
+    font-weight: 650;
+    color: var(--text);
+  }
+
+  .contest-detail {
+    color: var(--text-muted);
+  }
+
+  /* Stack the label above the content on small screens. */
+  @media (max-width: 640px) {
     .overall {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        gap: 1.25rem;
-        margin-top: 1.5rem;
-        padding-top: 1.25rem;
-        border-top: 1px solid var(--border);
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
     }
+  }
 
-    .overall-label {
-        font-weight: 700;
-        font-size: 0.95rem;
-        color: var(--text);
-    }
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
 
-    .overall-summary {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.92rem;
-        line-height: 1.5;
-    }
+  .see-all {
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
 
-    .contests {
-        margin: 0.7rem 0 0;
-        padding-left: 1.1rem;
-        list-style: disc;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
-
-    .contests li {
-        margin: 0.35rem 0;
-    }
-
-    .contest-name {
-        font-weight: 650;
-        color: var(--text);
-    }
-
-    .contest-detail {
-        color: var(--text-muted);
-    }
-
-    /* Stack the label above the content on small screens. */
-    @media (max-width: 640px) {
-        .overall {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-        }
-    }
-
-    .list {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .see-all {
-        display: inline-block;
-        margin-top: 1.1rem;
-        font-size: 0.88rem;
-        font-weight: 600;
-    }
-
-    .link {
-        font-weight: 600;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
+  .link {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 </style>

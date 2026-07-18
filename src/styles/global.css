@@ -17,9 +17,12 @@
     --text-muted: #6b7280;
     --chip: #f4f4f5;
     --code-bg: #f5f5f5;
+    /* CV-style link blue, used for clickable inline references (e.g. CP handles). */
+    --link: #2563eb;
 }
 
 html.dark {
+
     --bg: #131316;
     --bg-subtle: #1a1a1e;
     --surface: #1c1c20;
@@ -28,6 +31,8 @@ html.dark {
     --text-muted: #a1a1aa;
     --chip: #26262b;
     --code-bg: #1a1a1e;
+    /* Lighter blue so links stay legible on the dark background. */
+    --link: #60a5fa;
 }
 
 html {

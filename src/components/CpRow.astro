@@ -4,24 +4,24 @@
 // note. Kept separate from ListRow so the colored rank + clickable handle can
 // be styled precisely.
 interface Props {
-    platform: string;
-    handle: string;
-    profileUrl: string;
-    rank: string;
-    rankColor: [string, string];
-    ratingDetail: string;
-    note: string;
-    logo: string;
+  platform: string;
+  handle: string;
+  profileUrl: string;
+  rank: string;
+  rankColor: [string, string];
+  ratingDetail: string;
+  note: string;
+  logo: string;
 }
 const {
-    platform,
-    handle,
-    profileUrl,
-    rank,
-    rankColor,
-    ratingDetail,
-    note,
-    logo,
+  platform,
+  handle,
+  profileUrl,
+  rank,
+  rankColor,
+  ratingDetail,
+  note,
+  logo,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
@@ -30,137 +30,147 @@ const logoSrc = `${home}${logo.replace(/^\//, "")}`;
 ---
 
 <div
-    class="cp"
-    style={`--rank-light:${rankColor[0]};--rank-dark:${rankColor[1]}`}
+  class="cp"
+  style={`--rank-light:${rankColor[0]};--rank-dark:${rankColor[1]}`}
 >
-    <span class="logo" aria-hidden="true">
-        <img src={logoSrc} alt="" loading="lazy" />
-    </span>
-    <div class="body">
-        <div class="head">
-            <span class="title">
-                {platform}
-                <span class="rank">{rank}</span>
-            </span>
-            <a
-                class="handle"
-                href={profileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                {handle}
-            </a>
-        </div>
-        <p class="note">
-            <span class="detail">{ratingDetail}</span>
-            <span class="dot" aria-hidden="true"></span>
-            {note}
-        </p>
+  <span class="logo" aria-hidden="true">
+    <img src={logoSrc} alt="" loading="lazy" />
+  </span>
+  <div class="body">
+    <div class="head">
+      <span class="title">
+        {platform}
+        <span class="rank">{rank}</span>
+      </span>
+      <a
+        class="handle"
+        href={profileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {handle}
+      </a>
     </div>
+    <p class="note">
+      <span class="detail">{ratingDetail}</span>
+      <span class="dot" aria-hidden="true"></span>
+      {note}
+    </p>
+  </div>
 </div>
 
 <style>
-    .cp {
-        display: flex;
-        gap: 1rem;
-        padding: 1.25rem 0;
-        border-bottom: 1px solid var(--border);
-    }
+  .cp {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
 
+  .cp:last-child {
+    border-bottom: none;
+  }
 
-    .cp:last-child {
-        border-bottom: none;
-    }
+  .logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
 
-    .logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        display: grid;
-        place-items: center;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
+  .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
 
-    .logo img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        padding: 6px;
-    }
+  .body {
+    flex: 1;
+    min-width: 0;
+  }
 
-    .body {
-        flex: 1;
-        min-width: 0;
-    }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
 
+  .title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+
+  .rank {
+    margin-left: 0.5rem;
+    font-weight: 700;
+    color: var(--rank-light);
+  }
+
+  :global(html.dark) .rank {
+    color: var(--rank-dark);
+  }
+
+  .handle {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.8rem;
+    color: var(--link);
+    white-space: nowrap;
+  }
+
+  .handle:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .note {
+    margin: 0.2rem 0 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+
+  .detail {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.8rem;
+  }
+
+  /* Small separator dot instead of an em dash. */
+  .dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  /* Stack platform name and handle on narrow screens. */
+  @media (max-width: 640px) {
     .head {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        align-items: baseline;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
     }
 
-    .title {
-        font-weight: 650;
-        font-size: 0.98rem;
-    }
-
-    .rank {
-        margin-left: 0.5rem;
-        font-weight: 700;
-        color: var(--rank-light);
-    }
-
-    :global(html.dark) .rank {
-        color: var(--rank-dark);
-    }
-
-    .handle {
-        font-family: theme("fontFamily.mono");
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        white-space: nowrap;
-    }
-
-    .handle:hover {
-        color: var(--text);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
-
+    /* Stack the rating detail and note so text doesn't wrap into an orphaned
+       separator dot. The dot only makes sense on one line, so drop it here. */
     .note {
-        margin: 0.2rem 0 0;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        color: var(--text-muted);
-        font-size: 0.88rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
     }
 
-    .detail {
-        font-family: theme("fontFamily.mono");
-        font-size: 0.8rem;
-    }
-
-    /* Small separator dot instead of an em dash. */
     .dot {
-        width: 3px;
-        height: 3px;
-        border-radius: 50%;
-        background: var(--text-muted);
-        opacity: 0.6;
+      display: none;
     }
-
-    /* Stack platform name and handle on narrow screens. */
-    @media (max-width: 640px) {
-        .head {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.15rem;
-        }
-    }
+  }
 </style>

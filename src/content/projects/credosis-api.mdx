@@ -2,19 +2,19 @@
 title: "CredosisApi - Meeting Booking & Business Operations Backend"
 summary: "A production .NET backend powering public meeting scheduling and an admin operations console: slot generation, concurrency-safe booking, Google Calendar + Meet sync, and reliable transactional email."
 role: "Backend Engineer / Architect"
-timeframe: "2025"
+timeframe: "2026"
 tech:
-    - ".NET 8"
-    - "ASP.NET Core"
-    - "EF Core"
-    - "PostgreSQL"
-    - "Google Calendar API"
-    - "Brevo"
-    - "Docker"
-    - "Render"
-    - "Serilog"
-    - "JWT"
-order: 1
+  - ".NET 8"
+  - "ASP.NET Core"
+  - "EF Core"
+  - "PostgreSQL"
+  - "Google Calendar API"
+  - "Brevo"
+  - "Docker"
+  - "Render"
+  - "Serilog"
+  - "JWT"
+order: 2
 featured: true
 draft: false
 ---
@@ -44,14 +44,14 @@ Credosis needed a self-hosted booking backend rather than a SaaS scheduler, for
 three reasons:
 
 - **Control over the booking experience.** The scheduling UI is part of the
-    marketing site, so the booking API had to integrate with a custom frontend
-    rather than an embedded third-party widget.
+  marketing site, so the booking API had to integrate with a custom frontend
+  rather than an embedded third-party widget.
 - **Real calendar integration.** Every booking needs to land on the team's
-    Google Calendar with a working Google Meet link — automatically, with no
-    manual copy-paste.
+  Google Calendar with a working Google Meet link — automatically, with no
+  manual copy-paste.
 - **Reliable communication.** Confirmation, reschedule, and cancellation emails
-    can't be "best effort and hope." A dropped confirmation email is a missed
-    meeting.
+  can't be "best effort and hope." A dropped confirmation email is a missed
+  meeting.
 
 Layered on top of scheduling, the business also needed contact management,
 analytics, and an audit trail — the operational plumbing that turns a booking
@@ -74,16 +74,16 @@ Common        →  Cross-cutting: time zone clock, pagination, rate-limit polici
 A few conventions hold the codebase together:
 
 - **Interface-first services.** Every service is defined by an interface in the
-    Business layer and registered through dependency injection, so controllers
-    depend on abstractions and the wiring lives in one place (`Program.cs`).
+  Business layer and registered through dependency injection, so controllers
+  depend on abstractions and the wiring lives in one place (`Program.cs`).
 - **Repository pattern over EF Core.** Data access goes through repositories,
-    which keeps query logic testable and out of the service methods, while still
-    letting services own transactions when a use case spans multiple writes.
+  which keeps query logic testable and out of the service methods, while still
+  letting services own transactions when a use case spans multiple writes.
 - **DTOs at the edge.** Entities never leak past the Business layer; requests
-    and responses are explicit records validated with FluentValidation.
+  and responses are explicit records validated with FluentValidation.
 - **Problem Details everywhere.** A global exception handler maps domain
-    exceptions (`NotFoundException`, `ConflictException`, `ValidationException`)
-    to RFC 7807 responses, so the frontend gets consistent, typed errors.
+  exceptions (`NotFoundException`, `ConflictException`, `ValidationException`)
+  to RFC 7807 responses, so the frontend gets consistent, typed errors.
 
 ## Key Modules & Solutions
 
@@ -193,10 +193,10 @@ with retry and backoff.
 This buys two guarantees:
 
 - **No lost emails.** If the process crashes right after a booking, the queued
-    email is already durably stored and will be sent on the next processor run.
+  email is already durably stored and will be sent on the next processor run.
 - **No phantom emails.** If the booking transaction rolls back, the outbox row
-    rolls back with it, so an email is never sent for a booking that didn't
-    happen.
+  rolls back with it, so an email is never sent for a booking that didn't
+  happen.
 
 Delivery goes through the **Brevo HTTP API** (port 443) rather than SMTP,
 because many hosts — including Render's free tier — block outbound SMTP ports. A
@@ -242,8 +242,8 @@ time plus an IANA zone id so Google stores the correct instant.
 
 **Slot lifecycle after rule edits.** Editing or deleting an availability rule
 shouldn't strand mismatched slots or silently drop confirmed bookings. The
-generator distinguishes cases carefully: future *unbooked* slots from a changed
-rule are removed, future *booked* slots are deactivated (bookings preserved, no
+generator distinguishes cases carefully: future _unbooked_ slots from a changed
+rule are removed, future _booked_ slots are deactivated (bookings preserved, no
 new bookings accepted), and past slots are always kept as history.
 
 **Third-party failure isolation.** Both Google Calendar and email are treated as
@@ -271,15 +271,15 @@ client IP and scheme survive the reverse proxy.
 ## Takeaways
 
 - **Treat third parties as fallible by default.** Making Google Calendar
-    best-effort and email durable-by-queue turned two potential single points of
-    failure into non-events. The booking succeeds regardless.
+  best-effort and email durable-by-queue turned two potential single points of
+  failure into non-events. The booking succeeds regardless.
 - **Push side effects out of read paths.** Making slot generation an explicit
-    admin action — not a side effect of a public read — removed a whole class of
-    "why did these slots come back?" bugs and kept the public API predictable.
+  admin action — not a side effect of a public read — removed a whole class of
+  "why did these slots come back?" bugs and kept the public API predictable.
 - **Model time zones explicitly.** A single `BusinessClock` boundary between
-    wall-clock rules and UTC storage prevented a category of off-by-hours errors.
+  wall-clock rules and UTC storage prevented a category of off-by-hours errors.
 - **Optimistic concurrency is enough.** For last-seat contention, a version
-    token plus a transaction and a friendly retry message beat heavier locking
-    schemes in both simplicity and user experience.
+  token plus a transaction and a friendly retry message beat heavier locking
+  schemes in both simplicity and user experience.
 - **Auditability is a feature.** Logging every privileged action from day one
-    made the admin console trustworthy and debugging painless.
+  made the admin console trustworthy and debugging painless.

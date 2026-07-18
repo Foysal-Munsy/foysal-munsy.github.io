@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import ProjectRow from "../../../components/ProjectRow.astro";
+import Pagination from "../../../components/Pagination.astro";
+import {
+  PROJECTS_PER_PAGE,
+  projectCardProps,
+  sortedProjects,
+} from "../../../data/projectList";
+
+// Pre-render pages 2..N of the projects list. Page 1 lives at /projects
+// (index.astro), so this route only emits the remaining pages.
+export async function getStaticPaths() {
+  const projects = sortedProjects(await getCollection("projects"));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(projects.length / PROJECTS_PER_PAGE),
+  );
+
+  const paths = [];
+  for (let page = 2; page <= totalPages; page++) {
+    const start = (page - 1) * PROJECTS_PER_PAGE;
+    paths.push({
+      params: { page: String(page) },
+      props: {
+        pageItems: projects.slice(start, start + PROJECTS_PER_PAGE),
+        currentPage: page,
+        totalPages,
+      },
+    });
+  }
+  return paths;
+}
+
+const { pageItems, currentPage, totalPages } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+const listBase = `${home}projects`.replace(/\/$/, "");
+---
+
+<BaseLayout
+  title={`Projects (page ${currentPage}) – Foysal Munsy`}
+  description="Engineering projects and case studies."
+>
+  <PageHeader
+    title="Projects"
+    intro="Selected engineering work. Entries with a full case study open a detailed write-up; the rest link out to their source."
+    backHref={home}
+    backLabel="Home"
+  />
+
+  <div class="list">
+    {pageItems.map((p) => <ProjectRow {...projectCardProps(p, home)} />)}
+  </div>
+
+  <Pagination
+    currentPage={currentPage}
+    totalPages={totalPages}
+    base={listBase}
+  />
+</BaseLayout>
+
+<style>
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

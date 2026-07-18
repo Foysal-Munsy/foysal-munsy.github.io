@@ -9,11 +9,11 @@ import { Icon } from "astro-icon/components";
 //   - `icon`  : a Lucide icon name (e.g. "code") for CP entries
 //   - neither : a monogram derived from the title's first letter
 interface Props {
-    title: string;
-    meta?: string;
-    subtitle?: string;
-    logo?: string | null;
-    icon?: string;
+  title: string;
+  meta?: string;
+  subtitle?: string;
+  logo?: string | null;
+  icon?: string;
 }
 const { title, meta, subtitle, logo, icon } = Astro.props;
 
@@ -24,121 +24,121 @@ const monogram = title.trim().charAt(0).toUpperCase();
 ---
 
 <div class="row">
-    <div class="logo" aria-hidden="true">
-        {logoSrc ? (
-            <img src={logoSrc} alt="" loading="lazy" />
-        ) : icon ? (
-            <Icon name={`lucide:${icon}`} />
-        ) : (
-            <span class="monogram">{monogram}</span>
-        )}
+  <div class="logo" aria-hidden="true">
+    {
+      logoSrc ? (
+        <img src={logoSrc} alt="" loading="lazy" />
+      ) : icon ? (
+        <Icon name={`lucide:${icon}`} />
+      ) : (
+        <span class="monogram">{monogram}</span>
+      )
+    }
+  </div>
+  <div class="body">
+    <div class="head">
+      <span class="who">{title}</span>
+      {meta && <span class="when">{meta}</span>}
     </div>
-    <div class="body">
-        <div class="head">
-            <span class="who">{title}</span>
-            {meta && <span class="when">{meta}</span>}
-        </div>
-        {subtitle && <p class="role">{subtitle}</p>}
-        <slot />
-    </div>
+    {subtitle && <p class="role">{subtitle}</p>}
+    <slot />
+  </div>
 </div>
 
 <style>
-    .row {
-        display: flex;
-        gap: 1rem;
-        padding: 1.25rem 0;
-        border-bottom: 1px solid var(--border);
-    }
+  .row {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
 
+  .row:last-child {
+    border-bottom: none;
+  }
 
-    .row:last-child {
-        border-bottom: none;
-    }
+  .logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
 
-    .logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        display: grid;
-        place-items: center;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
+  .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
 
-    .logo img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        padding: 6px;
-    }
+  .logo :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--text);
+  }
 
+  .monogram {
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-family: theme("fontFamily.mono");
+    color: var(--text);
+  }
 
-    .logo :global(svg) {
-        width: 1.25rem;
-        height: 1.25rem;
-        color: var(--text);
-    }
+  .body {
+    flex: 1;
+    min-width: 0;
+  }
 
-    .monogram {
-        font-weight: 700;
-        font-size: 0.85rem;
-        font-family: theme("fontFamily.mono");
-        color: var(--text);
-    }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
 
-    .body {
-        flex: 1;
-        min-width: 0;
-    }
+  .who {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
 
-    .head {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        align-items: baseline;
-    }
+  .when {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    font-family: theme("fontFamily.mono");
+  }
 
-    .who {
-        font-weight: 650;
-        font-size: 0.98rem;
-    }
+  .role {
+    margin: 0.15rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
 
-    .when {
-        color: var(--text-muted);
-        font-size: 0.78rem;
-        white-space: nowrap;
-        font-family: theme("fontFamily.mono");
-    }
+  .body :global(ul) {
+    margin: 0.5rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
 
-    .role {
-        margin: 0.15rem 0 0;
-        color: var(--text-muted);
-        font-size: 0.88rem;
-        font-weight: 500;
-    }
+  .body :global(li) {
+    margin: 0.25rem 0;
+  }
 
-    .body :global(ul) {
-        margin: 0.5rem 0 0;
-        padding-left: 1.1rem;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
-
-    .body :global(li) {
-        margin: 0.25rem 0;
-    }
-
-    /* On narrow screens, stack the title and its right-aligned meta so a long
+  /* On narrow screens, stack the title and its right-aligned meta so a long
        title (e.g. a full university name) gets the full width instead of being
        squeezed by the year. */
-    @media (max-width: 640px) {
-        .head {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.15rem;
-        }
+  @media (max-width: 640px) {
+    .head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
     }
+  }
 </style>

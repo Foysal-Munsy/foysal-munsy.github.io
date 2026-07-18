@@ -3,133 +3,139 @@
 // A title on the left (links to a detail page or external URL), a right-aligned
 // meta, and a one-line summary underneath. No cards, no images.
 interface Props {
-    title: string;
-    summary: string;
-    href: string;
-    meta?: string;
-    external?: boolean;
-    // Optional tech stack shown as small pills under the summary.
-    tags?: string[];
+  title: string;
+  summary: string;
+  href: string;
+  meta?: string;
+  external?: boolean;
+  // Optional tech stack shown as small pills under the summary.
+  tags?: string[];
 }
 const { title, summary, href, meta, external = false, tags = [] } = Astro.props;
 ---
 
 <a
-    class="item"
-    href={href}
-    target={external ? "_blank" : undefined}
-    rel={external ? "noopener noreferrer" : undefined}
+  class="item"
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
 >
-    <div class="head">
-        <span class="title">
-            {title}
-            <span class="arrow">{external ? "↗" : "→"}</span>
-        </span>
-        {meta && <span class="meta">{meta}</span>}
-    </div>
-    <p class="summary">{summary}</p>
-    {tags.length > 0 && (
-        <ul class="stack">
-            {tags.map((t) => <li>{t}</li>)}
-        </ul>
-    )}
+  <div class="head">
+    <span class="title">
+      {title}
+      <span class="arrow">{external ? "↗" : "→"}</span>
+    </span>
+    {meta && <span class="meta">{meta}</span>}
+  </div>
+  <p class="summary">{summary}</p>
+  {
+    tags.length > 0 && (
+      <ul class="stack">
+        {tags.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    )
+  }
 </a>
 
 <style>
-    .item {
-        display: block;
-        padding: 1.35rem 0;
-        border-bottom: 1px solid var(--border);
-        color: var(--text);
-    }
+  .item {
+    display: block;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
 
+  .item:last-child {
+    border-bottom: none;
+  }
 
-    .item:last-child {
-        border-bottom: none;
-    }
+  .item:hover {
+    text-decoration: none;
+  }
 
-    .item:hover {
-        text-decoration: none;
-    }
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 
+  .title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    overflow-wrap: anywhere;
+  }
+
+  .arrow {
+    display: inline-block;
+    margin-left: 0.2rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition:
+      transform 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .item:hover .title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .item:hover .arrow {
+    color: var(--text);
+    transform: translateX(2px);
+  }
+
+  .meta {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .summary {
+    margin: 0.5rem 0 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  /* Tech stack pills under the summary, matching the muted list aesthetic. */
+  .stack {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.6rem 0 0;
+    padding: 0;
+  }
+
+  .stack li {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--chip);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.12rem 0.55rem;
+  }
+
+  /* On narrow screens, drop the meta below the title so a long title
+       (e.g. a full research paper name) gets the full row width. */
+  @media (max-width: 640px) {
     .head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 1rem;
-    }
-
-    .title {
-        font-weight: 650;
-        font-size: 1rem;
-        line-height: 1.4;
-        overflow-wrap: anywhere;
-    }
-
-    .arrow {
-        display: inline-block;
-        margin-left: 0.15rem;
-        color: var(--text-muted);
-        white-space: nowrap;
-        transition: transform 0.15s ease, color 0.15s ease;
-    }
-
-    .item:hover .title {
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
-
-    .item:hover .arrow {
-        color: var(--text);
-        transform: translateX(2px);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
     }
 
     .meta {
-        font-family: theme("fontFamily.mono");
-        font-size: 0.74rem;
-        color: var(--text-muted);
-        white-space: nowrap;
+      order: -1;
     }
-
-    .summary {
-        margin: 0.25rem 0 0;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
-
-    /* Tech stack pills under the summary, matching the muted list aesthetic. */
-    .stack {
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem;
-        margin: 0.6rem 0 0;
-        padding: 0;
-    }
-
-    .stack li {
-        font-family: theme("fontFamily.mono");
-        font-size: 0.72rem;
-        color: var(--text-muted);
-        background: var(--chip);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 0.12rem 0.55rem;
-    }
-
-    /* On narrow screens, drop the meta below the title so a long title
-       (e.g. a full research paper name) gets the full row width. */
-    @media (max-width: 640px) {
-        .head {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.15rem;
-        }
-
-        .meta {
-            order: -1;
-        }
-    }
+  }
 </style>
-

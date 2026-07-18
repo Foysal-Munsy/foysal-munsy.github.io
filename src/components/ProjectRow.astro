@@ -1,0 +1,221 @@
+---
+// A minimal, text-only project row for the Projects list and homepage — no
+// cover images, no cards. A light, airy title link on the left with a
+// right-aligned timeframe, a roomy summary, a dot-separated tech line, and any
+// external links as bordered pills (each with an ↗). Monochrome by design.
+// Adding a project is just an .md file; nothing to size, crop, or manage.
+interface LinkItem {
+  label: string;
+  url: string;
+}
+interface Props {
+  title: string;
+  summary: string;
+  href: string;
+  timeframe?: string;
+  external?: boolean;
+  // Tech stack rendered as a calm, dot-separated monospace line.
+  tech?: string[];
+  // Optional external links (Source / Website / etc.) as plain text links.
+  links?: LinkItem[];
+}
+const {
+  title,
+  summary,
+  href,
+  timeframe,
+  external = false,
+  tech = [],
+  links = [],
+} = Astro.props;
+---
+
+<article class="row">
+  <div class="head">
+    <a
+      class="title"
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+    >
+      {title}
+      <span class="arrow">{external ? "↗" : "→"}</span>
+    </a>
+    {timeframe && <span class="meta">{timeframe}</span>}
+  </div>
+
+  <p class="summary">{summary}</p>
+
+  <div class="foot">
+    {
+      tech.length > 0 && (
+        <span class="tech">
+          {tech.map((t, i) => (
+            <>
+              {i > 0 && (
+                <span class="dot" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <span class="tech-item">{t}</span>
+            </>
+          ))}
+        </span>
+      )
+    }
+    {
+      links.length > 0 && (
+        <span class="links">
+          {links.map((l) => (
+            <a
+              class="link-pill"
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {l.label}
+              <span class="ext" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          ))}
+        </span>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .row {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .row:last-child {
+    border-bottom: none;
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    overflow-wrap: anywhere;
+  }
+
+  .title:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .arrow {
+    display: inline-block;
+    margin-left: 0.2rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition:
+      transform 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .title:hover .arrow {
+    color: var(--text);
+    transform: translateX(2px);
+  }
+
+  .meta {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .summary {
+    margin: 0.55rem 0 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem 1rem;
+    margin-top: 1rem;
+  }
+
+  /* Calm, dot-separated tech line — text only, no icons or boxes. */
+  .tech {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+    color: var(--text-muted);
+  }
+
+  .dot {
+    color: var(--border);
+  }
+
+  .links {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Bordered pills so each link (Source / Website / etc.) reads as its own
+     distinct, tappable target. No underline — the border does the separating. */
+  .link-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .link-pill:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+    background: var(--bg-subtle);
+    text-decoration: none;
+  }
+
+  .ext {
+    font-size: 0.82em;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 640px) {
+    .head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+    }
+
+    .meta {
+      order: -1;
+    }
+  }
+</style>

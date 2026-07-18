@@ -71,7 +71,7 @@ The filename becomes the URL slug.
 title: "My Project"
 summary: "One-line description."
 role: "Your role"
-timeframe: "2025"
+timeframe: "2026"
 tech: ["TypeScript", "Postgres"]
 repo: "https://github.com/you/project"   # optional
 liveUrl: "https://example.com"            # optional
@@ -91,7 +91,7 @@ on the list page; an entry with a body gets a `/research/<slug>` write-up page.
 title: "Paper title"
 summary: "One-line description."
 venue: "Journal or Thesis"
-year: "2025"
+year: "2026"
 tags: ["YOLOv9", "Computer Vision"]
 doi: "https://doi.org/..."     # optional
 link: "https://..."            # optional report link

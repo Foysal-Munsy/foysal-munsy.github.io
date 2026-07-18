@@ -9,88 +9,95 @@
 //     optional `subtitle` to render a centered, more prominent header. Used to
 //     make Projects/Research read as distinct showcase blocks.
 interface Props {
-    title?: string;
-    eyebrow?: string;
-    subtitle?: string;
-    delay?: number;
-    class?: string;
+  title?: string;
+  eyebrow?: string;
+  subtitle?: string;
+  delay?: number;
+  class?: string;
 }
-const { title, eyebrow, subtitle, delay = 0, class: className = "" } =
-    Astro.props;
+const {
+  title,
+  eyebrow,
+  subtitle,
+  delay = 0,
+  class: className = "",
+} = Astro.props;
 const featured = Boolean(eyebrow);
 ---
 
 <section
-    class:list={["section", "fade-up", className]}
-    style={`animation-delay:${delay}s`}
+  class:list={["section", "fade-up", className]}
+  style={`animation-delay:${delay}s`}
 >
-    {featured ? (
-        <header class="featured-head">
-            <span class="eyebrow">
-                <span class="rule" aria-hidden="true"></span>
-                {eyebrow}
-                <span class="rule" aria-hidden="true"></span>
-            </span>
-            {title && <h2 class="featured-title">{title}</h2>}
-            {subtitle && <p class="featured-subtitle">{subtitle}</p>}
-        </header>
+  {
+    featured ? (
+      <header class="featured-head">
+        <span class="eyebrow">
+          <span class="rule" aria-hidden="true" />
+          {eyebrow}
+          <span class="rule" aria-hidden="true" />
+        </span>
+        {title && <h2 class="featured-title">{title}</h2>}
+        {subtitle && <p class="featured-subtitle">{subtitle}</p>}
+      </header>
     ) : (
-        title && <h2 class="section-title">{title}</h2>
-    )}
-    <slot />
+      title && <h2 class="section-title">{title}</h2>
+    )
+  }
+  <slot />
 </section>
 
 <style>
-    .section {
-        margin-bottom: 3.5rem;
-    }
+  .section {
+    margin-bottom: 3.5rem;
+  }
 
-    .section-title {
-        margin: 0 0 1.5rem;
-        font-size: 1.15rem;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        color: var(--text);
-    }
+  .section-title {
+    margin: 0 0 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
 
+  /* Featured (centered) header used by showcase sections. */
+  .featured-head {
+    text-align: center;
+    margin: 0 0 1.75rem;
+  }
 
-    /* Featured (centered) header used by showcase sections. */
-    .featured-head {
-        text-align: center;
-        margin: 0 0 1.75rem;
-    }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+  }
 
-    .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        font-family: theme("fontFamily.mono");
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--text-muted);
-    }
+  .rule {
+    display: block;
+    width: 1.75rem;
+    height: 1px;
+    background: var(--border);
+  }
 
-    .rule {
-        display: block;
-        width: 1.75rem;
-        height: 1px;
-        background: var(--border);
-    }
+  .featured-title {
+    margin: 0.6rem 0 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text);
+  }
 
-    .featured-title {
-        margin: 0.6rem 0 0;
-        font-size: 1.9rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        line-height: 1.15;
-        color: var(--text);
-    }
-
-    .featured-subtitle {
-        margin: 0.5rem auto 0;
-        max-width: 30rem;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-    }
+  .featured-subtitle {
+    margin: 0.6rem auto 0;
+    max-width: 30rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 </style>

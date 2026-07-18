@@ -8,37 +8,53 @@ import { iconForTech } from "../data/techIcons";
 // project "tech" tags stay consistent). Colored "logos:*" icons keep their
 // brand colors; monochrome sets follow the text color.
 interface Props {
-    label: string;
-    icon?: string;
+  label: string;
+  icon?: string;
+  // Visual size. Skills use "lg" for a more prominent, consistent grid;
+  // project/research tags keep the compact default.
+  size?: "sm" | "lg";
 }
-const { label, icon } = Astro.props;
+const { label, icon, size = "sm" } = Astro.props;
 const resolved = icon ?? iconForTech(label);
 ---
 
-<span class="tech-badge">
-    {resolved && <Icon name={resolved} />}
-    {label}
+<span class:list={["tech-badge", size]}>
+  {resolved && <Icon name={resolved} />}
+  {label}
 </span>
 
 <style>
-    .tech-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        font-family: theme("fontFamily.mono");
-        font-size: 0.72rem;
-        line-height: 1;
-        padding: 0.4rem 0.6rem;
-        border-radius: 7px;
-        border: 1px solid var(--border);
-        background: var(--chip);
-        color: var(--text);
-        white-space: nowrap;
-    }
+  .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.4rem 0.6rem;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--chip);
+    color: var(--text);
+    white-space: nowrap;
+  }
 
-    .tech-badge :global(svg) {
-        width: 0.95rem;
-        height: 0.95rem;
-        flex-shrink: 0;
-    }
+  .tech-badge :global(svg) {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  /* Larger pill used by the Skills grid. */
+  .tech-badge.lg {
+    gap: 0.55rem;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 9px;
+  }
+
+  .tech-badge.lg :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
 </style>

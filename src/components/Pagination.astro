@@ -1,0 +1,105 @@
+---
+// Static, JS-free pager for the projects list. Page 1 lives at `${base}`
+// (e.g. /projects); subsequent pages live at `${base}/page/N`, which avoids
+// colliding with the /projects/[...slug] case-study routes.
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  // Absolute base path for page 1, already including the site base URL and no
+  // trailing slash (e.g. "/projects" or "/repo/projects").
+  base: string;
+}
+const { currentPage, totalPages, base } = Astro.props;
+
+const pageUrl = (n: number) => (n <= 1 ? base : `${base}/page/${n}`);
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+const hasPrev = currentPage > 1;
+const hasNext = currentPage < totalPages;
+---
+
+{
+  totalPages > 1 && (
+    <nav class="pager" aria-label="Pagination">
+      <a
+        class:list={["step", { disabled: !hasPrev }]}
+        href={hasPrev ? pageUrl(currentPage - 1) : undefined}
+        aria-disabled={!hasPrev}
+      >
+        ← Prev
+      </a>
+
+      <ul class="pages">
+        {pages.map((n) => (
+          <li>
+            <a
+              class:list={["page", { current: n === currentPage }]}
+              href={pageUrl(n)}
+              aria-current={n === currentPage ? "page" : undefined}
+            >
+              {n}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        class:list={["step", { disabled: !hasNext }]}
+        href={hasNext ? pageUrl(currentPage + 1) : undefined}
+        aria-disabled={!hasNext}
+      >
+        Next →
+      </a>
+    </nav>
+  )
+}
+
+<style>
+  .pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+
+  .pages {
+    display: flex;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .page,
+  .step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.55rem;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+  }
+
+  .page:hover,
+  .step:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .page.current {
+    color: var(--bg);
+    background: var(--text);
+    border-color: var(--text);
+  }
+
+  .step.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+</style>
