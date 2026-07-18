@@ -11,6 +11,8 @@ tech:
 links:
     - label: "Website"
       url: "https://credosis.com/"
+    - label: "Case Study"
+      url: "https://foysal-munsy.github.io/projects-case-studies/case-studies/credosis-web/"
 order: 2
 featured: false
 draft: false
