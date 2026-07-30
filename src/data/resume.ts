@@ -81,7 +81,7 @@ export const socials: SocialLink[] = [
 export const work: WorkItem[] = [
   {
     company: "Credosis",
-    role: "Software Engineer",
+    role: "Software Engineer I",
     period: "Apr 2026 - Present",
     location: "Remote · Dhaka, Bangladesh",
     logo: "/logos/credosis.jpg",
@@ -93,7 +93,7 @@ export const work: WorkItem[] = [
   },
   {
     company: "Deepchain Labs",
-    role: "Full Stack Engineer",
+    role: "Software Engineer Intern",
     period: "Dec 2025 - Mar 2026",
     location: "Remote · Dhaka, Bangladesh",
     logo: "/logos/deepchain.jpg",
