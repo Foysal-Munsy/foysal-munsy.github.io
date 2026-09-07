@@ -94,14 +94,18 @@ the richer rows:
   add a `doi` instead: the live OpenAlex lookup then fills the real authors.
 - `status` — `published` | `in-press` | `submitted` | `under-review` |
   `in-preparation` (shown "In progress"). Defaults to `published`.
-- `kind` — `journal` | `conference` | `thesis` | `preprint`. Theses get their
-  own group and a "Thesis" tag.
+- `kind` — `journal` | `conference` | `thesis` | `dataset` | `preprint`.
+  Theses and datasets get their own tag and, for theses, their own group.
 - `quartile` — `Q1`-`Q4` for journal papers, set by you from Scopus/SJR. Hidden
   when unset.
 - `volume` / `issue` / `pages` / `publisher` — optional biblio detail.
+- `linkLabel` — custom label for the `link` pill (e.g. "Dataset"). Defaults to
+  "Report". Datasets render a "Dataset" pill automatically.
 - `doi` — a full `https://doi.org/...` URL. Entries with a DOI show a live
   citation count, an accurate author byline and a Cite control (BibTeX + APA,
-  built from the OpenAlex record for the DOI) on the row.
+  built from the OpenAlex record for the DOI) on the row. Datasets should not
+  set one: Mendeley Data records are not journal works, so skip `doi` and use
+  `link` to point at the record instead.
 
 ```md
 ---
