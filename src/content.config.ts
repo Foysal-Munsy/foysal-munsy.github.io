@@ -41,7 +41,10 @@ const projects = defineCollection({
 });
 
 // Research & publications. Each entry can be a full write-up (MDX body) and/or
-// point to an external DOI / report link.
+// point to an external DOI / report link. Academic fields (authors, status,
+// quartile, kind, biblio details) drive the rich research rows and the
+// copy-ready BibTeX/APA citations. All of them are optional so a plain
+// citation entry still validates.
 const research = defineCollection({
   type: "content",
   schema: z.object({
@@ -51,6 +54,28 @@ const research = defineCollection({
     venue: z.string(),
     year: z.string(),
     tags: z.array(z.string()).default([]),
+    // Author byline (own name is bolded when rendered). Empty for entries
+    // whose author list isn't known yet; rows simply skip the byline. For a
+    // DOI entry an empty list is fine because the live OpenAlex lookup fills
+    // the real authors in.
+    authors: z.array(z.string()).default([]),
+    // Lifecycle stage, shown as a small badge and used to group the research
+    // page (published first, in-progress last).
+    status: z
+      .enum(["published", "in-press", "submitted", "under-review", "in-preparation"])
+      .default("published"),
+    // Journal quartile (Q1-Q4), set by the owner from Scopus/SJR. Hidden when
+    // unset since there is no reliable public API for it.
+    quartile: z.enum(["Q1", "Q2", "Q3", "Q4"]).optional(),
+    // Nature of the work, so theses/preprints get their own treatment.
+    kind: z
+      .enum(["journal", "conference", "thesis", "preprint"])
+      .default("journal"),
+    // Optional bibliographic detail used when building BibTeX/APA citations.
+    volume: z.string().optional(),
+    issue: z.string().optional(),
+    pages: z.string().optional(),
+    publisher: z.string().optional(),
     // External links.
     doi: z.string().url().optional(),
     link: z.string().url().optional(),

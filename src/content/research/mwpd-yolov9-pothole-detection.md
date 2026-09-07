@@ -7,6 +7,10 @@ tags:
     - "YOLOv9"
     - "Computer Vision"
     - "Published"
+kind: journal
+status: published
+quartile: Q1
+publisher: "Elsevier"
 doi: "https://doi.org/10.1016/j.rineng.2025.107817"
 order: 1
 featured: true
