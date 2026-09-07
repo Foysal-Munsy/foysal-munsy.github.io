@@ -3,6 +3,8 @@ title: "Robust Multi-Weather Pothole Detection: An Enhanced YOLOv9 Trained on th
 summary: "A published study introducing an enhanced YOLOv9 model trained on the Multi-Weather Pothole Detection (MWPD) dataset for robust detection across adverse weather conditions."
 venue: "Results in Engineering"
 year: "2025"
+# Filled in live from OpenAlex by DOI (see src/scripts/researchCitations.ts).
+authors: []
 tags:
     - "YOLOv9"
     - "Computer Vision"

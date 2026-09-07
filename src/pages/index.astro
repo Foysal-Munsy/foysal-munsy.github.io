@@ -6,9 +6,11 @@ import Section from "../components/Section.astro";
 import ListRow from "../components/ListRow.astro";
 import WorkRow from "../components/WorkRow.astro";
 import CpRow from "../components/CpRow.astro";
-import TextListItem from "../components/TextListItem.astro";
 import ProjectRow from "../components/ProjectRow.astro";
 import TechBadge from "../components/TechBadge.astro";
+import InterestChips from "../components/InterestChips.astro";
+import ResearchRow from "../components/ResearchRow.astro";
+import ResearchLinks from "../components/ResearchLinks.astro";
 import {
   profile,
   work,
@@ -34,7 +36,7 @@ const featuredResearch = (await getCollection("research"))
   .filter((e) => !e.data.draft && e.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
 
-// Resolve a project/research entry to its link + whether it is external.
+// Resolve a project entry to its link + whether it is external.
 const projectHref = (p: (typeof featuredProjects)[number]) => {
   const hasCaseStudy = p.body.trim().length > 0;
   const firstLink = p.data.repo ?? p.data.liveUrl ?? p.data.links?.[0]?.url;
@@ -42,19 +44,6 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
   const href = hasCaseStudy
     ? `${home}projects/${p.slug}`
     : (firstLink ?? `${home}projects/${p.slug}`);
-  return { href, external };
-};
-
-const researchHref = (r: (typeof featuredResearch)[number]) => {
-  const hasWriteup = r.body.trim().length > 0;
-  const external =
-    !hasWriteup && !!(r.data.link || r.data.fullReport || r.data.doi);
-  const href = hasWriteup
-    ? `${home}research/${r.slug}`
-    : (r.data.link ??
-      r.data.fullReport ??
-      r.data.doi ??
-      `${home}research/${r.slug}`);
   return { href, external };
 };
 ---
@@ -66,7 +55,34 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
     <p class="about">{profile.about}</p>
   </Section>
 
-  <Section title="Work Experience" delay={0.15}>
+  {
+    featuredResearch.length > 0 && (
+      <Section
+        eyebrow="Research"
+        title="From computer vision to coding agents"
+        subtitle="One published journal paper on robust object detection, a BSc thesis on detection for autonomous vehicles, and active work on AI for software engineering: how to build coding agents and, just as importantly, how to evaluate them honestly."
+        delay={0.15}
+      >
+        <div class="res-chips">
+          <InterestChips chips={profile.researchInterests} />
+        </div>
+
+        <div class="res-links">
+          <ResearchLinks align="center" />
+        </div>
+
+        <div class="rows">
+          {featuredResearch.map((r) => <ResearchRow entry={r} />)}
+        </div>
+
+        <a class="see-all" href={`${home}research`}>
+          All research →
+        </a>
+      </Section>
+    )
+  }
+
+  <Section title="Work Experience" delay={0.2}>
     {
       work.map((w) => (
         <WorkRow
@@ -81,7 +97,7 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
     }
   </Section>
 
-  <Section title="Education" delay={0.2}>
+  <Section title="Education" delay={0.25}>
     {
       education.map((e) => (
         <ListRow logo={e.logo} title={e.institution} meta={e.period}>
@@ -95,13 +111,13 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
     }
   </Section>
 
-  <Section title="Skills" delay={0.25}>
+  <Section title="Skills" delay={0.3}>
     <div class="chips">
       {skills.map((s) => <TechBadge label={s} size="lg" />)}
     </div>
   </Section>
 
-  <Section title="Competitive Programming" delay={0.3}>
+  <Section title="Competitive Programming" delay={0.35}>
     {
       competitiveProgramming.map((c) => (
         <CpRow
@@ -126,7 +142,7 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
             contests.map((c) => (
               <li>
                 <span class="contest-name">{c.name}</span>
-                {c.detail && <span class="contest-detail"> — {c.detail}</span>}
+                {c.detail && <span class="contest-detail"> · {c.detail}</span>}
               </li>
             ))
           }
@@ -136,35 +152,11 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
   </Section>
 
   {
-    featuredResearch.length > 0 && (
-      <Section title="Research" delay={0.35}>
-        <div class="list">
-          {featuredResearch.map((r) => {
-            const { href, external } = researchHref(r);
-            return (
-              <TextListItem
-                title={r.data.title}
-                summary={r.data.summary}
-                meta={`${r.data.venue} · ${r.data.year}`}
-                href={href}
-                external={external}
-              />
-            );
-          })}
-        </div>
-        <a class="see-all" href={`${home}research`}>
-          All research →
-        </a>
-      </Section>
-    )
-  }
-
-  {
     featuredProjects.length > 0 && (
       <Section
         eyebrow="Projects"
         title="Things I've built"
-        subtitle="A few projects I'm proud of – from backends and APIs to full-stack products."
+        subtitle="A few projects I'm proud of: from backends and APIs to full-stack products."
         delay={0.4}
       >
         <div class="list">
@@ -212,10 +204,31 @@ const researchHref = (r: (typeof featuredResearch)[number]) => {
   </Section>
 </BaseLayout>
 
+<script>
+  import "../scripts/researchCitations";
+</script>
+
 <style>
   .about {
     margin: 0;
     color: var(--text-muted);
+  }
+
+  .res-chips {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.1rem;
+  }
+
+  .res-links {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.6rem;
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
   }
 
   /* Each education detail (degree / major / CGPA) on its own line so long

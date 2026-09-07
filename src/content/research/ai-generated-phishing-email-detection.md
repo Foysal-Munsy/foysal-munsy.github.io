@@ -3,6 +3,7 @@ title: "Robust Detection of AI-Generated and Adversarial Phishing Emails Using T
 summary: "In-progress work on fine-tuning transformer models to catch phishing emails that are AI-generated or adversarially crafted to evade detection."
 venue: ""
 year: "2026"
+authors: []
 tags:
     - "Security"
     - "Transformer Fine-Tuning"
