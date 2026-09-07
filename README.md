@@ -8,7 +8,7 @@ GitHub Pages.
 ## Design
 
 - Minimal black & white theme, no accent color, easy on the eyes.
-- Geist for body/headings, Geist Mono for meta labels.
+- Satoshi for body/headings, Geist Mono for meta labels.
 - Lucide icons (via `astro-icon`) in the floating dock and competitive-programming rows.
 - Subtle staggered fade-in on load; respects `prefers-reduced-motion`.
 - Dark/light theme with `localStorage` persistence and no flash on load.
@@ -86,17 +86,37 @@ draft: false
 Same idea: a citation-only entry (frontmatter with `doi`/`link`, no body) stays
 on the list page; an entry with a body gets a `/research/<slug>` write-up page.
 
+The `/research` page groups entries by their `status` and the homepage features
+the entries flagged `featured: true`. Academic fields are optional but drive
+the richer rows:
+
+- `authors` — byline shown on the row (your own name is bolded). Leave `[]` and
+  add a `doi` instead: the live OpenAlex lookup then fills the real authors.
+- `status` — `published` | `in-press` | `submitted` | `under-review` |
+  `in-preparation` (shown "In progress"). Defaults to `published`.
+- `kind` — `journal` | `conference` | `thesis` | `preprint`. Theses get their
+  own group and a "Thesis" tag.
+- `quartile` — `Q1`-`Q4` for journal papers, set by you from Scopus/SJR. Hidden
+  when unset.
+- `volume` / `issue` / `pages` / `publisher` — optional biblio detail.
+- `doi` — a full `https://doi.org/...` URL. Entries with a DOI show a live
+  citation count, an accurate author byline and a Cite control (BibTeX + APA,
+  built from the OpenAlex record for the DOI) on the row.
+
 ```md
 ---
 title: "Paper title"
 summary: "One-line description."
-venue: "Journal or Thesis"
+venue: "Journal or Conference"
 year: "2026"
-tags: ["YOLOv9", "Computer Vision"]
-doi: "https://doi.org/..."     # optional
-link: "https://..."            # optional report link
+authors: []                       # optional; [] means fetch from DOI/OpenAlex
+kind: journal
+status: published                 # or submitted / in-preparation, etc.
+quartile: Q1                      # optional
+doi: "https://doi.org/..."        # optional, enables live citations + Cite
+fullReport: "https://..."         # optional report link
 order: 1
-featured: true
+featured: true                    # show on the homepage research block
 draft: false
 ---
 ```
