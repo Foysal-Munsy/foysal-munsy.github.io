@@ -55,34 +55,7 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
     <p class="about">{profile.about}</p>
   </Section>
 
-  {
-    featuredResearch.length > 0 && (
-      <Section
-        eyebrow="Research"
-        title="From computer vision to coding agents"
-        subtitle="One published journal paper on robust object detection, a BSc thesis on detection for autonomous vehicles, and active work on AI for software engineering: how to build coding agents and, just as importantly, how to evaluate them honestly."
-        delay={0.15}
-      >
-        <div class="res-chips">
-          <InterestChips chips={profile.researchInterests} />
-        </div>
-
-        <div class="res-links">
-          <ResearchLinks align="center" />
-        </div>
-
-        <div class="rows">
-          {featuredResearch.map((r) => <ResearchRow entry={r} />)}
-        </div>
-
-        <a class="see-all" href={`${home}research`}>
-          All research →
-        </a>
-      </Section>
-    )
-  }
-
-  <Section title="Work Experience" delay={0.2}>
+  <Section title="Work Experience" delay={0.15}>
     {
       work.map((w) => (
         <WorkRow
@@ -97,7 +70,7 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
     }
   </Section>
 
-  <Section title="Education" delay={0.25}>
+  <Section title="Education" delay={0.2}>
     {
       education.map((e) => (
         <ListRow logo={e.logo} title={e.institution} meta={e.period}>
@@ -111,13 +84,13 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
     }
   </Section>
 
-  <Section title="Skills" delay={0.3}>
+  <Section title="Skills" delay={0.25}>
     <div class="chips">
       {skills.map((s) => <TechBadge label={s} size="lg" />)}
     </div>
   </Section>
 
-  <Section title="Competitive Programming" delay={0.35}>
+  <Section title="Competitive Programming" delay={0.3}>
     {
       competitiveProgramming.map((c) => (
         <CpRow
@@ -150,6 +123,33 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
       </div>
     </div>
   </Section>
+
+  {
+    featuredResearch.length > 0 && (
+      <Section
+        eyebrow="Research"
+        title="From computer vision to coding agents"
+        subtitle="One published journal paper on robust object detection, a BSc thesis on detection for autonomous vehicles, and active work on AI for software engineering: how to build coding agents and, just as importantly, how to evaluate them honestly."
+        delay={0.35}
+      >
+        <div class="res-chips">
+          <InterestChips chips={profile.researchInterests} />
+        </div>
+
+        <div class="res-links">
+          <ResearchLinks align="center" />
+        </div>
+
+        <div class="rows">
+          {featuredResearch.map((r) => <ResearchRow entry={r} />)}
+        </div>
+
+        <a class="see-all" href={`${home}research`}>
+          All research →
+        </a>
+      </Section>
+    )
+  }
 
   {
     featuredProjects.length > 0 && (
