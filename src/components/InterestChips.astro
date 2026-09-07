@@ -1,0 +1,24 @@
+---
+import TechBadge from "./TechBadge.astro";
+
+// Research interest tags rendered as a wrapping row of chips. Reuses TechBadge
+// so the visual language matches the Skills and project tag pills.
+interface Props {
+    chips: string[];
+}
+const { chips } = Astro.props;
+---
+
+<div class="chips">
+    {chips.map((chip) => (
+        <TechBadge label={chip} />
+    ))}
+</div>
+
+<style>
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+</style>

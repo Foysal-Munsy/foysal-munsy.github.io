@@ -1,0 +1,27 @@
+---
+// Journal quartile badge (Q1-Q4). Rendered as an inverted, solid pill so it
+// stands out from the muted status badges while staying monochrome.
+interface Props {
+    quartile: string;
+}
+const { quartile } = Astro.props;
+---
+
+<span class="quartile-badge" aria-label={`Journal quartile ${quartile}`}>
+    {quartile}
+</span>
+
+<style>
+    .quartile-badge {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.68rem;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.04em;
+        padding: 0.26rem 0.55rem;
+        border-radius: 999px;
+        background: var(--text);
+        color: var(--bg);
+        white-space: nowrap;
+    }
+</style>

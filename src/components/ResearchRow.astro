@@ -1,0 +1,292 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { profile } from "../data/resume";
+import StatusBadge from "./StatusBadge.astro";
+import QuartileBadge from "./QuartileBadge.astro";
+import CiteControl from "./CiteControl.astro";
+
+// Rich publication row used on the homepage research block and the /research
+// page. Purely text, matching the ProjectRow language: a title (linking to the
+// write-up or the external DOI/report when there is one), an author byline,
+// venue + year, summary, status/quartile badges, a live citation count, doc
+// links, and a Cite disclosure. Academic detail (authors, citations, cite
+// text) comes from the entry frontmatter and, for DOI works, the live OpenAlex
+// lookup handled by src/scripts/researchCitations.ts.
+interface Props {
+    entry: CollectionEntry<"research">;
+    // Show the summary paragraph (false for a more compact homepage feature).
+    showSummary?: boolean;
+}
+const { entry, showSummary = true } = Astro.props;
+const { data: d, body } = entry;
+// Authors default to an empty list in the schema, but be defensive so a row
+// never assumes the field is present.
+const authors = d.authors ?? [];
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+
+// A body means the title opens an internal write-up; otherwise it links out to
+// the report/DOI. With neither, the title is plain text (in-progress work).
+const hasWriteup = body.trim().length > 0;
+const externalLink = d.link ?? d.fullReport ?? d.doi ?? null;
+const href = hasWriteup ? `${home}research/${entry.slug}` : externalLink;
+const external = Boolean(href && !hasWriteup);
+
+// Live lookups are keyed off the clean DOI (no https://doi.org/ prefix).
+const cleanDoi = d.doi ? d.doi.replace(/^https?:\/\/(?:dx\.)?doi\.org\//, "") : "";
+
+// In-progress entries carry no venue yet, so their meta line is hidden.
+const showMeta = Boolean(d.venue.trim() && d.status !== "in-preparation");
+
+const statusKey = d.kind === "thesis" ? "thesis" : d.status;
+const selfName = profile.name;
+---
+
+<article class="rrow">
+    <h3 class="row-title">
+        {
+            href ? (
+                <a
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                >
+                    {d.title}
+                    <span class="arrow">{external ? "↗" : "→"}</span>
+                </a>
+            ) : (
+                <span class="title-plain">{d.title}</span>
+            )
+        }
+    </h3>
+
+    {
+        authors.length > 0 ? (
+            <p class="row-authors">
+                {authors.map((a, i) => (
+                    <>
+                        {i > 0 && <span class="auth-sep">, </span>}
+                        {a === selfName ? <b>{a}</b> : <span>{a}</span>}
+                    </>
+                ))}
+            </p>
+        ) : cleanDoi ? (
+            // Real author list arrives from OpenAlex (filled by the citation
+            // script); hidden until then so nothing fake ever shows.
+            <p class="row-authors oa-authors" data-doi={cleanDoi} hidden>
+                <span class="oa-authors-list"></span>
+            </p>
+        ) : null
+    }
+
+    {
+        showMeta && (
+            <p class="row-meta">
+                <span class="venue">{d.venue}</span>
+                {d.year && !d.venue.includes(d.year) && (
+                    <span class="year"> · {d.year}</span>
+                )}
+            </p>
+        )
+    }
+
+    {
+        showSummary && d.summary && (
+            <p class="row-summary">{d.summary}</p>
+        )
+    }
+
+    <div class="row-foot">
+        <div class="row-tags">
+            {d.quartile && <QuartileBadge quartile={d.quartile} />}
+            <StatusBadge status={statusKey} />
+        </div>
+
+        <div class="row-actions">
+            {
+                cleanDoi && (
+                    <>
+                        <span class="row-count" data-count hidden>
+                            <span class="oa-count" data-doi={cleanDoi}>0</span>
+                            <span class="count-txt">citations</span>
+                        </span>
+                        <CiteControl doi={cleanDoi} title={d.title} />
+                    </>
+                )
+            }
+            {
+                d.link && (
+                    <a
+                        class="p-pill"
+                        href={d.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Report
+                        <span class="ext" aria-hidden="true">↗</span>
+                    </a>
+                )
+            }
+            {
+                d.fullReport && (
+                    <a
+                        class="p-pill"
+                        href={d.fullReport}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Full report
+                        <span class="ext" aria-hidden="true">↗</span>
+                    </a>
+                )
+            }
+            {
+                d.doi && (
+                    <a
+                        class="p-pill"
+                        href={d.doi}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        DOI
+                        <span class="ext" aria-hidden="true">↗</span>
+                    </a>
+                )
+            }
+        </div>
+    </div>
+</article>
+
+<style>
+    .rrow {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .rrow:last-child {
+        border-bottom: none;
+    }
+
+    .row-title {
+        margin: 0;
+        font-size: 1.12rem;
+        font-weight: 600;
+        line-height: 1.45;
+        letter-spacing: -0.012em;
+    }
+
+    .row-title a {
+        color: var(--text);
+        overflow-wrap: anywhere;
+    }
+
+    .row-title a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .row-title .arrow {
+        display: inline-block;
+        margin-left: 0.2rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+        transition:
+            transform 0.15s ease,
+            color 0.15s ease;
+    }
+
+    .row-title a:hover .arrow {
+        color: var(--text);
+        transform: translateX(2px);
+    }
+
+    .title-plain {
+        color: var(--text);
+        overflow-wrap: anywhere;
+    }
+
+    .row-authors {
+        margin: 0.45rem 0 0;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .row-authors b {
+        font-weight: 650;
+        color: var(--text);
+    }
+
+    .auth-sep {
+        color: var(--border);
+    }
+
+    .row-meta {
+        margin: 0.35rem 0 0;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .row-meta .venue {
+        color: var(--text);
+        font-weight: 500;
+    }
+
+    .row-summary {
+        margin: 0.55rem 0 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.65;
+    }
+
+    .row-foot {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.7rem 1rem;
+        margin-top: 0.85rem;
+    }
+
+    .row-tags,
+    .row-actions {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .row-count {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.76rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
+
+    .row-count .oa-count {
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    /* Borderless doc pills, distinct from the bordered status pills. */
+    .p-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.74rem;
+        font-weight: 500;
+        color: var(--link);
+    }
+
+    .p-pill:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .ext {
+        font-size: 0.82em;
+        opacity: 0.8;
+    }
+</style>

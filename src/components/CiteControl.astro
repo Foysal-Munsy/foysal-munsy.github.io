@@ -1,0 +1,151 @@
+---
+// A "Cite" disclosure for a DOI-backed work. BibTeX and APA are built on the
+// fly by src/scripts/researchCitations.ts from the OpenAlex record for the
+// DOI, so the author list and biblio details are always real. Copy buttons
+// write the visible text to the clipboard. Without JS the summary still shows
+// but the panel simply reports that it cannot build a citation.
+interface Props {
+    // Clean DOI, e.g. "10.1016/j.rineng.2025.107817".
+    doi: string;
+    // Fallback title used if OpenAlex has no title field for the DOI.
+    title: string;
+}
+const { doi, title } = Astro.props;
+const idSuffix = doi.replace(/[^a-z0-9]+/gi, "-");
+const bibId = `cite-bib-${idSuffix}`;
+const apaId = `cite-apa-${idSuffix}`;
+---
+
+<details class="oa-cite cite" data-doi={doi} data-title={title}>
+    <summary>
+        <span class="cite-label">Cite</span>
+    </summary>
+    <div class="cite-panel">
+        <p class="oa-cite-state">Loading citation</p>
+        <div class="oa-cite-fields" hidden>
+            <div class="cite-block">
+                <div class="cite-block-head">
+                    <span class="cite-lbl">BibTeX</span>
+                    <button type="button" class="cite-copy" data-copy={bibId}>
+                        Copy
+                    </button>
+                </div>
+                <pre id={bibId} class="oa-cite-bib" tabindex="0"></pre>
+            </div>
+            <div class="cite-block">
+                <div class="cite-block-head">
+                    <span class="cite-lbl">APA</span>
+                    <button type="button" class="cite-copy" data-copy={apaId}>
+                        Copy
+                    </button>
+                </div>
+                <pre id={apaId} class="oa-cite-apa" tabindex="0"></pre>
+            </div>
+        </div>
+    </div>
+</details>
+
+<style>
+    .cite {
+        position: relative;
+    }
+
+    .cite > summary {
+        list-style: none;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    /* Hide the native disclosure marker in both engines. */
+    .cite > summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .cite-label {
+        display: inline-flex;
+        align-items: center;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.74rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        padding: 0.28rem 0.7rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        transition:
+            color 0.15s ease,
+            border-color 0.15s ease,
+            background 0.15s ease;
+    }
+
+    .cite > summary:hover .cite-label {
+        color: var(--text);
+        border-color: var(--text-muted);
+        background: var(--bg-subtle);
+    }
+
+    .cite-panel {
+        margin-top: 0.7rem;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.9rem 1rem;
+    }
+
+    .oa-cite-state {
+        margin: 0;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    .cite-block + .cite-block {
+        margin-top: 1rem;
+    }
+
+    .cite-block-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .cite-lbl {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.66rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .cite-copy {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.18rem 0.6rem;
+        cursor: pointer;
+        transition:
+            color 0.15s ease,
+            border-color 0.15s ease;
+    }
+
+    .cite-copy:hover {
+        color: var(--text);
+        border-color: var(--text-muted);
+    }
+
+    .oa-cite-bib,
+    .oa-cite-apa {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.74rem;
+        line-height: 1.6;
+        color: var(--text);
+        overflow-x: auto;
+    }
+</style>

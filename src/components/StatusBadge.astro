@@ -1,0 +1,44 @@
+---
+// Small bordered pill showing where a research item sits in its lifecycle.
+// Tone is semantic (green = done, amber = pending, muted = in progress) but
+// stays quiet enough to sit on the monochrome page.
+interface Props {
+    // One of the research statuses, or "thesis" for the special-case thesis tag.
+    status: string;
+}
+const { status } = Astro.props;
+
+const labels: Record<string, { label: string; tone: string }> = {
+    published: { label: "Published", tone: "ok" },
+    "in-press": { label: "In press", tone: "ok" },
+    submitted: { label: "Submitted", tone: "warn" },
+    "under-review": { label: "Under review", tone: "warn" },
+    "in-preparation": { label: "In progress", tone: "muted" },
+    thesis: { label: "Thesis", tone: "muted" },
+};
+const { label, tone } = labels[status] ?? { label: status, tone: "muted" };
+---
+
+<span class:list={["status-badge", `tone-${tone}`]}>{label}</span>
+
+<style>
+    .status-badge {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.7rem;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        padding: 0.24rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
+
+    .tone-ok {
+        color: var(--ok);
+    }
+
+    .tone-warn {
+        color: var(--warn);
+    }
+</style>

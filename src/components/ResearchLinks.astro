@@ -1,0 +1,108 @@
+---
+import { profile } from "../data/resume";
+
+// Academic presence strip used on the homepage research block and the
+// /research page: ORCID, Google Scholar, and a live total citation count fed
+// by the OpenAlex lookup (see src/scripts/researchCitations.ts). The count
+// element starts hidden and only appears once a number has been fetched.
+interface Props {
+    // "center" for the homepage (under a centered header), "left" for pages.
+    align?: "center" | "left";
+}
+const { align = "left" } = Astro.props;
+---
+
+<div class:list={["rlinks", align]}>
+    <a
+        class="p-pill"
+        href={profile.orcid}
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        ORCID
+        <span class="ext" aria-hidden="true">↗</span>
+    </a>
+    <a
+        class="p-pill"
+        href={profile.googleScholar}
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Google Scholar
+        <span class="ext" aria-hidden="true">↗</span>
+    </a>
+
+    <span class="total-line" data-total hidden>
+        <span class="total-num">
+            <span class="oa-total">0</span>
+        </span>
+        <span class="total-txt">total citations</span>
+        <span class="total-src">via OpenAlex</span>
+    </span>
+</div>
+
+<style>
+    .rlinks {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 0.75rem;
+    }
+
+    .rlinks.center {
+        justify-content: center;
+    }
+
+    .p-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        padding: 0.32rem 0.8rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        transition:
+            color 0.15s ease,
+            border-color 0.15s ease,
+            background 0.15s ease;
+    }
+
+    .p-pill:hover {
+        color: var(--text);
+        border-color: var(--text-muted);
+        background: var(--bg-subtle);
+        text-decoration: none;
+    }
+
+    .ext {
+        font-size: 0.82em;
+        opacity: 0.8;
+    }
+
+    .total-line {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .total-num {
+        font-family: theme("fontFamily.mono");
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .total-txt {
+        white-space: nowrap;
+    }
+
+    .total-src {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+</style>
