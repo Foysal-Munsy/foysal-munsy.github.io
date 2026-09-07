@@ -2,10 +2,17 @@
 import { profile } from "../data/resume";
 
 // Top-of-page hero: greeting + tagline on the left, avatar on the right.
-// Bold the first two words of the tagline for a bit of visual emphasis.
+// When the tagline opens with the role phrase (e.g. "Software Engineer &
+// Researcher ..."), bold that whole phrase for a bit of visual emphasis.
+// Otherwise fall back to bolding the first two words.
 const taglineWords = profile.tagline.split(" ");
-const taglineBold = taglineWords.slice(0, 2).join(" ");
-const taglineRest = taglineWords.slice(2).join(" ");
+const opensWithRole = profile.tagline.startsWith(profile.role);
+const taglineBold = opensWithRole
+  ? profile.role
+  : taglineWords.slice(0, 2).join(" ");
+const taglineRest = opensWithRole
+  ? profile.tagline.slice(profile.role.length).trim()
+  : taglineWords.slice(2).join(" ");
 ---
 
 <section class="hero fade-up">

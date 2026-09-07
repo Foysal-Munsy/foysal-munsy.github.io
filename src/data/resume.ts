@@ -60,16 +60,28 @@ export interface CpItem {
 export const profile = {
   name: "Foysal Munsy",
   greeting: "Hi, I'm Foysal",
-  role: "Software Engineer",
+  role: "Software Engineer & Researcher",
   location: "Dhaka, Bangladesh",
   tagline:
-    "Software Engineer building dependable backends and full-stack products.",
+    "Software Engineer & Researcher building dependable backends and full-stack products.",
   about:
-    "CSE graduate with a major in Software Engineering, working across .NET and the TypeScript ecosystem. I care about correctness under load, clean architecture, and systems that fail gracefully. Alongside product work I compete in programming contests and do research when it matches with my interest.",
+    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering, especially how to evaluate coding agents honestly, and I'm open to PhD research across AI, from agents and LLM reasoning to model evaluation.",
   email: "foysal613@outlook.com",
   avatar: "https://avatars.githubusercontent.com/u/77909562?v=4",
   github: "https://github.com/Foysal-Munsy",
   linkedin: "https://linkedin.com/in/foysal-munsy",
+  // Academic presence, linked from the research blocks and /research page.
+  orcid: "https://orcid.org/0009-0003-0732-9773",
+  googleScholar:
+    "https://scholar.google.com/citations?user=LS9hj1IAAAAJ&hl=en",
+  // Ordered roughly most-current first so a visitor reads the focus area first.
+  researchInterests: [
+    "AI for Software Engineering",
+    "AI Agents",
+    "LLM Reasoning",
+    "Agentic AI",
+    "Computer Vision",
+  ],
 };
 
 export const socials: SocialLink[] = [
