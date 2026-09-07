@@ -1,64 +1,180 @@
 ---
 import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { profile } from "../../data/resume";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PageHeader from "../../components/PageHeader.astro";
-import TextListItem from "../../components/TextListItem.astro";
+import ResearchRow from "../../components/ResearchRow.astro";
+import ResearchLinks from "../../components/ResearchLinks.astro";
+import InterestChips from "../../components/InterestChips.astro";
 
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
 
+// Every non-draft work, newest project area first, oldest last within groups.
 const entries = (await getCollection("research"))
     .filter((e) => !e.data.draft)
     .sort((a, b) => {
         if (a.data.order !== b.data.order) return a.data.order - b.data.order;
         return a.data.title.localeCompare(b.data.title);
     });
+
+type ResearchEntry = CollectionEntry<"research">;
+
+// Group works by where they stand. Theses are their own group regardless of
+// the generic statuses so a degree thesis is never mislabeled as "published".
+const groups: { key: string; label: string }[] = [
+    { key: "published", label: "Published" },
+    { key: "in-press", label: "In press" },
+    { key: "submitted", label: "Submitted" },
+    { key: "under-review", label: "Under review" },
+    { key: "in-preparation", label: "In progress" },
+    { key: "theses", label: "Theses" },
+];
+
+const groupOf = (e: ResearchEntry) =>
+    e.data.kind === "thesis" ? "theses" : (e.data.status ?? "published");
+
+const byGroup = new Map<string, ResearchEntry[]>();
+for (const e of entries) {
+    const key = groupOf(e);
+    if (!byGroup.has(key)) byGroup.set(key, []);
+    byGroup.get(key)!.push(e);
+}
+
+// Only non-empty groups render, so empty statuses never show a dangling header.
+const present = groups.filter((g) => (byGroup.get(g.key) ?? []).length > 0);
 ---
 
 <BaseLayout
-    title="Research – Foysal Munsy"
-    description="Research and publications in computer vision."
+    title="Research - Foysal Munsy"
+    description="Publications and ongoing research by Foysal Munsy in computer vision and AI for software engineering."
 >
-    <PageHeader
-        title="Research"
-        intro="Publications and academic work, mostly in computer vision and object detection under adverse conditions."
-        backHref={home}
-        backLabel="Home"
-    />
+    <header class="page-header fade-up">
+        <a class="back" href={home}>← Home</a>
+        <h1>Research</h1>
+        <p class="intro">
+            A journal paper in computer vision, a BSc thesis on detection for
+            autonomous vehicles, and active work on AI for software
+            engineering, where I study how to evaluate coding agents honestly.
+            Each project sits under the stage it is at today.
+        </p>
+        <div class="res-links">
+            <ResearchLinks />
+        </div>
+    </header>
 
-    {entries.length === 0 ? (
-        <p class="empty">No research published yet.</p>
+    <section class="interests fade-up">
+        <h2 class="subhead">Research interests</h2>
+        <InterestChips chips={profile.researchInterests} />
+    </section>
+
+    {present.length === 0 ? (
+        <p class="empty">No research listed yet.</p>
     ) : (
-        <div class="list">
-            {entries.map((r) => {
-                // A write-up (body) opens an internal detail page; a
-                // citation-only entry links out to its report/DOI.
-                const hasWriteup = r.body.trim().length > 0;
-                const external =
-                    !hasWriteup &&
-                    !!(r.data.link || r.data.fullReport || r.data.doi);
-                const href = hasWriteup
-                    ? `${home}research/${r.slug}`
-                    : r.data.link ??
-                      r.data.fullReport ??
-                      r.data.doi ??
-                      `${home}research/${r.slug}`;
+        <div class="groups">
+            {present.map((g) => {
+                const items = byGroup.get(g.key)!;
                 return (
-                    <TextListItem
-                        title={r.data.title}
-                        summary={r.data.summary}
-                        meta={`${r.data.venue} · ${r.data.year}`}
-                        href={href}
-                        external={external}
-                    />
+                    <section class="group">
+                        <h2 class="group-title">
+                            {g.label}
+                            <span class="group-count">{items.length}</span>
+                        </h2>
+                        <div class="rows">
+                            {items.map((e) => <ResearchRow entry={e} />)}
+                        </div>
+                    </section>
                 );
             })}
         </div>
     )}
 </BaseLayout>
 
+<script>
+    import "../../scripts/researchCitations";
+</script>
+
 <style>
-    .list {
+    .page-header {
+        margin-bottom: 2.4rem;
+    }
+
+    .back {
+        display: inline-block;
+        margin-bottom: 1.25rem;
+        font-family: theme("fontFamily.mono");
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    .back:hover {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    h1 {
+        margin: 0 0 0.7rem;
+        font-size: 2.15rem;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+    }
+
+    .intro {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        line-height: 1.6;
+        max-width: 36rem;
+    }
+
+    .res-links {
+        display: flex;
+        margin-top: 1.1rem;
+    }
+
+    .interests {
+        margin-bottom: 2.6rem;
+        padding-bottom: 1.6rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .subhead {
+        margin: 0 0 0.9rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--text);
+    }
+
+    .groups {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .group {
+        margin-bottom: 1.25rem;
+    }
+
+    .group-title {
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        margin: 0 0 0.1rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--text);
+    }
+
+    .group-count {
+        font-family: theme("fontFamily.mono");
+        font-size: 0.72rem;
+        font-weight: 400;
+        color: var(--text-muted);
+    }
+
+    .rows {
         display: flex;
         flex-direction: column;
     }
