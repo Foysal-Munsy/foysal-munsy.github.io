@@ -3,7 +3,8 @@
 // Tone is semantic (green = done, amber = pending, muted = in progress) but
 // stays quiet enough to sit on the monochrome page.
 interface Props {
-    // One of the research statuses, or "thesis" for the special-case thesis tag.
+    // One of the research statuses, or "thesis"/"dataset" for the
+    // special-case kind tags.
     status: string;
 }
 const { status } = Astro.props;
@@ -15,6 +16,7 @@ const labels: Record<string, { label: string; tone: string }> = {
     "under-review": { label: "Under review", tone: "warn" },
     "in-preparation": { label: "In progress", tone: "muted" },
     thesis: { label: "Thesis", tone: "muted" },
+    dataset: { label: "Dataset", tone: "muted" },
 };
 const { label, tone } = labels[status] ?? { label: status, tone: "muted" };
 ---

@@ -67,9 +67,9 @@ const research = defineCollection({
     // Journal quartile (Q1-Q4), set by the owner from Scopus/SJR. Hidden when
     // unset since there is no reliable public API for it.
     quartile: z.enum(["Q1", "Q2", "Q3", "Q4"]).optional(),
-    // Nature of the work, so theses/preprints get their own treatment.
+    // Nature of the work, so theses/datasets/preprints get their own treatment.
     kind: z
-      .enum(["journal", "conference", "thesis", "preprint"])
+      .enum(["journal", "conference", "thesis", "dataset", "preprint"])
       .default("journal"),
     // Optional bibliographic detail used when building BibTeX/APA citations.
     volume: z.string().optional(),
@@ -79,6 +79,8 @@ const research = defineCollection({
     // External links.
     doi: z.string().url().optional(),
     link: z.string().url().optional(),
+    // Custom label for the `link` pill (e.g. "Dataset"). Defaults to "Report".
+    linkLabel: z.string().optional(),
     // Link to a full report (e.g. a Google Drive folder / PDF). Rendered as
     // a "Full report" link rather than a DOI.
     fullReport: z.string().url().optional(),

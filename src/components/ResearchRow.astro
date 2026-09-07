@@ -39,8 +39,14 @@ const cleanDoi = d.doi ? d.doi.replace(/^https?:\/\/(?:dx\.)?doi\.org\//, "") : 
 // In-progress entries carry no venue yet, so their meta line is hidden.
 const showMeta = Boolean(d.venue.trim() && d.status !== "in-preparation");
 
-const statusKey = d.kind === "thesis" ? "thesis" : d.status;
+// The row badge shows a kind tag (Thesis / Dataset) when relevant, otherwise
+// the lifecycle status.
+const statusKey = d.kind === "thesis" || d.kind === "dataset" ? d.kind : d.status;
 const selfName = profile.name;
+const isDataset = d.kind === "dataset";
+// Datasets aren't journal articles: no DOI lookup, live count, or Cite
+// builder. They get a plain external pill (defaulting to "Dataset") instead.
+const linkLabel = isDataset ? "Dataset" : (d.linkLabel ?? "Report");
 ---
 
 <article class="rrow">
@@ -123,7 +129,7 @@ const selfName = profile.name;
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        Report
+                        {linkLabel}
                         <span class="ext" aria-hidden="true">↗</span>
                     </a>
                 )
