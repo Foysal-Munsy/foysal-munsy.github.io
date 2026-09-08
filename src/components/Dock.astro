@@ -6,6 +6,13 @@ import { socials } from "../data/resume";
 // after the magicui dock. Holds page links, external social links, and the
 // theme toggle. Links are built against BASE_URL so they work in dev ("/") and
 // on GitHub Pages ("/<repo>").
+interface Props {
+    // Current page path (Astro.url.pathname from the layout). Used to mark the
+    // active section with aria-current="page".
+    pathname?: string;
+}
+const { pathname = "" } = Astro.props;
+
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
 
@@ -13,13 +20,29 @@ const pages = [
     { label: "Home", href: home, icon: "lucide:house" },
     { label: "Projects", href: `${home}projects`, icon: "lucide:folder-git-2" },
     { label: "Research", href: `${home}research`, icon: "lucide:flask-conical" },
-    { label: "Blog", href: `${home}blog`, icon: "lucide:pen-line" },
+    // Blog is hidden until there is at least one published post. Add it back
+    // (and optionally draft:false the starter post) once real content exists.
+    // { label: "Blog", href: `${home}blog`, icon: "lucide:pen-line" },
 ];
+
+// True when the current pathname lives under this page's href. Home matches
+// only the exact root so it doesn't light up on every subpage.
+const isActive = (href: string) => {
+    const trimmed = href.endsWith("/") ? href.slice(0, -1) : href;
+    if (trimmed === "") return pathname === "/" || pathname === "";
+    return pathname === trimmed || pathname.startsWith(`${trimmed}/`);
+};
 ---
 
 <nav class="dock" aria-label="Primary">
     {pages.map((p) => (
-        <a class="dock-item" href={p.href} title={p.label} aria-label={p.label}>
+        <a
+            class:list={["dock-item", { active: isActive(p.href) }]}
+            href={p.href}
+            title={p.label}
+            aria-label={p.label}
+            aria-current={isActive(p.href) ? "page" : undefined}
+        >
             <Icon name={p.icon} />
         </a>
     ))}
@@ -105,6 +128,15 @@ const pages = [
         color: var(--text);
         text-decoration: none;
         transform: translateY(-3px);
+    }
+
+    /* Current page: inverted solid pill so the active section reads clearly
+       without any color. */
+    .dock-item.active,
+    .dock-item.active:hover {
+        background: var(--text);
+        color: var(--bg);
+        transform: none;
     }
 
     .divider {

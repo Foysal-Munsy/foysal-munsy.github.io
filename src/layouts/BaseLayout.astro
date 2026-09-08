@@ -20,6 +20,7 @@ const home = base.endsWith("/") ? base : `${base}/`;
 // Absolute URL for this page (used for canonical + social meta). Astro.site is
 // set in astro.config.mjs, so this resolves to https://foysal-munsy.github.io/…
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const currentYear = new Date().getFullYear();
 ---
 
 
@@ -101,9 +102,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
             <slot />
         </main>
 
+        <footer class="site-footer">
+            <span>
+                © {currentYear} {profile.name} · {profile.location}
+            </span>
+            <span class="built">Built with Astro</span>
+        </footer>
+
         <div class="site-spacer"></div>
 
-        <Dock />
+        <Dock pathname={Astro.url.pathname} />
 
         <style>
             /* Visually hidden until focused (keyboard users). */
@@ -132,10 +140,32 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
                 padding: 3.5rem 1.5rem 2rem;
             }
 
+            .site-footer {
+                max-width: 44rem;
+                margin: 0 auto;
+                padding: 0 1.5rem;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 0.5rem 1rem;
+                font-family: theme("fontFamily.mono");
+                font-size: 0.72rem;
+                color: var(--text-muted);
+                border-top: 1px solid var(--border);
+                padding-top: 1rem;
+            }
+
             /* Reserve room at the bottom so the floating dock never overlaps
-               the last section's content. */
+               the footer or the last section's content. */
             .site-spacer {
                 height: 6rem;
+            }
+
+            @media print {
+                .site-footer,
+                .site-spacer {
+                    display: none;
+                }
             }
         </style>
 

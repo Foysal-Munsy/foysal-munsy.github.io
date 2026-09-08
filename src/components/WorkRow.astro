@@ -12,8 +12,10 @@ interface Props {
   location?: string;
   logo?: string | null;
   points: string[];
+  // Render the row expanded on first paint (used for the current role).
+  defaultOpen?: boolean;
 }
-const { title, meta, subtitle, location, logo, points } = Astro.props;
+const { title, meta, subtitle, location, logo, points, defaultOpen = false } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
@@ -21,7 +23,7 @@ const logoSrc = logo ? `${home}${logo.replace(/^\//, "")}` : null;
 const monogram = title.trim().charAt(0).toUpperCase();
 ---
 
-<details class="work">
+<details class="work" open={defaultOpen || undefined}>
   <summary class="head">
     <span class="logo" aria-hidden="true">
       {
@@ -161,13 +163,15 @@ const monogram = title.trim().charAt(0).toUpperCase();
     height: 1.05rem;
     color: var(--text-muted);
     flex-shrink: 0;
-    opacity: 0;
+    /* Always faintly visible so the expand affordance reads on touch devices,
+       where there is no hover to reveal it. */
+    opacity: 0.55;
     transition:
       transform 0.2s ease,
       opacity 0.15s ease;
   }
 
-  /* Reveal the chevron on hover/focus, and whenever the row is open. */
+  /* Emphasize the chevron on hover/focus, and whenever the row is open. */
   .work:hover .chevron,
   .head:focus-visible .chevron,
   .work[open] .chevron {

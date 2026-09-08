@@ -62,18 +62,19 @@ export const profile = {
   greeting: "Hi, I'm Foysal",
   role: "Software Engineer & Researcher",
   location: "Dhaka, Bangladesh",
+  // One-line status shown in the hero. Omit (or set to "") to hide it.
+  availability: "Open to PhD programs & research internships for 2026–27",
   tagline:
-    "Software Engineer & Researcher building dependable backends and full-stack products.",
+    "Software Engineer & Researcher exploring reliable software systems and AI for software engineering.",
   about:
-    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering, especially how to evaluate coding agents honestly, and I'm open to PhD research across AI, from agents and LLM reasoning to model evaluation.",
+    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering, especially how to evaluate coding agents honestly, and I'm open to PhD research.",
   email: "foysal613@outlook.com",
   avatar: "https://avatars.githubusercontent.com/u/77909562?v=4",
   github: "https://github.com/Foysal-Munsy",
   linkedin: "https://linkedin.com/in/foysal-munsy",
   // Academic presence, linked from the research blocks and /research page.
   orcid: "https://orcid.org/0009-0003-0732-9773",
-  googleScholar:
-    "https://scholar.google.com/citations?user=LS9hj1IAAAAJ&hl=en",
+  googleScholar: "https://scholar.google.com/citations?user=LS9hj1IAAAAJ&hl=en",
   // Ordered roughly most-current first so a visitor reads the focus area first.
   researchInterests: [
     "AI for Software Engineering",
@@ -134,19 +135,22 @@ export const education: EducationItem[] = [
 // techIcons lookup (src/data/techIcons.ts), so the same logos appear here and
 // on project tech tags. Add a skill by dropping its label in; wire a missing
 // logo by adding it to that lookup.
-export const skills: string[] = [
-  "C#",
-  ".NET / ASP.NET Core",
-  "EF Core",
-  "TypeScript",
-  "Next.js",
-  "NestJS",
-  "Node.js",
-  "PostgreSQL",
-  "MongoDB",
-  "MSSQL",
-  "Docker",
-  "C++",
+// Skills grouped by discipline so the homepage reads as deliberate rather than
+// one flat pile. The labels stay faithful to what the owner lists — extend the
+// items as their toolset grows.
+export interface SkillGroup {
+    label: string;
+    items: string[];
+}
+
+export const skillGroups: SkillGroup[] = [
+    { label: "Languages", items: ["C#", "C++", "TypeScript"] },
+    {
+        label: "Frameworks",
+        items: [".NET / ASP.NET Core", "EF Core", "Next.js", "NestJS", "Node.js"],
+    },
+    { label: "Data", items: ["PostgreSQL", "MongoDB", "MSSQL"] },
+    { label: "DevOps", items: ["Docker"] },
 ];
 
 export const competitiveProgramming: CpItem[] = [

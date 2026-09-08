@@ -16,7 +16,7 @@ import {
   profile,
   work,
   education,
-  skills,
+  skillGroups,
   competitiveProgramming,
   cpSummary,
   contests,
@@ -38,7 +38,7 @@ const featuredResearch = (await getCollection("research"))
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title={`${profile.name} - ${profile.role}`}>
+<BaseLayout title={`${profile.name} — ${profile.role}`}>
   <Hero />
 
   <Section title="About" delay={0.1}>
@@ -47,7 +47,7 @@ const featuredResearch = (await getCollection("research"))
 
   <Section title="Work Experience" delay={0.15}>
     {
-      work.map((w) => (
+      work.map((w, i) => (
         <WorkRow
           logo={w.logo}
           title={w.company}
@@ -55,6 +55,8 @@ const featuredResearch = (await getCollection("research"))
           subtitle={w.role}
           location={w.location}
           points={w.points}
+          // Keep the current role expanded so skimmers see the bullets.
+          defaultOpen={i === 0}
         />
       ))
     }
@@ -75,8 +77,17 @@ const featuredResearch = (await getCollection("research"))
   </Section>
 
   <Section title="Skills" delay={0.25}>
-    <div class="chips">
-      {skills.map((s) => <TechBadge label={s} size="lg" />)}
+    <div class="skill-groups">
+      {
+        skillGroups.map((group) => (
+          <div class="skill-group">
+            <h3 class="skill-label">{group.label}</h3>
+            <div class="chips">
+              {group.items.map((s) => <TechBadge label={s} size="lg" />)}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </Section>
 
@@ -225,6 +236,25 @@ const featuredResearch = (await getCollection("research"))
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
+  }
+
+  /* Grouped skills: a small mono uppercase label above each row of chips. */
+  .skill-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .skill-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .skill-label {
+    margin: 0 0 0.6rem;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
   }
 
   /* The last CP row sits right before the Overall block, so its own

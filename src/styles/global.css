@@ -221,3 +221,41 @@ a:hover {
     background: var(--bg-subtle);
     font-weight: 650;
 }
+
+/* Printing the homepage doubles as a one-page CV (Cmd/Ctrl+P): hide the dock
+   and chrome, neutralize the theme, and force entrance animations to their
+   finished state so nothing is transparent or offset. */
+@media print {
+    html,
+    body {
+        background: #ffffff !important;
+    }
+
+    body {
+        color: #000000;
+    }
+
+    .dock,
+    .site-spacer,
+    .skip-link {
+        display: none !important;
+    }
+
+    /* Entrance animations leave content at opacity:0/translated until they
+       finish; on a fresh print they may not have run, so force them done. */
+    .fade-up {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+    }
+
+    .site-main {
+        max-width: none;
+        padding: 0 1.5rem;
+    }
+
+    a {
+        color: #000000;
+        text-decoration: none;
+    }
+}
