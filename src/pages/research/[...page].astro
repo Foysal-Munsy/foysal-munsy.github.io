@@ -1,22 +1,28 @@
 ---
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import type { GetStaticPaths } from "astro";
 import { profile } from "../../data/resume";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ResearchRow from "../../components/ResearchRow.astro";
 import ResearchLinks from "../../components/ResearchLinks.astro";
 import InterestChips from "../../components/InterestChips.astro";
+import Pagination from "../../components/Pagination.astro";
 
+export const getStaticPaths = (async ({ paginate }) => {
+  // Every non-draft work, newest project area first, oldest last within groups.
+  const entries = (await getCollection("research"))
+    .filter((e) => !e.data.draft)
+    .sort((a, b) => {
+      if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+      return a.data.title.localeCompare(b.data.title);
+    });
+  return paginate(entries, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
-
-// Every non-draft work, newest project area first, oldest last within groups.
-const entries = (await getCollection("research"))
-  .filter((e) => !e.data.draft)
-  .sort((a, b) => {
-    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-    return a.data.title.localeCompare(b.data.title);
-  });
 
 type ResearchEntry = CollectionEntry<"research">;
 
@@ -35,7 +41,7 @@ const groupOf = (e: ResearchEntry) =>
   e.data.kind === "thesis" ? "thesis" : (e.data.status ?? "published");
 
 const byGroup = new Map<string, ResearchEntry[]>();
-for (const e of entries) {
+for (const e of page.data) {
   const key = groupOf(e);
   if (!byGroup.has(key)) byGroup.set(key, []);
   byGroup.get(key)!.push(e);
@@ -71,24 +77,27 @@ const present = groups.filter((g) => (byGroup.get(g.key) ?? []).length > 0);
     present.length === 0 ? (
       <p class="empty">No research listed yet.</p>
     ) : (
-      <div class="groups">
-        {present.map((g) => {
-          const items = byGroup.get(g.key)!;
-          return (
-            <section class="group">
-              <h2 class="group-title">
-                {g.label}
-                <span class="group-count">{items.length}</span>
-              </h2>
-              <div class="rows">
-                {items.map((e) => (
-                  <ResearchRow entry={e} />
-                ))}
-              </div>
-            </section>
-          );
-        })}
-      </div>
+      <>
+        <div class="groups">
+          {present.map((g) => {
+            const items = byGroup.get(g.key)!;
+            return (
+              <section class="group">
+                <h2 class="group-title">
+                  {g.label}
+                  <span class="group-count">{items.length}</span>
+                </h2>
+                <div class="rows">
+                  {items.map((e) => (
+                    <ResearchRow entry={e} />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+        <Pagination page={page} />
+      </>
     )
   }
 </BaseLayout>

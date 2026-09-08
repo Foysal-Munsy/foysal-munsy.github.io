@@ -1,0 +1,46 @@
+---
+const { page } = Astro.props;
+---
+
+<nav class="pagination">
+  {page.url.prev ? <a href={page.url.prev}>&larr; Prev</a> : <span class="disabled">&larr; Prev</span>}
+  <span class="page-info">Page {page.currentPage} of {page.lastPage}</span>
+  {page.url.next ? <a href={page.url.next}>Next &rarr;</a> : <span class="disabled">Next &rarr;</span>}
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-family: theme("fontFamily.mono");
+    font-size: 0.9rem;
+  }
+  
+  .pagination a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .pagination a:hover {
+    background-color: var(--bg-hover);
+  }
+  
+  .pagination .disabled {
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    cursor: not-allowed;
+  }
+  
+  .page-info {
+    color: var(--text-muted);
+  }
+</style>
