@@ -63,7 +63,7 @@ export const profile = {
   role: "Software Engineer & Researcher",
   location: "Dhaka, Bangladesh",
   // One-line status shown in the hero. Omit (or set to "") to hide it.
-  availability: "Open to PhD programs & research internships for 2026–27",
+  availability: "Open to PhD Programs & Research Opportunities",
   tagline:
     "Software Engineer & Researcher exploring reliable software systems and AI for software engineering.",
   about:
