@@ -111,14 +111,21 @@ const linkLabel = isDataset ? "Dataset" : (d.linkLabel ?? "Report");
 
         <div class="row-actions">
             {
+                d.scholarCitations !== undefined ? (
+                    <span class="row-count">
+                        <span class="oa-count">{d.scholarCitations}</span>
+                        <span class="count-txt">citations</span>
+                    </span>
+                ) : cleanDoi ? (
+                    <span class="row-count" data-count hidden>
+                        <span class="oa-count" data-doi={cleanDoi}>0</span>
+                        <span class="count-txt">citations</span>
+                    </span>
+                ) : null
+            }
+            {
                 cleanDoi && (
-                    <>
-                        <span class="row-count" data-count hidden>
-                            <span class="oa-count" data-doi={cleanDoi}>0</span>
-                            <span class="count-txt">citations</span>
-                        </span>
-                        <CiteControl doi={cleanDoi} title={d.title} />
-                    </>
+                    <CiteControl doi={cleanDoi} title={d.title} />
                 )
             }
             {

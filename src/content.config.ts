@@ -84,6 +84,8 @@ const research = defineCollection({
     // Link to a full report (e.g. a Google Drive folder / PDF). Rendered as
     // a "Full report" link rather than a DOI.
     fullReport: z.string().url().optional(),
+    // Citation count from Google Scholar, updated via GitHub Actions.
+    scholarCitations: z.number().optional(),
     order: z.number().default(0),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
