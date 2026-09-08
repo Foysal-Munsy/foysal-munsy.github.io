@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
+import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
 
 // Hosted as a GitHub user site at https://foysal-munsy.github.io/ (repo named
@@ -11,6 +12,7 @@ export default defineConfig({
 
     integrations: [
         mdx(),
+        sitemap(),
         tailwind({ applyBaseStyles: false }),
         icon(),
     ],

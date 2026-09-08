@@ -2,13 +2,16 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-// Pre-render one page per blog post.
+// Pre-render one page per published blog post. Drafts are skipped entirely so
+// they are never built or listed in the sitemap.
 export async function getStaticPaths() {
     const posts = await getCollection("blog");
-    return posts.map((post) => ({
-        params: { slug: post.slug },
-        props: { post },
-    }));
+    return posts
+        .filter((post) => !post.data.draft)
+        .map((post) => ({
+            params: { slug: post.slug },
+            props: { post },
+        }));
 }
 
 const { post } = Astro.props;

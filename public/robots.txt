@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://foysal-munsy.github.io/sitemap-index.xml

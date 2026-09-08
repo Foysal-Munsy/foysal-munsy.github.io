@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { profile } from "../data/resume";
 import Dock from "../components/Dock.astro";
 
 // The shared HTML shell: <head> meta, fonts, main slot, footer, and the
@@ -8,11 +9,17 @@ interface Props {
     title: string;
     description?: string;
 }
-const { title, description = "Software engineer and researcher building dependable backends and working on AI for software engineering and computer vision." } =
-    Astro.props;
+const {
+    title,
+    description = "Software engineer and researcher building dependable backends and working on AI for software engineering and computer vision.",
+} = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
+
+// Absolute URL for this page (used for canonical + social meta). Astro.site is
+// set in astro.config.mjs, so this resolves to https://foysal-munsy.github.io/…
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 
@@ -22,8 +29,34 @@ const home = base.endsWith("/") ? base : `${base}/`;
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
         <title>{title}</title>
         <link rel="icon" type="image/svg+xml" href={`${home}favicon.svg`} />
+
+        {/* Theme color so mobile browser chrome matches the page background. */}
+        <meta
+            name="theme-color"
+            content="#ffffff"
+            media="(prefers-color-scheme: light)"
+        />
+        <meta
+            name="theme-color"
+            content="#131316"
+            media="(prefers-color-scheme: dark)"
+        />
+
+        {/* Social / share preview. og:image falls back to the avatar until a
+            proper card image is added. */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={profile.name} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={profile.avatar} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={profile.avatar} />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,7 +93,11 @@ const home = base.endsWith("/") ? base : `${base}/`;
         </script>
     </head>
     <body>
-        <main class="site-main">
+        {/* Keyboard skip link: first tab stop jumps straight to the content,
+            past the floating dock. */}
+        <a class="skip-link" href="#main">Skip to content</a>
+
+        <main id="main" class="site-main">
             <slot />
         </main>
 
@@ -69,6 +106,26 @@ const home = base.endsWith("/") ? base : `${base}/`;
         <Dock />
 
         <style>
+            /* Visually hidden until focused (keyboard users). */
+            .skip-link {
+                position: absolute;
+                left: 1rem;
+                top: -100%;
+                z-index: 100;
+                padding: 0.6rem 1rem;
+                border-radius: 8px;
+                background: var(--text);
+                color: var(--bg);
+                font-family: theme("fontFamily.mono");
+                font-size: 0.8rem;
+                transition: top 0.15s ease;
+            }
+
+            .skip-link:focus {
+                top: 1rem;
+                text-decoration: none;
+            }
+
             .site-main {
                 max-width: 44rem;
                 margin: 0 auto;

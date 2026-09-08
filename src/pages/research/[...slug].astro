@@ -23,7 +23,7 @@ const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
 ---
 
-<BaseLayout title={`${d.title} - Research`} description={d.summary}>
+<BaseLayout title={`${d.title} — Research`} description={d.summary}>
     <a href={`${home}research`} class="back">← All research</a>
 
     <header class="header fade-up">
@@ -33,7 +33,7 @@ const home = base.endsWith("/") ? base : `${base}/`;
 
         {d.tags.length > 0 && (
             <div class="tags">
-                {d.tags.map((t) => <TechBadge label={t} />)}
+                {d.tags.map((t: string) => <TechBadge label={t} />)}
             </div>
         )}
 

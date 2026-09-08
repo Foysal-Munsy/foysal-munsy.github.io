@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/resume";
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith("/") ? base : `${base}/`;
+---
+
+<BaseLayout title="Page not found">
+  <header class="nf fade-up">
+    <h1>Page not found</h1>
+    <p class="nf-text">
+      The page you're looking for doesn't exist or has moved.
+    </p>
+    <div class="nf-links">
+      <a class="nf-link" href={home}>← Back home</a>
+      <a class="nf-link" href={`mailto:${profile.email}`}>
+        Contact me
+      </a>
+    </div>
+  </header>
+</BaseLayout>
+
+<style>
+  .nf {
+    padding-top: 12vh;
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0 0 0.75rem;
+    font-size: 2.4rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .nf-text {
+    margin: 0 0 1.5rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  .nf-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .nf-link {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.85rem;
+    color: var(--link);
+  }
+
+  .nf-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
