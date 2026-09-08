@@ -27,7 +27,7 @@ const home = base.endsWith("/") ? base : `${base}/`;
 
 // Featured GitHub repos (tagged `featured` on GitHub) surfaced on the
 // homepage; full list lives on /projects. Capped so the homepage stays tight.
-const projectItems = featuredRepos.slice(0, 3);
+const projectItems = featuredRepos.slice(0, 4);
 
 const featuredResearch = (await getCollection("research"))
   .filter((e) => !e.data.draft && e.data.featured)
