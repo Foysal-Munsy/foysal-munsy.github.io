@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import { profile } from "../data/resume";
 
 // Academic presence strip used on the homepage research block and the
@@ -10,6 +11,9 @@ interface Props {
     align?: "center" | "left";
 }
 const { align = "left" } = Astro.props;
+
+const allResearch = await getCollection("research");
+const scholarTotal = allResearch.reduce((sum, item) => sum + (item.data.scholarCitations || 0), 0);
 ---
 
 <div class:list={["rlinks", align]}>
@@ -32,13 +36,25 @@ const { align = "left" } = Astro.props;
         <span class="ext" aria-hidden="true">↗</span>
     </a>
 
-    <span class="total-line" data-total hidden>
-        <span class="total-num">
-            <span class="oa-total">0</span>
-        </span>
-        <span class="total-txt">total citations</span>
-        <span class="total-src">via OpenAlex</span>
-    </span>
+    {
+        scholarTotal > 0 ? (
+            <span class="total-line">
+                <span class="total-num">
+                    <span>{scholarTotal}</span>
+                </span>
+                <span class="total-txt">total citations</span>
+                <span class="total-src">via Google Scholar</span>
+            </span>
+        ) : (
+            <span class="total-line" data-total hidden>
+                <span class="total-num">
+                    <span class="oa-total">0</span>
+                </span>
+                <span class="total-txt">total citations</span>
+                <span class="total-src">via OpenAlex</span>
+            </span>
+        )
+    }
 </div>
 
 <style>
