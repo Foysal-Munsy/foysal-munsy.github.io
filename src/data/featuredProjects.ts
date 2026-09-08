@@ -58,7 +58,7 @@ export const featuredProjects: FeaturedRepo[] = [
     "repoUrl": "https://github.com/Foysal-Munsy/multi-tenant-auth",
     "summary": "Multi-tenant auth API with JWT login, organization scoping via X-Organization-Id, and org-based roles.",
     "topics": [],
-    "cover": "https://opengraph.githubassets.com/7cfe3f293b2a86c21c3d29148d15bfb15f4c666535a0eb8e9652959e4fe16253/Foysal-Munsy/multi-tenant-auth",
+    "cover": "https://repository-images.githubusercontent.com/1139617020/775657b9-d71c-4c53-94f7-8a5baec57aa8",
     "pushedAt": "2026-03-11T11:51:33Z"
   },
   {
