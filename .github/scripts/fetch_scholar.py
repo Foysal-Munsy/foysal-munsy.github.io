@@ -11,14 +11,25 @@ def normalize_title(title):
     return re.sub(r'[^\w\s]', '', title.lower()).strip()
 
 def main():
-    print("Setting up free proxies to avoid IP blocks...")
-    pg = ProxyGenerator()
-    pg.FreeProxies()
-    scholarly.use_proxy(pg)
+    # Best-effort fetch: Google Scholar aggressively blocks datacenter IPs, so
+    # the proxy layer is inherently flaky. If any part fails we log a clear
+    # warning and exit 0 -- never fail the workflow -- so the GitHub sync step
+    # still runs and existing citation counts are left untouched.
+    try:
+        print("Setting up free proxies to avoid IP blocks...")
+        pg = ProxyGenerator()
+        pg.FreeProxies()
+        scholarly.use_proxy(pg)
+    except Exception as e:
+        print(f"[warn] Scholar proxy setup failed ({type(e).__name__}: {e}); trying without proxies.")
 
-    print(f"Fetching Google Scholar profile: {SCHOLAR_ID}")
-    author = scholarly.search_author_id(SCHOLAR_ID)
-    scholarly.fill(author, sections=['publications'])
+    try:
+        print(f"Fetching Google Scholar profile: {SCHOLAR_ID}")
+        author = scholarly.search_author_id(SCHOLAR_ID)
+        scholarly.fill(author, sections=['publications'])
+    except Exception as e:
+        print(f"[warn] Google Scholar fetch failed ({type(e).__name__}: {e}); leaving existing citation counts unchanged.")
+        return
 
     # Index existing local publications by normalized title.
     existing_files = {}
