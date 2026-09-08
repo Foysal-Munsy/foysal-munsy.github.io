@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # python
 .venv/
+
+# editor/tooling scratch
+.commandcode/

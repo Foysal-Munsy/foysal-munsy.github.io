@@ -11,6 +11,7 @@ import TechBadge from "../components/TechBadge.astro";
 import InterestChips from "../components/InterestChips.astro";
 import ResearchRow from "../components/ResearchRow.astro";
 import ResearchLinks from "../components/ResearchLinks.astro";
+import { projectCardProps } from "../data/projectList";
 import {
   profile,
   work,
@@ -35,17 +36,6 @@ const featuredProjects = (await getCollection("projects"))
 const featuredResearch = (await getCollection("research"))
   .filter((e) => !e.data.draft && e.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
-
-// Resolve a project entry to its link + whether it is external.
-const projectHref = (p: (typeof featuredProjects)[number]) => {
-  const hasCaseStudy = p.body.trim().length > 0;
-  const firstLink = p.data.repo ?? p.data.liveUrl ?? p.data.links?.[0]?.url;
-  const external = !hasCaseStudy && !!firstLink;
-  const href = hasCaseStudy
-    ? `${home}projects/${p.slug}`
-    : (firstLink ?? `${home}projects/${p.slug}`);
-  return { href, external };
-};
 ---
 
 <BaseLayout title={`${profile.name} - ${profile.role}`}>
@@ -160,20 +150,9 @@ const projectHref = (p: (typeof featuredProjects)[number]) => {
         delay={0.4}
       >
         <div class="list">
-          {featuredProjects.map((p) => {
-            const { href, external } = projectHref(p);
-            return (
-              <ProjectRow
-                title={p.data.title}
-                summary={p.data.summary}
-                timeframe={p.data.timeframe}
-                tech={p.data.tech}
-                links={p.data.links}
-                href={href}
-                external={external}
-              />
-            );
-          })}
+          {featuredProjects.map((p) => (
+            <ProjectRow {...projectCardProps(p, home)} />
+          ))}
         </div>
         <a class="see-all" href={`${home}projects`}>
           All projects →
