@@ -3,8 +3,9 @@ import "../styles/global.css";
 import { profile } from "../data/resume";
 import Dock from "../components/Dock.astro";
 
-// The shared HTML shell: <head> meta, fonts, main slot, footer, and the
-// floating dock navigation.
+// The shared HTML shell: <head> meta, fonts, main slot, and the floating
+// dock navigation. No footer — the dock and Get-in-touch section carry the
+// closing.
 interface Props {
     title: string;
     description?: string;
@@ -20,7 +21,6 @@ const home = base.endsWith("/") ? base : `${base}/`;
 // Absolute URL for this page (used for canonical + social meta). Astro.site is
 // set in astro.config.mjs, so this resolves to https://foysal-munsy.github.io/…
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const currentYear = new Date().getFullYear();
 ---
 
 
@@ -102,13 +102,6 @@ const currentYear = new Date().getFullYear();
             <slot />
         </main>
 
-        <footer class="site-footer">
-            <span>
-                © {currentYear} {profile.name} · {profile.location}
-            </span>
-            <span class="built">Built with Astro</span>
-        </footer>
-
         <div class="site-spacer"></div>
 
         <Dock pathname={Astro.url.pathname} />
@@ -140,32 +133,11 @@ const currentYear = new Date().getFullYear();
                 padding: 3.5rem 1.5rem 2rem;
             }
 
-            .site-footer {
-                max-width: 44rem;
-                margin: 0 auto;
-                padding: 0 1.5rem;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                gap: 0.5rem 1rem;
-                font-family: theme("fontFamily.mono");
-                font-size: 0.72rem;
-                color: var(--text-muted);
-                border-top: 1px solid var(--border);
-                padding-top: 1rem;
-            }
-
             /* Reserve room at the bottom so the floating dock never overlaps
-               the footer or the last section's content. */
+               the last section's content. global.css hides the dock + spacer on
+               print. */
             .site-spacer {
                 height: 6rem;
-            }
-
-            @media print {
-                .site-footer,
-                .site-spacer {
-                    display: none;
-                }
             }
         </style>
 

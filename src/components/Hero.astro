@@ -1,5 +1,6 @@
 ---
 import { profile } from "../data/resume";
+import { Icon } from "astro-icon/components";
 
 // Top-of-page hero: greeting + tagline on the left, avatar on the right.
 // When the tagline opens with the role phrase (e.g. "Software Engineer &
@@ -14,12 +15,14 @@ const taglineRest = opensWithRole
   ? profile.tagline.slice(profile.role.length).trim()
   : taglineWords.slice(2).join(" ");
 
-// Quick actions under the tagline. Kept monochrome so they sit quietly next
-// to the resume content.
-const ctas = [
-  { label: "Email", href: `mailto:${profile.email}`, external: false },
-  { label: "GitHub", href: profile.github, external: true },
-  { label: "LinkedIn", href: profile.linkedin, external: true },
+// Reach-me links as brand glyphs. Per the design decision the glyphs are the
+// only color on the page and always wear their brand color (no hover fill).
+// Email has no brand mark, so its lucide glyph is drawn neutral/muted.
+const socials = [
+  { label: "Email", icon: "lucide:mail", href: `mailto:${profile.email}`, external: false, kind: "email" },
+  { label: "GitHub", icon: "simple-icons:github", href: profile.github, external: true, kind: "github" },
+  { label: "LinkedIn", icon: "simple-icons:linkedin", href: profile.linkedin, external: true, kind: "linkedin" },
+  { label: "Google Scholar", icon: "simple-icons:googlescholar", href: profile.googleScholar, external: true, kind: "scholar" },
 ];
 ---
 
@@ -40,17 +43,18 @@ const ctas = [
       )
     }
 
-    <div class="ctas">
+    <div class="socials">
       {
-        ctas.map((c) => (
+        socials.map((s) => (
           <a
-            class="cta"
-            href={c.href}
-            target={c.external ? "_blank" : undefined}
-            rel={c.external ? "noopener noreferrer" : undefined}
+            class={`social ${s.kind}`}
+            href={s.href}
+            target={s.external ? "_blank" : undefined}
+            rel={s.external ? "noopener noreferrer" : undefined}
+            title={s.label}
+            aria-label={s.label}
           >
-            {c.label}
-            {c.external && <span class="cta-ext" aria-hidden="true">↗</span>}
+            <Icon name={s.icon} />
           </a>
         ))
       }
@@ -115,37 +119,68 @@ const ctas = [
     flex-shrink: 0;
   }
 
-  .ctas {
+  /* Reach-me icons: quiet bordered squares whose glyph always wears its brand
+     color (email stays neutral — mail has no brand mark). Monochrome chrome,
+     brand-colored glyphs only; no colored fill on hover. */
+  .socials {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 1.1rem;
+    gap: 0.5rem;
+    margin-top: 1.15rem;
   }
 
-  .cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-family: theme("fontFamily.mono");
-    font-size: 0.78rem;
-    color: var(--text);
-    padding: 0.4rem 0.95rem;
+  .social {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 10px;
     border: 1px solid var(--border);
-    border-radius: 999px;
+    color: var(--text);
+    background: transparent;
     transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease;
+      transform 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
   }
 
-  .cta:hover {
-    background: var(--bg-subtle);
+  .social:hover {
     border-color: var(--text-muted);
+    transform: translateY(-2px);
     text-decoration: none;
   }
 
-  .cta-ext {
-    font-size: 0.82em;
-    opacity: 0.8;
+  .social:focus-visible {
+    outline: 2px solid var(--text-muted);
+    outline-offset: 2px;
+  }
+
+  .social :global(svg) {
+    width: 1.18rem;
+    height: 1.18rem;
+  }
+
+  /* Email has no brand color; draw it muted so it reads as the quiet one. */
+  .social.email {
+    color: var(--text-muted);
+  }
+
+  .social.email:hover {
+    color: var(--text);
+  }
+
+  /* GitHub's mark is near-black/white by nature; let it follow the text color
+     so it stays legible in both themes. */
+  .social.github {
+    color: var(--text);
+  }
+
+  .social.linkedin {
+    color: #0a66c2;
+  }
+
+  .social.scholar {
+    color: #4285f4;
   }
 
   .avatar {
