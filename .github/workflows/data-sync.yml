@@ -34,5 +34,5 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(data): auto-sync google scholar and github projects"
-          file_pattern: 'src/content/research/*.md src/content/projects/*.md'
+          commit_message: "chore(data): auto-sync google scholar and github featured projects"
+          file_pattern: 'src/content/research/*.md src/content/projects/*.md src/data/featuredProjects.ts'

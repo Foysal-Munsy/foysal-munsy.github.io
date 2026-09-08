@@ -31,3 +31,7 @@ pnpm-debug.log*
 
 # editor/tooling scratch
 .commandcode/
+
+# python
+__pycache__/
+*.pyc
