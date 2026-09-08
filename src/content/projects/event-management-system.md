@@ -10,9 +10,6 @@ tech:
     - "PostgreSQL"
     - "JWT"
 repo: "https://github.com/Foysal-Munsy/EventBuddy-Frontend"
-links:
-    - label: "Source"
-      url: "https://github.com/Foysal-Munsy/EventBuddy-Frontend"
 order: 5
 featured: false
 draft: false

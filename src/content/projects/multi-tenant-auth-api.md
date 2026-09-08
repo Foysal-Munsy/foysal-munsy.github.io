@@ -10,9 +10,6 @@ tech:
     - "Swagger UI"
     - "JWT"
 repo: "https://github.com/Foysal-Munsy/multi-tenant-auth"
-links:
-    - label: "Source"
-      url: "https://github.com/Foysal-Munsy/multi-tenant-auth"
 order: 3
 featured: true
 draft: false

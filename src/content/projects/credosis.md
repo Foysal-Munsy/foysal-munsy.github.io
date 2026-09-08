@@ -6,13 +6,9 @@ timeframe: "2026"
 tech:
     - "TypeScript"
     - "Next.js"
-    - "TailwindCss"
+    - "Tailwind CSS"
 
-links:
-    - label: "Website"
-      url: "https://credosis.com/"
-    - label: "Case Study"
-      url: "https://foysal-munsy.github.io/projects-case-studies/case-studies/credosis-web/"
+liveUrl: "https://credosis.com/"
 order: 2
 featured: false
 draft: false

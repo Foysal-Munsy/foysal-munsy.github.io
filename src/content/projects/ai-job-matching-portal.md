@@ -10,8 +10,6 @@ tech:
     - "MongoDB"
 repo: "https://github.com/Foysal-Munsy/CareerOstad-AI-Job-Matching"
 links:
-    - label: "Source"
-      url: "https://github.com/Foysal-Munsy/CareerOstad-AI-Job-Matching"
     - label: "Website"
       url: "https://career-ostad.vercel.app/"
 cover: "covers/careerostad-thumbnail.png"
