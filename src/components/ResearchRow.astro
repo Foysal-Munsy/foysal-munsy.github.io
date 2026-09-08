@@ -6,12 +6,12 @@ import QuartileBadge from "./QuartileBadge.astro";
 import CiteControl from "./CiteControl.astro";
 
 // Rich publication row used on the homepage research block and the /research
-// page. Purely text, matching the ProjectRow language: a title (linking to the
-// write-up or the external DOI/report when there is one), an author byline,
-// venue + year, summary, status/quartile badges, a live citation count, doc
-// links, and a Cite disclosure. Academic detail (authors, citations, cite
-// text) comes from the entry frontmatter and, for DOI works, the live OpenAlex
-// lookup handled by src/scripts/researchCitations.ts.
+// page. Purely text rows: a title (linking to the write-up or the external
+// DOI/report when there is one), an author byline, venue + year, summary,
+// status/quartile badges, a live citation count, doc links, and a Cite
+// disclosure. Academic detail (authors, citations, cite text) comes from the
+// entry frontmatter and, for DOI works, the live OpenAlex lookup handled by
+// src/scripts/researchCitations.ts.
 interface Props {
     entry: CollectionEntry<"research">;
     // Show the summary paragraph (false for a more compact homepage feature).

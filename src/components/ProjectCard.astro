@@ -1,0 +1,241 @@
+---
+import { Icon } from "astro-icon/components";
+import type { FeaturedRepo } from "../data/featuredProjects";
+
+// A cover card for one GitHub-featured repo. The cover is the repo's GitHub
+// social-preview image (hotlinked, so nothing is stored in the repo). Card
+// chrome stays monochrome; the only color is the GitHub mark's own glyph.
+interface Props {
+  repo: FeaturedRepo;
+}
+const { repo } = Astro.props;
+
+const initial = repo.title.trim().charAt(0).toUpperCase();
+// Long topic lists read as noise; the first few make the stack clear.
+const topics = repo.topics.slice(0, 5);
+---
+
+<article class="card">
+  {
+    repo.cover ? (
+      <img
+        class="cover"
+        src={repo.cover}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+      />
+    ) : (
+      <div class="cover fallback" aria-hidden="true">
+        <span class="initial">{initial}</span>
+      </div>
+    )
+  }
+
+  <div class="body">
+    <h3 class="name">
+      <a class="title" href={repo.repoUrl} target="_blank" rel="noopener noreferrer">
+        {repo.title}
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </h3>
+    {repo.summary && <p class="summary">{repo.summary}</p>}
+  </div>
+
+  <div class="foot">
+    {topics.length > 0 && (
+      <ul class="topics" aria-label="Tech topics">
+        {topics.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    )}
+
+    <span class="icon-links">
+      <a
+        class="icon github"
+        href={repo.repoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Source on GitHub"
+        aria-label="Source on GitHub"
+      >
+        <Icon name="simple-icons:github" />
+      </a>
+      {repo.homepage && (
+        <a
+          class="icon"
+          href={repo.homepage}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Website"
+          aria-label="Website"
+        >
+          <Icon name="lucide:globe" />
+        </a>
+      )}
+    </span>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--text-muted);
+  }
+
+  /* Cover photo on top, 16:9, clipped by the card's rounded corners. */
+  .cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--bg-subtle);
+  }
+
+  /* When a repo has no reachable preview image, show a quiet monogram tile. */
+  .fallback {
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(135deg, var(--bg-subtle), var(--chip));
+  }
+
+  .initial {
+    font-family: theme("fontFamily.mono");
+    font-size: 2rem;
+    color: var(--text-muted);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem 1.15rem 0;
+    flex: 1;
+  }
+
+  .name {
+    margin: 0;
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+
+  .title {
+    color: var(--text);
+  }
+
+  .title:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .arrow {
+    display: inline-block;
+    margin-left: 0.25rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+
+  .title:hover .arrow {
+    transform: translate(2px, -1px);
+  }
+
+  .summary {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem 1.15rem 1rem;
+    margin-top: 0.9rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Tech topics as a quiet mono line — no boxes, no colored badges. */
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: theme("fontFamily.mono");
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+
+  .topics li {
+    max-width: 16ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topics li:not(:last-child)::after {
+    content: ",";
+  }
+
+  .icon-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .icon:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .icon :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* GitHub's mark is near-black/white by nature; let it follow the text color
+     so it stays legible in both themes (its only "color" is the glyph). */
+  .icon.github {
+    color: var(--text);
+  }
+
+  .icon.github:hover {
+    border-color: var(--text-muted);
+  }
+</style>

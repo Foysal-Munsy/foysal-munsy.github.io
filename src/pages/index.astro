@@ -6,12 +6,12 @@ import Section from "../components/Section.astro";
 import ListRow from "../components/ListRow.astro";
 import WorkRow from "../components/WorkRow.astro";
 import CpRow from "../components/CpRow.astro";
-import ProjectRow from "../components/ProjectRow.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 import TechBadge from "../components/TechBadge.astro";
 import InterestChips from "../components/InterestChips.astro";
 import ResearchRow from "../components/ResearchRow.astro";
 import ResearchLinks from "../components/ResearchLinks.astro";
-import { projectCardProps } from "../data/projectList";
+import { featuredProjects as featuredRepos } from "../data/featuredProjects";
 import {
   profile,
   work,
@@ -25,13 +25,9 @@ import {
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
 
-// Featured projects + research surfaced on the homepage. Full lists live on
-// their own pages; here we show only the highlighted, non-draft entries.
-// Capped so the homepage stays tight — the rest live on /projects.
-const featuredProjects = (await getCollection("projects"))
-  .filter((e) => !e.data.draft && e.data.featured)
-  .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 3);
+// Featured GitHub repos (tagged `featured` on GitHub) surfaced on the
+// homepage; full list lives on /projects. Capped so the homepage stays tight.
+const projectItems = featuredRepos.slice(0, 3);
 
 const featuredResearch = (await getCollection("research"))
   .filter((e) => !e.data.draft && e.data.featured)
@@ -46,6 +42,7 @@ const featuredResearch = (await getCollection("research"))
   </Section>
 
   <Section title="Work Experience" delay={0.15}>
+    {/* Keep the current role expanded so skimmers see the bullets. */}
     {
       work.map((w, i) => (
         <WorkRow
@@ -55,7 +52,6 @@ const featuredResearch = (await getCollection("research"))
           subtitle={w.role}
           location={w.location}
           points={w.points}
-          // Keep the current role expanded so skimmers see the bullets.
           defaultOpen={i === 0}
         />
       ))
@@ -153,16 +149,16 @@ const featuredResearch = (await getCollection("research"))
   }
 
   {
-    featuredProjects.length > 0 && (
+    projectItems.length > 0 && (
       <Section
         eyebrow="Projects"
         title="Things I've built"
-        subtitle="A few projects I'm proud of: from backends and APIs to full-stack products."
+        subtitle="A few things I've shipped, kept in sync with GitHub — the cover is each repo's social preview."
         delay={0.4}
       >
-        <div class="list">
-          {featuredProjects.map((p) => (
-            <ProjectRow {...projectCardProps(p, home)} />
+        <div class="project-grid">
+          {projectItems.map((repo) => (
+            <ProjectCard repo={repo} />
           ))}
         </div>
         <a class="see-all" href={`${home}projects`}>
@@ -320,6 +316,14 @@ const featuredResearch = (await getCollection("research"))
   .list {
     display: flex;
     flex-direction: column;
+  }
+
+  /* GitHub-featured repo cards. Min ~300px keeps two comfortable columns at
+     the 44rem content width, collapsing to one on small screens. */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
   }
 
   .see-all {
