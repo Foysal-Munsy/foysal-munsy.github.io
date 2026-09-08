@@ -24,6 +24,88 @@ export const featuredProjects: FeaturedRepo[] = [
       "vercel"
     ],
     "cover": "https://repository-images.githubusercontent.com/1347611430/907ec9e1-e6ad-46ed-83a2-5e8968f055f4",
-    "pushedAt": ""
+    "pushedAt": "2026-08-30T13:50:16Z",
+    "homepage": "https://lms-psi-indol.vercel.app"
+  },
+  {
+    "title": "vehicle-rental-management-api",
+    "repoUrl": "https://github.com/Foysal-Munsy/vehicle-rental-management-api",
+    "summary": "A REST API for a vehicle rental company. Staff log in with a JWT, manage the vehicle fleet, record customer bookings as rentals, and generate monthly revenue reports.",
+    "topics": [
+      "eslint",
+      "expressjs",
+      "jwt",
+      "knex",
+      "nodejs",
+      "postgresql",
+      "prettier",
+      "typescript"
+    ],
+    "cover": "https://repository-images.githubusercontent.com/1329454235/6e6896f4-ee4e-4fd4-b28d-5cc5d77a582b",
+    "pushedAt": "2026-08-12T17:22:34Z"
+  },
+  {
+    "title": "CareerOstad-AI-Job-Matching",
+    "repoUrl": "https://github.com/Foysal-Munsy/CareerOstad-AI-Job-Matching",
+    "summary": "This project is an AI-based job matching and career guidance portal. It uses artificial intelligence to accurately match job seekers with suitable employers and provides personalized career advice to help candidates make informed decisions.",
+    "topics": [],
+    "cover": "https://repository-images.githubusercontent.com/1057352392/56a9170b-097a-4b4a-9253-a37a130322af",
+    "pushedAt": "2026-03-11T19:36:20Z",
+    "homepage": "https://career-ostad.vercel.app/"
+  },
+  {
+    "title": "multi-tenant-auth",
+    "repoUrl": "https://github.com/Foysal-Munsy/multi-tenant-auth",
+    "summary": "Multi-tenant auth API with JWT login, organization scoping via X-Organization-Id, and org-based roles.",
+    "topics": [],
+    "cover": "https://opengraph.githubassets.com/7cfe3f293b2a86c21c3d29148d15bfb15f4c666535a0eb8e9652959e4fe16253/Foysal-Munsy/multi-tenant-auth",
+    "pushedAt": "2026-03-11T11:51:33Z"
+  },
+  {
+    "title": "EventBuddy-Frontend",
+    "repoUrl": "https://github.com/Foysal-Munsy/EventBuddy-Frontend",
+    "summary": "Event Buddy Frontend - Next.js Event Booking Platform  A modern, responsive frontend application built with Next.js, TypeScript, and Tailwind CSS. Provides an intuitive interface for users to browse events, book seats, and manage their bookings.",
+    "topics": [
+      "approuter",
+      "dotenv",
+      "nextjs",
+      "react-dom",
+      "tailwindcss",
+      "typescript"
+    ],
+    "cover": "https://opengraph.githubassets.com/fb60e71e8988854ffb4e0c75ff7dc3017f462a0db2f4fc73314c695a4f2fbd55/Foysal-Munsy/EventBuddy-Frontend",
+    "pushedAt": "2025-11-20T18:15:58Z"
+  },
+  {
+    "title": "Blood-Donation-Client",
+    "repoUrl": "https://github.com/Foysal-Munsy/Blood-Donation-Client",
+    "summary": "A full-stack blood donation management platform built with React and Firebase. It features role-based access for admins, donors, and volunteers, allowing users to create, manage, and filter blood donation requests by blood group and location. Includes blog publishing, rich animations, and responsive UI with TailwindCSS and NextUI.",
+    "topics": [
+      "firebase-auth",
+      "jodit-react",
+      "nodejs",
+      "react-router",
+      "reactjs",
+      "tailwindcss",
+      "vite"
+    ],
+    "cover": "https://opengraph.githubassets.com/94076cb5d902b8d304cd5d02e59de70732fcc04d8b2a0c51867cad3072ec6507/Foysal-Munsy/Blood-Donation-Client",
+    "pushedAt": "2025-11-16T21:49:36Z",
+    "homepage": "https://blood-donation-app-ff014.web.app/"
+  },
+  {
+    "title": "Food-Sharing-Client",
+    "repoUrl": "https://github.com/Foysal-Munsy/Food-Sharing-Client",
+    "summary": "A modern authentication template built with React + Vite, Firebase, and TailwindCSS. It features protected routes, animated transitions, toast notifications, and a responsive UI \u2014 perfect for kickstarting secure web apps.",
+    "topics": [
+      "expressjs",
+      "javascript",
+      "mongodb",
+      "nodejs",
+      "react"
+    ],
+    "cover": "https://opengraph.githubassets.com/e907b43141a5a0a64f0dd82592bfefa5f7d32723660dc9872b09eebd3dc4f606/Foysal-Munsy/Food-Sharing-Client",
+    "pushedAt": "2025-10-14T07:34:19Z",
+    "homepage": "https://food-sharing-e49b8.web.app/"
   }
 ];
