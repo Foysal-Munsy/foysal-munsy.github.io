@@ -60,6 +60,12 @@ body {
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* Custom text selection color for a premium, intentional feel. */
+::selection {
+    background: color-mix(in srgb, var(--ok) 20%, transparent);
+    color: var(--text);
+}
+
 /* The hidden attribute must always win over any component's display value
    (e.g. inline-flex rows), so JS-toggled placeholders stay invisible until
    they are genuinely ready to show. */
@@ -71,10 +77,12 @@ body {
 a {
     color: var(--text);
     text-decoration: none;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 a:hover {
     text-decoration: underline;
+    text-decoration-color: var(--text-muted);
     text-underline-offset: 3px;
 }
 

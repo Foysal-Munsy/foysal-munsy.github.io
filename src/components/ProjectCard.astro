@@ -86,11 +86,12 @@ const topics = repo.topics.slice(0, 5);
     border-radius: 14px;
     overflow: hidden;
     background: var(--surface);
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
   .card:hover {
     border-color: var(--text-muted);
+    transform: translateY(-3px);
   }
 
   /* Cover photo on top, 16:9, clipped by the card's rounded corners. */
