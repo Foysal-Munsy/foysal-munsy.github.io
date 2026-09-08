@@ -1,6 +1,6 @@
 import os
 import re
-from scholarly import scholarly
+from scholarly import scholarly, ProxyGenerator
 import frontmatter
 
 SCHOLAR_ID = 'LS9hj1IAAAAJ'
@@ -11,6 +11,11 @@ def normalize_title(title):
     return re.sub(r'[^\w\s]', '', title.lower()).strip()
 
 def main():
+    print("Setting up free proxies to avoid IP blocks...")
+    pg = ProxyGenerator()
+    pg.FreeProxies()
+    scholarly.use_proxy(pg)
+    
     print(f"Fetching Google Scholar profile: {SCHOLAR_ID}")
     author = scholarly.search_author_id(SCHOLAR_ID)
     scholarly.fill(author, sections=['publications'])
