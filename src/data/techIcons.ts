@@ -19,9 +19,23 @@ const TECH_ICONS: Record<string, string> = {
     javascript: "logos:javascript",
     python: "logos:python",
 
+    // Frontend
+    react: "logos:react",
+    "react.js": "logos:react",
+    "next.js": "simple-icons:nextdotjs",
+    nextjs: "simple-icons:nextdotjs",
+    tailwindcss: "logos:tailwindcss-icon",
+    tailwind: "logos:tailwindcss-icon",
+    "tailwind css": "logos:tailwindcss-icon",
+    html5: "logos:html-5",
+    html: "logos:html-5",
+    css3: "logos:css-3",
+    css: "logos:css-3",
+
     // .NET ecosystem
     ".net": "logos:dotnet",
     ".net 8": "logos:dotnet",
+    ".net core": "logos:dotnet",
     ".net / asp.net core": "logos:dotnet",
     "asp.net core": "logos:dotnet",
     "asp.net web api": "logos:dotnet",
@@ -31,17 +45,18 @@ const TECH_ICONS: Record<string, string> = {
     "3-tier architecture": "lucide:layers-3",
 
     // JS/TS frameworks & runtimes
-    "next.js": "simple-icons:nextdotjs",
-    nextjs: "simple-icons:nextdotjs",
+    "express": "simple-icons:express",
+    "express.js": "simple-icons:express",
     nestjs: "logos:nestjs",
     "node.js": "logos:nodejs-icon",
     nodejs: "logos:nodejs-icon",
-    react: "logos:react",
 
     // Databases
     postgresql: "logos:postgresql",
     postgres: "logos:postgresql",
     mongodb: "logos:mongodb-icon",
+    mysql: "logos:mysql-icon",
+    "mysql server": "logos:mysql-icon",
     mssql: "simple-icons:microsoftsqlserver",
     "mssql server": "simple-icons:microsoftsqlserver",
     "sql server": "simple-icons:microsoftsqlserver",
@@ -51,8 +66,6 @@ const TECH_ICONS: Record<string, string> = {
     docker: "logos:docker-icon",
     kubernetes: "logos:kubernetes",
     render: "lucide:cloud",
-    tailwind: "logos:tailwindcss-icon",
-    "tailwind css": "logos:tailwindcss-icon",
     astro: "logos:astro-icon",
     git: "logos:git-icon",
     github: "simple-icons:github",

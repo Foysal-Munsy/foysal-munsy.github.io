@@ -144,13 +144,13 @@ export interface SkillGroup {
 }
 
 export const skillGroups: SkillGroup[] = [
-    { label: "Languages", items: ["C#", "C++", "TypeScript"] },
+    { label: "Languages", items: ["C++", "JavaScript", "TypeScript", "C#", "Python"] },
+    { label: "Frontend", items: ["React", "Next.js", "TailwindCSS", "HTML5", "CSS3"] },
     {
-        label: "Frameworks",
-        items: [".NET / ASP.NET Core", "EF Core", "Next.js", "NestJS", "Node.js"],
+        label: "Backend",
+        items: ["Node.js", "Express.js", "NestJS", ".NET Core"],
     },
-    { label: "Data", items: ["PostgreSQL", "MongoDB", "MSSQL"] },
-    { label: "DevOps", items: ["Docker"] },
+    { label: "Databases", items: ["MongoDB", "PostgreSQL", "MySQL", "MSSQL"] },
 ];
 
 export const competitiveProgramming: CpItem[] = [
