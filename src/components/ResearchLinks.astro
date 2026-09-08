@@ -1,11 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import { profile } from "../data/resume";
+import { Icon } from "astro-icon/components";
 
 // Academic presence strip used on the homepage research block and the
-// /research page: ORCID, Google Scholar, and a live total citation count fed
-// by the OpenAlex lookup (see src/scripts/researchCitations.ts). The count
-// element starts hidden and only appears once a number has been fetched.
+// /research page: ORCID and Google Scholar as brand-glyph squares (the only
+// color on the page, matching the hero socials), then a citation total. The
+// count element starts hidden and only appears once a number has been
+// fetched (live OpenAlex lookup, see src/scripts/researchCitations.ts).
 interface Props {
     // "center" for the homepage (under a centered header), "left" for pages.
     align?: "center" | "left";
@@ -18,40 +20,42 @@ const scholarTotal = allResearch.reduce((sum, item) => sum + (item.data.scholarC
 
 <div class:list={["rlinks", align]}>
     <a
-        class="p-pill"
+        class="glyph orcid"
         href={profile.orcid}
         target="_blank"
         rel="noopener noreferrer"
+        title="ORCID"
+        aria-label="ORCID"
     >
-        ORCID
-        <span class="ext" aria-hidden="true">↗</span>
+        <Icon name="simple-icons:orcid" />
     </a>
     <a
-        class="p-pill"
+        class="glyph scholar"
         href={profile.googleScholar}
         target="_blank"
         rel="noopener noreferrer"
+        title="Google Scholar"
+        aria-label="Google Scholar"
     >
-        Google Scholar
-        <span class="ext" aria-hidden="true">↗</span>
+        <Icon name="simple-icons:googlescholar" />
     </a>
+
+    <span class="sep" aria-hidden="true"></span>
 
     {
         scholarTotal > 0 ? (
-            <span class="total-line">
+            <span class="total-line" title="Summed from committed Google Scholar snapshots">
                 <span class="total-num">
                     <span>{scholarTotal}</span>
                 </span>
                 <span class="total-txt">total citations</span>
-                <span class="total-src">via Google Scholar</span>
             </span>
         ) : (
-            <span class="total-line" data-total hidden>
+            <span class="total-line" data-total title="Live total from OpenAlex" hidden>
                 <span class="total-num">
                     <span class="oa-total">0</span>
                 </span>
                 <span class="total-txt">total citations</span>
-                <span class="total-src">via OpenAlex</span>
             </span>
         )
     }
@@ -62,40 +66,59 @@ const scholarTotal = allResearch.reduce((sum, item) => sum + (item.data.scholarC
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.5rem 0.75rem;
+        gap: 0.5rem 0.6rem;
     }
 
     .rlinks.center {
         justify-content: center;
     }
 
-    .p-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.3rem;
-        font-family: theme("fontFamily.mono");
-        font-size: 0.78rem;
-        font-weight: 500;
-        color: var(--text-muted);
-        padding: 0.32rem 0.8rem;
+    /* Reach-me glyph squares, the same recipe as the hero socials: monochrome
+       chrome, and the glyph always wears its brand color. */
+    .glyph {
+        display: grid;
+        place-items: center;
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 10px;
         border: 1px solid var(--border);
-        border-radius: 999px;
+        color: var(--text);
+        background: transparent;
         transition:
-            color 0.15s ease,
+            transform 0.15s ease,
             border-color 0.15s ease,
-            background 0.15s ease;
+            color 0.15s ease;
     }
 
-    .p-pill:hover {
-        color: var(--text);
+    .glyph:hover {
         border-color: var(--text-muted);
-        background: var(--bg-subtle);
+        transform: translateY(-1px);
         text-decoration: none;
     }
 
-    .ext {
-        font-size: 0.82em;
-        opacity: 0.8;
+    .glyph:focus-visible {
+        outline: 2px solid var(--text-muted);
+        outline-offset: 2px;
+    }
+
+    .glyph :global(svg) {
+        width: 1.15rem;
+        height: 1.15rem;
+    }
+
+    .glyph.orcid {
+        color: #a6ce39;
+    }
+
+    .glyph.scholar {
+        color: #4285f4;
+    }
+
+    .sep {
+        width: 1px;
+        height: 1.15rem;
+        background: var(--border);
+        flex-shrink: 0;
     }
 
     .total-line {
@@ -108,17 +131,12 @@ const scholarTotal = allResearch.reduce((sum, item) => sum + (item.data.scholarC
 
     .total-num {
         font-family: theme("fontFamily.mono");
-        font-size: 1rem;
+        font-size: 1.05rem;
         font-weight: 600;
         color: var(--text);
     }
 
     .total-txt {
         white-space: nowrap;
-    }
-
-    .total-src {
-        font-size: 0.75rem;
-        color: var(--text-muted);
     }
 </style>
