@@ -5,10 +5,13 @@ on:
     - cron: '0 0 * * 0' # Run every Sunday at midnight
   workflow_dispatch: # Allow manual triggering
 
-# The job rewrites committed data files and pushes them back, so the default
-# token needs write access to contents (read-only is the default otherwise).
+# The job rewrites committed data files, pushes them back, and may dispatch
+# the Pages deploy. The default token is read-only otherwise, so declare what
+# it may do: write data files back (contents) and start the deploy workflow
+# (actions).
 permissions:
   contents: write
+  actions: write
 
 jobs:
   sync-data:
@@ -39,7 +42,18 @@ jobs:
         run: python .github/scripts/fetch_github.py
         
       - name: Commit changes
+        id: commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(data): auto-sync google scholar and github featured projects"
           file_pattern: 'src/content/research/*.md src/content/projects/*.md src/data/featuredProjects.ts'
+
+      # Commits pushed with GITHUB_TOKEN do not retrigger push-triggered
+      # workflows, so a data change would land on main but the site would
+      # never rebuild. Dispatch the Pages deploy ourselves when this run
+      # changed something.
+      - name: Trigger Pages deploy
+        if: steps.commit.outputs.changes_detected == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml
