@@ -1,7 +1,9 @@
 import { defineCollection, z } from "astro:content";
 
-// Projects / case studies. Each MDX file under src/content/projects/ is a full
-// case study. `slug` is derived from the filename by Astro.
+// Projects / case studies. Repo-backed projects are shown from the auto-synced
+// GitHub feed (src/data/featuredProjects.ts), NOT from this collection. Files
+// here are hand-written case studies (kept draft until curated). Each MDX file
+// under src/content/projects/ is a full case study. `slug` comes from filename.
 const projects = defineCollection({
   type: "content",
   schema: z.object({
@@ -14,12 +16,6 @@ const projects = defineCollection({
     // Optional external links shown in the header.
     repo: z.string().url().optional(),
     liveUrl: z.string().url().optional(),
-    // Legacy cover fields. The project list is now text-only, so these are no
-    // longer rendered — kept optional purely so older entries don't error.
-    // New projects don't need them.
-    cover: z.string().optional(),
-    coverAlt: z.string().optional(),
-    coverBg: z.string().optional(),
     // Generic per-project links rendered as pill buttons on the card. Any
     // number/kind: Website, Source, API docs, etc. `icon` is optional and
     // auto-resolved from the label when omitted.

@@ -2,13 +2,13 @@
 import { getCollection } from "astro:content";
 import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
 
-// Pre-render one page per project that has a case-study body. Projects with an
-// empty body are external-only (linked to their repo from the list page) and
-// don't get a detail page.
+// Pre-render one page per project that has a case-study body. Drafts and
+// projects with an empty body (external-only, linked to their repo from the
+// list page) don't get a detail page.
 export async function getStaticPaths() {
     const entries = await getCollection("projects");
     return entries
-        .filter((entry) => entry.body.trim().length > 0)
+        .filter((entry) => !entry.data.draft && entry.body.trim().length > 0)
         .map((entry) => ({
             params: { slug: entry.slug },
             props: { entry },

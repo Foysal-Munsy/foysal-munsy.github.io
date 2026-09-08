@@ -11,5 +11,6 @@ tech:
 liveUrl: "https://credosis.com/"
 order: 2
 featured: false
-draft: false
+# Case study kept aside until curated: hidden from every list for now.
+draft: true
 ---

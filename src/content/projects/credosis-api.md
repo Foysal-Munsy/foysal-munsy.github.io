@@ -15,7 +15,8 @@ links:
       url: "https://credosis.com/contact#book"
 order: 1
 featured: true
-draft: false
+# Case study kept aside until curated: hidden from every list for now.
+draft: true
 ---
 
 ## What it is
