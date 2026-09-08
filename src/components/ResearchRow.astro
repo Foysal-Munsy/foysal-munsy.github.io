@@ -282,7 +282,9 @@ const linkLabel = isDataset ? "Dataset" : (d.linkLabel ?? "Report");
         color: var(--text);
     }
 
-    /* Borderless doc pills, distinct from the bordered status pills. */
+    /* Borderless doc links, distinct from the bordered status pills. Kept
+       theme-neutral (no accent) so the only color on the page comes from
+       brand glyphs and semantic badges. */
     .p-pill {
         display: inline-flex;
         align-items: center;
@@ -290,10 +292,11 @@ const linkLabel = isDataset ? "Dataset" : (d.linkLabel ?? "Report");
         font-family: theme("fontFamily.mono");
         font-size: 0.74rem;
         font-weight: 500;
-        color: var(--link);
+        color: var(--text-muted);
     }
 
     .p-pill:hover {
+        color: var(--text);
         text-decoration: underline;
         text-underline-offset: 3px;
     }
