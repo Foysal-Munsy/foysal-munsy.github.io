@@ -49,7 +49,7 @@ export const featuredProjects: FeaturedRepo[] = [
     "repoUrl": "https://github.com/Foysal-Munsy/CareerOstad-AI-Job-Matching",
     "summary": "This project is an AI-based job matching and career guidance portal. It uses artificial intelligence to accurately match job seekers with suitable employers and provides personalized career advice to help candidates make informed decisions.",
     "topics": [],
-    "cover": "https://repository-images.githubusercontent.com/1057352392/56a9170b-097a-4b4a-9253-a37a130322af",
+    "cover": "https://repository-images.githubusercontent.com/1057352392/205f3463-8645-4098-acc8-68b9b38313b1",
     "pushedAt": "2026-03-11T19:36:20Z",
     "homepage": "https://career-ostad.vercel.app/"
   },
@@ -73,7 +73,7 @@ export const featuredProjects: FeaturedRepo[] = [
       "tailwindcss",
       "typescript"
     ],
-    "cover": "https://opengraph.githubassets.com/fb60e71e8988854ffb4e0c75ff7dc3017f462a0db2f4fc73314c695a4f2fbd55/Foysal-Munsy/EventBuddy-Frontend",
+    "cover": "https://repository-images.githubusercontent.com/1099197204/221a401e-571d-428c-a2dc-9c3424e91b76",
     "pushedAt": "2025-11-20T18:15:58Z"
   },
   {
@@ -89,7 +89,7 @@ export const featuredProjects: FeaturedRepo[] = [
       "tailwindcss",
       "vite"
     ],
-    "cover": "https://opengraph.githubassets.com/94076cb5d902b8d304cd5d02e59de70732fcc04d8b2a0c51867cad3072ec6507/Foysal-Munsy/Blood-Donation-Client",
+    "cover": "https://repository-images.githubusercontent.com/1026658690/3a90a774-ca6c-49c0-a0a6-8c2fe0f6b0f0",
     "pushedAt": "2025-11-16T21:49:36Z",
     "homepage": "https://blood-donation-app-ff014.web.app/"
   },
@@ -104,7 +104,7 @@ export const featuredProjects: FeaturedRepo[] = [
       "nodejs",
       "react"
     ],
-    "cover": "https://opengraph.githubassets.com/e907b43141a5a0a64f0dd82592bfefa5f7d32723660dc9872b09eebd3dc4f606/Foysal-Munsy/Food-Sharing-Client",
+    "cover": "https://repository-images.githubusercontent.com/1022688039/e3302f9e-a21d-4cea-a39b-425595c81458",
     "pushedAt": "2025-10-14T07:34:19Z",
     "homepage": "https://food-sharing-e49b8.web.app/"
   }
