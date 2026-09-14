@@ -93,6 +93,17 @@ export const socials: SocialLink[] = [
 
 export const work: WorkItem[] = [
   {
+    company: "ELITE Research Lab LLC",
+    role: "Research Assistant",
+    period: "Sep 2026 - Present",
+    location: "Remote · Queens, NY, US",
+    logo: "/logos/elitelab.png",
+    points: [
+      "Contributing to the study \"Does Messy Mean Wrong? Testing Whether Trajectory Process Indicators Predict Failure Under Strengthened Coding-Agent Evaluation,\" examining whether process-level signals in a coding agent's execution trajectory predict task failure under a strengthened evaluation protocol.",
+      "Contributing to the evaluation methodology to disentangle trajectory \"messiness\" from outcome correctness in coding-agent benchmarks, addressing limitations of single-turn, outcome-only evaluation frameworks.",
+    ],
+  },
+  {
     company: "Credosis",
     role: "Software Engineer I",
     period: "Apr 2026 - Present",
