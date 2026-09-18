@@ -73,7 +73,7 @@ const linkLabel = isDataset ? "Dataset" : (d.linkLabel ?? "Report");
                 {authors.map((a, i) => (
                     <>
                         {i > 0 && <span class="auth-sep">, </span>}
-                        {a === selfName ? <b>{a}</b> : <span>{a}</span>}
+                        {(a === selfName || a === "F. Munsy" || a.includes("Munsy") || a.replace(/\\*\\*/g, '') === "F. Munsy") ? <b>{a.replace(/\\*\\*/g, '')}</b> : <span>{a.replace(/\\*\\*/g, '')}</span>}
                     </>
                 ))}
             </p>
@@ -301,8 +301,15 @@ const linkLabel = isDataset ? "Dataset" : (d.linkLabel ?? "Report");
         text-underline-offset: 3px;
     }
 
+    .p-pill:hover .ext {
+        transform: translate(2px, -2px);
+        opacity: 1;
+    }
+
     .ext {
+        display: inline-block;
         font-size: 0.82em;
         opacity: 0.8;
+        transition: transform 0.15s ease, opacity 0.15s ease;
     }
 </style>

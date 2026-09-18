@@ -4,7 +4,11 @@ summary: "BSc thesis proposing a two-stage object detection framework for autono
 venue: "BSc Thesis, American International University-Bangladesh"
 year: "2025-2026"
 authors:
-    - "Foysal Munsy"
+    - "F. Munsy"
+    - "M. Z. S. Sakib"
+    - "M. S. Owasi"
+    - "M. K. Shila"
+    - "N. Tabassum"
 tags:
     - "YOLOv8"
     - "Computer Vision"

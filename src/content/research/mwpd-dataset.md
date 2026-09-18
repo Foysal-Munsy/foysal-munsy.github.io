@@ -1,8 +1,8 @@
 ---
 authors:
-- Shahnaj Parvin
-- Foysal Munsy
-- Kamruddin Nur
+  - "S. Parvin"
+  - "F. Munsy"
+  - "K. Nur"
 draft: false
 featured: false
 kind: dataset

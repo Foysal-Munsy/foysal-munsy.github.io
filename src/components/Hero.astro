@@ -64,8 +64,8 @@ const socials = [
     class="avatar"
     src={profile.avatar}
     alt={profile.name}
-    width="112"
-    height="112"
+    width="160"
+    height="160"
     loading="eager"
   />
 </section>
@@ -185,23 +185,22 @@ const socials = [
   }
 
   .avatar {
-    width: 112px;
-    height: 112px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    border: 1px solid var(--border);
+    border: none;
+    /* Soft shadow ring matching the reference image */
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--bg-subtle) 50%, transparent), 0 8px 24px rgba(0, 0, 0, 0.06);
   }
 
   @media (max-width: 640px) {
-    /* Keep the avatar on the left, on the same row as the greeting.
-       flex-start (instead of center) lines the avatar up with the
-       "Hi, I'm Foysal" heading rather than floating in the middle. */
+    /* Stack the avatar on top of the text for mobile */
     .hero {
-      flex-direction: row-reverse;
-      justify-content: flex-end;
+      flex-direction: column-reverse;
       align-items: flex-start;
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
     .hero h1 {
@@ -209,8 +208,8 @@ const socials = [
     }
 
     .avatar {
-      width: 72px;
-      height: 72px;
+      width: 120px;
+      height: 120px;
     }
   }
 </style>

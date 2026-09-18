@@ -9,38 +9,31 @@
   No accent color by design - the palette is intentionally monochrome.
 */
 :root {
-    --bg: #ffffff;
-    --bg-subtle: #fafafa;
+    --bg: #faf9f5;
+    --bg-subtle: #e8e6dc;
     --surface: #ffffff;
-    --border: #e5e5e5;
-    --text: #0a0a0a;
-    --text-muted: #6b7280;
-    --chip: #f4f4f5;
-    --code-bg: #f5f5f5;
-    /* CV-style link blue, used for clickable inline references (e.g. CP handles). */
-    --link: #2563eb;
-    /* Muted status accents for research badges: green for published/done,
-       amber for submitted/pending. Kept desaturated so they sit quietly on
-       the otherwise monochrome page. */
-    --ok: #1a7f37;
-    --warn: #9a6700;
+    --border: #d4d3cc;
+    --text: #141413;
+    --text-muted: #6b6a65;
+    --chip: #e8e6dc;
+    --code-bg: #f4f3ec;
+    --link: #d97757;
+    --ok: #788c5d;
+    --warn: #d97757;
 }
 
 html.dark {
-
-    --bg: #131316;
-    --bg-subtle: #1a1a1e;
-    --surface: #1c1c20;
-    --border: #2e2e34;
-    --text: #f4f4f5;
-    --text-muted: #a1a1aa;
-    --chip: #26262b;
-    --code-bg: #1a1a1e;
-    /* Lighter blue so links stay legible on the dark background. */
-    --link: #60a5fa;
-    /* Brighter status accents so the badges stay legible on dark. */
-    --ok: #4ac26b;
-    --warn: #d29922;
+    --bg: #141413;
+    --bg-subtle: #1f1e1c;
+    --surface: #1c1b1a;
+    --border: #3d3d3a;
+    --text: #faf9f5;
+    --text-muted: #b0aea5;
+    --chip: #2a2927;
+    --code-bg: #1f1e1c;
+    --link: #d97757;
+    --ok: #788c5d;
+    --warn: #d97757;
 }
 
 html {
@@ -52,12 +45,29 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
-    font-family: theme("fontFamily.sans");
+    font-family: theme("fontFamily.serif");
     line-height: 1.7;
     letter-spacing: -0.006em;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     transition: background-color 0.2s ease, color 0.2s ease;
+    position: relative;
+}
+
+/* Premium fading grid at the top (Hero Section) */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    height: 80vh;
+    background-image: 
+        linear-gradient(to right, color-mix(in srgb, var(--border) 50%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in srgb, var(--border) 50%, transparent) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    mask-image: linear-gradient(to bottom, black 10%, transparent 90%);
+    -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 90%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Custom text selection color for a premium, intentional feel. */
@@ -266,4 +276,31 @@ a:hover {
         color: #000000;
         text-decoration: none;
     }
+}
+
+/* ==========================================================================
+   Custom Minimal Scrollbar
+   ========================================================================== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--border) 100%, transparent);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
 }

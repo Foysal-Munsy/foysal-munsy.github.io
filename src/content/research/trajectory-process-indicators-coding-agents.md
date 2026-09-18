@@ -3,7 +3,11 @@ title: "Does Messy Mean Wrong? Testing Whether Trajectory Process Indicators Pre
 summary: "In-progress empirical study on whether process signals in a coding agent's trajectory, such as how messy its path looks, predict task failure under a strengthened evaluation."
 venue: ""
 year: "2026"
-authors: []
+authors:
+  - "F. Munsy"
+  - "T. Chowdhury"
+  - "M. S. Sayed"
+  - "M. S. Mahmood"
 tags:
     - "Coding Agents"
     - "Evaluation"

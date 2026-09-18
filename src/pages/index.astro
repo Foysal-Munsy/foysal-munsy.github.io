@@ -38,7 +38,7 @@ const featuredResearch = (await getCollection("research"))
   <Hero />
 
   <Section title="About" delay={0.1}>
-    <p class="about">{profile.about}</p>
+    <p class="about" set:html={profile.about}></p>
   </Section>
 
   <Section title="Work Experience" delay={0.15}>
@@ -337,7 +337,26 @@ const featuredResearch = (await getCollection("research"))
 
   .link {
     font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+  }
+
+  .link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: currentColor;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  .link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
   }
 </style>

@@ -67,7 +67,7 @@ export const profile = {
   tagline:
     "Software Engineer & Researcher exploring reliable software systems and AI for software engineering.",
   about:
-    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering, especially how to evaluate coding agents honestly, and I'm open to PhD research.",
+    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering, especially how to evaluate coding agents honestly, and <span style=\"text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px;\">I'm open to PhD research.</span>",
   email: "foysal613@outlook.com",
   avatar: "https://avatars.githubusercontent.com/u/77909562?v=4",
   github: "https://github.com/Foysal-Munsy",
@@ -77,10 +77,9 @@ export const profile = {
   googleScholar: "https://scholar.google.com/citations?user=LS9hj1IAAAAJ&hl=en",
   // Ordered roughly most-current first so a visitor reads the focus area first.
   researchInterests: [
-    "AI for Software Engineering",
+    "AI for Software Engineering (AI4SE)",
     "AI Agents",
     "LLM Reasoning",
-    "Agentic AI",
     "Computer Vision",
   ],
 };

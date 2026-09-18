@@ -27,20 +27,26 @@ const { label, tone } = labels[status] ?? { label: status, tone: "muted" };
     .status-badge {
         font-family: theme("fontFamily.mono");
         font-size: 0.7rem;
+        font-weight: 500;
         line-height: 1;
         letter-spacing: 0.02em;
-        padding: 0.24rem 0.6rem;
-        border-radius: 999px;
-        border: 1px solid var(--border);
+        padding: 0.28rem 0.65rem;
+        border-radius: 6px;
+        border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+        background: color-mix(in srgb, var(--border) 20%, transparent);
         color: var(--text-muted);
         white-space: nowrap;
     }
 
     .tone-ok {
         color: var(--ok);
+        border-color: color-mix(in srgb, var(--ok) 30%, transparent);
+        background: color-mix(in srgb, var(--ok) 8%, transparent);
     }
 
     .tone-warn {
         color: var(--warn);
+        border-color: color-mix(in srgb, var(--warn) 30%, transparent);
+        background: color-mix(in srgb, var(--warn) 8%, transparent);
     }
 </style>

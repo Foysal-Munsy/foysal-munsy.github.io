@@ -6,15 +6,25 @@ export default {
         extend: {
             fontFamily: {
                 sans: [
-                    "Satoshi",
+                    "Inter",
                     "ui-sans-serif",
                     "system-ui",
                     "-apple-system",
+                    "BlinkMacSystemFont",
                     "Segoe UI",
                     "Roboto",
                     "Helvetica Neue",
                     "Arial",
                     "sans-serif",
+                ],
+                serif: [
+                    "Lora",
+                    "ui-serif",
+                    "Georgia",
+                    "Cambria",
+                    '"Times New Roman"',
+                    "Times",
+                    "serif",
                 ],
                 mono: [
                     "Geist Mono",
