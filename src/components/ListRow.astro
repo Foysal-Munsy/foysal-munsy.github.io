@@ -14,8 +14,9 @@ interface Props {
   subtitle?: string;
   logo?: string | null;
   icon?: string;
+  url?: string;
 }
-const { title, meta, subtitle, logo, icon } = Astro.props;
+const { title, meta, subtitle, logo, icon, url } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
@@ -37,7 +38,13 @@ const monogram = title.trim().charAt(0).toUpperCase();
   </div>
   <div class="body">
     <div class="head">
-      <span class="who">{title}</span>
+      {
+        url ? (
+          <a href={url} target="_blank" rel="noopener noreferrer" class="who">{title}</a>
+        ) : (
+          <span class="who">{title}</span>
+        )
+      }
       {meta && <span class="when">{meta}</span>}
     </div>
     {subtitle && <p class="role">{subtitle}</p>}

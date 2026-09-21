@@ -48,6 +48,7 @@ const featuredResearch = (await getCollection("research"))
         <WorkRow
           logo={w.logo}
           title={w.company}
+          url={w.url}
           meta={w.period}
           subtitle={w.role}
           location={w.location}
@@ -61,7 +62,7 @@ const featuredResearch = (await getCollection("research"))
   <Section title="Education" delay={0.2}>
     {
       education.map((e) => (
-        <ListRow logo={e.logo} title={e.institution} meta={e.period}>
+        <ListRow logo={e.logo} title={e.institution} url={e.url} meta={e.period}>
           <div class="edu-detail">
             {e.detail.map((line) => (
               <span>{line}</span>

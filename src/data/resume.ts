@@ -19,6 +19,8 @@ export interface WorkItem {
   // Path (under public/) to the company logo, or null to fall back to a
   // monogram built from the company name.
   logo: string | null;
+  // Optional URL to the company website
+  url?: string;
   points: string[];
 }
 
@@ -29,6 +31,8 @@ export interface EducationItem {
   detail: string[];
   period: string;
   logo: string | null;
+  // Optional URL to the institution website
+  url?: string;
 }
 
 export interface ContestItem {
@@ -65,9 +69,9 @@ export const profile = {
   // One-line status shown in the hero. Omit (or set to "") to hide it.
   availability: "Open to PhD Programs & Research Opportunities",
   tagline:
-    "Software Engineer & Researcher exploring reliable software systems and AI for software engineering.",
+    "Software Engineer & Researcher exploring reliable software systems and AI for software engineering(AI4SE).",
   about:
-    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering, especially how to evaluate coding agents honestly, and <span style=\"text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px;\">I'm open to PhD research.</span>",
+    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering(AI4SE), especially how to evaluate coding agents honestly, and <span style=\"text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px;\">I'm open to PhD research.</span>",
   email: "foysal613@outlook.com",
   avatar: "https://avatars.githubusercontent.com/u/77909562?v=4",
   github: "https://github.com/Foysal-Munsy",
@@ -97,6 +101,7 @@ export const work: WorkItem[] = [
     period: "Sep 2026 - Present",
     location: "Remote · Queens, NY, US",
     logo: "/logos/elitelab.png",
+    url: "https://elitelab.ai/",
     points: [
       "Contributing to the study \"Does Messy Mean Wrong? Testing Whether Trajectory Process Indicators Predict Failure Under Strengthened Coding-Agent Evaluation,\" examining whether process-level signals in a coding agent's execution trajectory predict task failure under a strengthened evaluation protocol.",
       "Contributing to the evaluation methodology to disentangle trajectory \"messiness\" from outcome correctness in coding-agent benchmarks, addressing limitations of single-turn, outcome-only evaluation frameworks.",
@@ -108,6 +113,7 @@ export const work: WorkItem[] = [
     period: "Apr 2026 - Present",
     location: "Remote · Dhaka, Bangladesh",
     logo: "/logos/credosis.jpg",
+    url: "https://credosis.com/",
     points: [
       "Designing and building the in-house API and booking system with ASP.NET Core Web API.",
       "Built the company frontend with Next.js and TypeScript.",
@@ -120,6 +126,7 @@ export const work: WorkItem[] = [
     period: "Dec 2025 - Mar 2026",
     location: "Remote · Dhaka, Bangladesh",
     logo: "/logos/dcl-logo.jpg",
+    url: "https://deepchainlabs.com/",
     points: [
       "Built multi-tenant auth, workspace creation, sprints and task allocation for Kazentic.",
       "Designed API endpoints and database structures around business logic.",
@@ -133,11 +140,13 @@ export const education: EducationItem[] = [
     institution: "American International University - Bangladesh",
     detail: [
       "BSc in Computer Science & Engineering",
-      "Major in Software Engineering",
-      "CGPA 3.61 / 4.00",
+      "Major: Software Engineering",
+      "Thesis: A Two-Stage Object Detection Framework for Autonomous Vehicles Using a Custom Multi-Weather Dataset and YOLOv8",
+      "CGPA: 3.61 / 4.00",
     ],
     period: "2022 - 2026",
     logo: "/logos/aiub.png",
+    url: "https://www.aiub.edu/",
   },
 ];
 

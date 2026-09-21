@@ -11,11 +11,12 @@ interface Props {
   subtitle?: string;
   location?: string;
   logo?: string | null;
+  url?: string;
   points: string[];
   // Render the row expanded on first paint (used for the current role).
   defaultOpen?: boolean;
 }
-const { title, meta, subtitle, location, logo, points, defaultOpen = false } = Astro.props;
+const { title, meta, subtitle, location, logo, url, points, defaultOpen = false } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
@@ -36,7 +37,13 @@ const monogram = title.trim().charAt(0).toUpperCase();
     </span>
     <span class="text">
       <span class="line">
-        <span class="who">{title}</span>
+        {
+          url ? (
+            <a href={url} target="_blank" rel="noopener noreferrer" class="who">{title}</a>
+          ) : (
+            <span class="who">{title}</span>
+          )
+        }
         {meta && <span class="when">{meta}</span>}
       </span>
       {subtitle && <span class="role">{subtitle}</span>}
