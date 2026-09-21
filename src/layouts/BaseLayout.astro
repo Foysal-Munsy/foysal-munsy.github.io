@@ -12,7 +12,7 @@ interface Props {
 }
 const {
     title,
-    description = "Software engineer and researcher building dependable backends and working on AI for software engineering and computer vision.",
+    description = profile.tagline,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
