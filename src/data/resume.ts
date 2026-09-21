@@ -119,7 +119,7 @@ export const work: WorkItem[] = [
     role: "Software Engineer Intern",
     period: "Dec 2025 - Mar 2026",
     location: "Remote · Dhaka, Bangladesh",
-    logo: "/logos/deepchain.jpg",
+    logo: "/logos/dcl-logo.jpg",
     points: [
       "Built multi-tenant auth, workspace creation, sprints and task allocation for Kazentic.",
       "Designed API endpoints and database structures around business logic.",

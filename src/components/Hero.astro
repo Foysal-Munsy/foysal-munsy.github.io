@@ -93,6 +93,7 @@ const socials = [
     font-size: 1.25rem;
     line-height: 1.55;
     max-width: 28rem;
+    font-family: theme("fontFamily.sans");
   }
 
   .sub strong {
@@ -107,16 +108,18 @@ const socials = [
     align-items: center;
     gap: 0.55rem;
     margin: 1rem 0 0;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--link);
+    font-family: theme("fontFamily.sans");
   }
 
   .avail-dot {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background: var(--ok);
+    border: 1.5px solid var(--link);
+    background: transparent;
     flex-shrink: 0;
   }
 
