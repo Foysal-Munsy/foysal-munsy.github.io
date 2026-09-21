@@ -70,8 +70,10 @@ export const profile = {
   availability: "Open to PhD Programs & Research Opportunities",
   tagline:
     "Software Engineer & Researcher exploring reliable software systems and AI for software engineering(AI4SE).",
+  // about:
+  //   "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering(AI4SE), especially how to evaluate coding agents honestly, and <span style=\"text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px;\">I'm open to PhD research.</span>",
   about:
-    "CSE graduate with a major in Software Engineering, working as a software engineer and researching alongside. I've published a computer vision study on robust multi-weather pothole detection in Results in Engineering and written a BSc thesis on object detection for autonomous vehicles. My research now centers on AI for software engineering(AI4SE), especially how to evaluate coding agents honestly, and <span style=\"text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px;\">I'm open to PhD research.</span>",
+  "I am a CSE graduate with a major in Software Engineering (SE) from AIUB, graduating in 2026. I am currently working as a Software Engineer to understand industry best practices and gain hands-on experience, while also researching how AI is transforming Software Engineering (<strong>AI4SE</strong>). I have a publication in computer vision and completed my BSc thesis on object detection for autonomous vehicles. My current interests are <strong>AI4SE, AI Agents, and LLM reasoning</strong>, with a broader interest in <strong>AGI</strong>. I am open to <strong>PhD and research opportunities</strong>, but I do not want to limit myself to these areas. I am a learner, and I am open to exploring new fields and interesting problems.",
   email: "foysal613@outlook.com",
   avatar: "https://avatars.githubusercontent.com/u/77909562?v=4",
   github: "https://github.com/Foysal-Munsy",
