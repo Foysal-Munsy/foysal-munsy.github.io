@@ -31,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           # httpx must stay <0.26: scholarly 1.7.11 passes `proxies=` to
           # httpx.Client, an argument removed in httpx 0.26+.
-          pip install "scholarly==1.7.11" "python-frontmatter==1.3.0" "requests==2.34.2" "httpx<0.26"
+          pip install "scholarly==1.7.11" "python-frontmatter==1.3.0" "requests==2.34.2" "httpx<0.26" "bibtexparser<2.0.0"
           
       - name: Sync Google Scholar Citations
         run: python .github/scripts/fetch_scholar.py
