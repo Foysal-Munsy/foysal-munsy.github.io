@@ -12,6 +12,21 @@ export interface FeaturedRepo {
 
 export const featuredProjects: FeaturedRepo[] = [
   {
+    "title": "sweabs-free-eval",
+    "repoUrl": "https://github.com/Foysal-Munsy/sweabs-free-eval",
+    "summary": "Reproducible GitHub Actions pipeline for evaluating coding-agent patches with SWE-ABS strengthened tests.",
+    "topics": [
+      "ai-research",
+      "benchmarking",
+      "coding-agents",
+      "llm-agents",
+      "swe-abs",
+      "swe-bench"
+    ],
+    "cover": "https://repository-images.githubusercontent.com/1387635698/8342cbe0-7f4e-452f-b00f-41702e3ceaf3",
+    "pushedAt": "2026-09-25T16:52:21Z"
+  },
+  {
     "title": "LMS",
     "repoUrl": "https://github.com/Foysal-Munsy/LMS",
     "summary": "A LMS built with a focus on security, scalability, and modern design. It features strict 4-tier Role-Based Access Control (RBAC) enforced on the backend, structured course enrollments, persistent progress tracking, server-side graded quizzes, and a fully functional draft-to-publish blog system.",

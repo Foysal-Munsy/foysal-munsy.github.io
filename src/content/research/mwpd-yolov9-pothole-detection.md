@@ -1,11 +1,11 @@
 ---
 authors:
-  - "S. Parvin"
-  - "F. Munsy"
-  - "M. A. R. Rahat"
-  - "A. N. Jhumur"
-  - "K. Nur"
-  - "D. Ghose"
+- S. Parvin
+- F. Munsy
+- M. A. R. Rahat
+- A. N. Jhumur
+- K. Nur
+- D. Ghose
 doi: https://doi.org/10.1016/j.rineng.2025.107817
 draft: false
 featured: true

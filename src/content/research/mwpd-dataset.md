@@ -1,8 +1,8 @@
 ---
 authors:
-  - "S. Parvin"
-  - "F. Munsy"
-  - "K. Nur"
+- S. Parvin
+- F. Munsy
+- K. Nur
 draft: false
 featured: false
 kind: dataset
