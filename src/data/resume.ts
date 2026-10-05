@@ -83,9 +83,10 @@ export const profile = {
   googleScholar: "https://scholar.google.com/citations?user=LS9hj1IAAAAJ&hl=en",
   // Ordered roughly most-current first so a visitor reads the focus area first.
   researchInterests: [
-    "AI for Software Engineering (AI4SE)",
+    "AI4SE",
     "AI Agents",
     "LLM Reasoning",
+    "Software Engineering",
     "Computer Vision",
   ],
 };
