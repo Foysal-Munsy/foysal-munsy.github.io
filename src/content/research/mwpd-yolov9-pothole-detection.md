@@ -13,7 +13,7 @@ kind: journal
 order: 1
 publisher: Elsevier
 quartile: Q1
-scholarCitations: 8
+scholarCitations: 9
 status: published
 summary: A published study introducing an enhanced YOLOv9 model trained on the Multi-Weather
   Pothole Detection (MWPD) dataset for robust detection across adverse weather conditions.
